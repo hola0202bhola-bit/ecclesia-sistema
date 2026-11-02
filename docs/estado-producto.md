@@ -1,5 +1,15 @@
 # Estado de la aplicación y siguiente incremento
 
+## Patrimonio — incremento del 2 de noviembre de 2026
+
+Bases remotas verificadas por clonación: aplicación b23b6b62e2dd3ec8ce7531fd075a4965928e6961 y arnés 453eb8368090e3f83b066905087ec0625e1859e3. Disponible: captura/edición y cambio a perdido/prestado/baja por administrador propio, consulta EJS/API de vigentes, índice puro exacto, ranking geográfico y búsqueda por tipo/edad de la misma pieza. Auditoría con antes/después/actor/fecha dentro de la transacción, sin exposición pública. [Uso, decisiones provisionales y trazabilidad RF07–12](incremento-patrimonio.md).
+
+Verificación integral final ejecutada: `npm run check -- ../proyecto-ecclesia`, salida 0. **81/81 pruebas del arnés y 234/234 del producto**, sin omitidas (70 Iglesias, 30 Identidad, 49 gestión/catálogos, 85 patrimonio). PostgreSQL 18.6 real temporal: cuatro migraciones, doble seed, actualización desde esquema previo, concurrencia, rollback, seguridad y smoke HTTP compilado de patrimonio/ranking. Cobertura: líneas 98.75%, sentencias 98.5%, funciones 100%, ramas 91.91%; 26 fuentes medidas y server.ts comprobado por arranque HTTP separado. La regresión Git aceptó snapshot completa y rechazó fórmula alterada, suites/migración/formulario ausentes, tipos inválidos y pruebas fallidas aunque script test retorne cero; índice/working tree preservados. Cierre del PostgreSQL temporal verificado; E/S síncrona solo en pruebas Windows, método real registrado en evidence/database.json. Reportes locales reproducibles excluidos de Git: evidence/vitest.json, evidence/database.json y coverage/coverage-summary.json.
+
+**Pendientes:** RF11 ajuste/activación e históricos de criterios/índice, recuperación de vigencia, conjuntos/fechas desconocidas, políticas de cero y publicación no vigente por validar, ficha integrada con otros dominios, cierre/reapertura, servicios/agenda/finanzas/solicitudes y datos finales. Corte anual UTC al arrancar e índices cero con registros son decisiones provisionales explícitas. Revisión visual de páginas públicas en navegador local (IAB, ejemplo 35.5 y filtros de Puebla) con datos ficticios. Sin recorrido manual privado, dispositivo móvil físico, carga ni despliegue. El ranking calcula el snapshot en memoria antes de paginar; rendimiento nacional no medido.
+
+INEGI conservado sin ampliación: 32 estados, 2,478 municipios y una localidad oficial; suficiente para demostrar este módulo. No se cumple aún el catálogo nacional ni cantidades finales de P200–225.
+
 Incremento Iglesias web/catálogos, 1 de noviembre de 2026. Bases remotas verificadas: aplicación `e3337c7d4475f29ad749b4b4fcc40732398ec3b0`, arnés `7bdea6311a295f1ff64be3e8f64a3d5455559032`. Mismos repositorios; requisitos y fuentes originales preservados. Los apartados de identidad siguientes conservan su procedencia.
 
 Disponible en EJS: listado paginado por estado para Coordinación, alta/edición con Zod, tipos/ubicaciones por nombre, conservación de campos y conflicto 409 sin sobrescritura. Administrador solo lista/edita su iglesia; tesorero y anónimo rechazados. Se reutilizan servicio, FK, versiones transaccionales y sesiones; Origin/CSRF y escapes EJS. Sin permisos nuevos ni gestión de cerradas.
@@ -17,7 +27,7 @@ Inspección inicial real: sistema `acc6cd353512ddfdb0e330083f83f4843e990e0b`, ar
 | RF01–04: iglesias, ficha y cierre; P063–065 | `src/modules/iglesias`, 70 pruebas reales sobre PostgreSQL | Consulta, alta/edición EJS y API; ficha integrada y cierre pendientes |
 | RF05: catálogos INEGI; P063/P092 | Migración y seed: seis tipos y una localidad oficial | Estados y municipios del snapshot oficial consultables; localidades nacionales y administración general pendientes |
 | RF06: autenticación, usuarios y aislamiento; P022/P092–093/P130 | Solo JWT externo; sin cuentas/login | Login/logout, sesiones persistidas, perfil, lista paginada y alta por Coordinación; UI de personal y usuarios. Edición/desactivación/recuperación y roles múltiples pendientes |
-| RF07–12: patrimonio, índice y ranking; P067–076 | Contratos/ADR; sin código | Pendiente; ejemplo 35.5 y fórmula escritos no requieren nuevas respuestas |
+| RF07–12: patrimonio, índice y ranking; P067–076 | Contratos/ADR y fórmula escrita | Incremento vertical operativo según sección vigente; configuración/activación RF11 y políticas residuales pendientes |
 | RF13–15: servicios y pláticas; P078–079 | Solo diseño | Pendiente |
 | RF16–21: padres, horarios y celebraciones; P081–083 | Solo diseño | Pendiente; requiere iglesias/zona e identidad |
 | RF22–24: diezmos y reportes; P085–086 | Solo diseño | Pendiente; depende de celebraciones e identidad |

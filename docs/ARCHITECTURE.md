@@ -1,5 +1,7 @@
 # Arquitectura vigente — revisión 03
 
+Incremento patrimonio: `src/modules/patrimonio/{domain,application,presentation,infrastructure}` y composición. Dominio contiene cálculo puro/reglas; repositorio Prisma obtiene criterios/objetos en snapshot y escribe cambios+auditoría atómicamente. Router valida DTO Zod y renderiza EJS con sesiones/CSRF existentes. Sin imports entre módulos. [Reglas y límites](incremento-patrimonio.md). Los párrafos históricos de “patrimonio no implementado” que siguen quedan sustituidos para este alcance.
+
 Incremento Iglesias web/catálogos: puerto y servicio de consulta en Iglesias, adaptador Prisma y router público paginado; gestión EJS usa el mismo servicio autorizado de la API. Infraestructura valida fuentes INEGI locales antes de importar estados/municipios/localidad y manifest en una transacción. Tablas Estado, Municipio y CatalogoVersion en migración aditiva. Presentación no importa ORM ni infraestructura. [Alcance vigente](estado-producto.md).
 
 Actualización del incremento Identidad: [ADR 006](adr/006.md). `src/modules/identidad` tiene dominio/puertos, servicio, DTO/router y adaptadores bcrypt/JWT/Prisma. Un `Principal` compartido en `shared/domain` evita cruces entre módulos; composition conecta el middleware de sesiones con Iglesias. Nuevas tablas Usuario/Sesion en migración aditiva. Login/API y vistas EJS pasan por el servicio; autorización por rol/ámbito se obtiene desde BD, sesiones expiran y logout las revoca. La descripción revisión03 que sigue es antecedente y no describe la ausencia actual de login.

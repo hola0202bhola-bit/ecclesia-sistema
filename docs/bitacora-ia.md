@@ -1,5 +1,15 @@
 # Bitácora de trabajo asistido
 
+## Patrimonio — 2 de noviembre de 2026
+
+Solicitud: continuar ambos main con patrimonio e índice, conservar fuente/fórmula/ejemplo, subalcance seguro, pruebas y publicación sin force push. Inspección de código, P067–076/P092–093, RF07–12, ADR, contratos y suites; sin respuestas nuevas del cliente. Se implementa vertical por capas, migración aditiva, auditoría, UI/API y regresiones. No se amplía INEGI porque la localidad verificada existente permite demostrarlo; no se fabrica geografía.
+
+Incidencia real: initdb falló al renombrar WAL en el entorno de archivos restringido; se repitió con acceso local permitido, siempre base temporal aislada. Primera corrida PostgreSQL: 234/234, ejemplo exacto, conflictos, rollback y seguridad. El arnés incorpora controles de contenido y fórmula preparada en índice, además de conteos. Decisiones técnicas y pendientes en incremento-patrimonio.md. Revisión humana/aceptación docente no se atribuyen a esta ejecución.
+
+Resultado final: Verificación integral final ejecutada: `npm run check -- ../proyecto-ecclesia`, salida 0. **81/81 pruebas del arnés y 234/234 del producto**, sin omitidas (70 Iglesias, 30 Identidad, 49 gestión/catálogos, 85 patrimonio). PostgreSQL 18.6 real temporal: cuatro migraciones, doble seed, actualización desde esquema previo, concurrencia, rollback, seguridad y smoke HTTP compilado de patrimonio/ranking. Cobertura: líneas 98.75%, sentencias 98.5%, funciones 100%, ramas 91.91%; 26 fuentes medidas y server.ts comprobado por arranque HTTP separado. La regresión Git aceptó snapshot completa y rechazó fórmula alterada, suites/migración/formulario ausentes, tipos inválidos y pruebas fallidas aunque script test retorne cero; índice/working tree preservados. Cierre del PostgreSQL temporal verificado; E/S síncrona solo en pruebas Windows, método real registrado en evidence/database.json. Reportes locales reproducibles excluidos de Git: evidence/vitest.json, evidence/database.json y coverage/coverage-summary.json.
+
+Incidencias resueltas sin rebajar controles: el contrato nuevo conservó el sufijo PatchInput exigido por regresiones previas; snapshots incompletos se rechazan antes de instalar. Un trabajador de E/S quedó abierto tras completar pruebas/smoke en Windows: configuración síncrona solo de las bases temporales, verificada en la repetición integral. Revisión visual pública IAB con datos ficticios y capturas locales, sin prueba manual privada ni aceptación académica.
+
 ## Incremento Iglesias web/catálogos — 1 de noviembre de 2026
 
 Solicitud: continuar los dos repositorios existentes, gestión EJS, catálogos auténticos, pruebas y publicación autorizada sin force push. Se inspeccionaron fuentes originales, código, pruebas y bases remotas. Se reutilizan servicios/permisos; se descargaron respuestas oficiales INEGI y se fijaron hashes/versión. La migración es aditiva; fuentes y antecedentes no se reescriben.

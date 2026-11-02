@@ -1,5 +1,7 @@
 # Proyecto Ecclesia — aplicación web
 
+Patrimonio disponible: administrador de su iglesia → **Gestionar patrimonio** → registrar/editar piezas y cambiar vigencia sin borrar. Consulta pública desde la ficha → **Consultar patrimonio e índice**, y [ranking local](http://127.0.0.1:3000/ranking-patrimonial). Cálculo exacto del caso y ejemplo 35.5, ranking geográfico y búsqueda por tipo/antigüedad. [Guía breve, ejemplo y límites](docs/incremento-patrimonio.md). Ajuste/activación de criterios y reactivación pendientes; no se declara completo RF07–12.
+
 Express/TypeScript + PostgreSQL/Prisma + EJS. IA principal: Codex, elegida por el alumno. Se priorizan dos entregas: este repositorio y [el arnés](https://github.com/hola0202bhola-bit/ecclesia-arnes-codex). No se exige cierre formal de Fase 0 para continuar desarrollo.
 
 Disponible: consulta pública con selectores y filtros; listado, alta y edición EJS de iglesias; API, personal, usuarios por Coordinación y sesiones revocables. [Estado y límites](docs/estado-producto.md). Seed: una iglesia ficticia, seis tipos de P063, 32 estados y 2,478 municipios del snapshot oficial INEGI. Localidades: solo 211140001, Heroica Puebla de Zaragoza. No es el catálogo nacional completo ni el sistema terminado.

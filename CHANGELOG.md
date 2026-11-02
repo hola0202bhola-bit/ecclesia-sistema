@@ -1,5 +1,12 @@
 # Cambios de Ecclesia
 
+## 0.6.0 — Patrimonio e índice, 2 de noviembre de 2026
+
+- Alta/edición y estados de piezas, UI/API y auditoría transaccional; solo administrador propio.
+- Índice puro exacto 35.5, criterios iniciales persistidos, ranking geográfico y filtros AND por pieza vigente.
+- Migración aditiva, Zod, sesiones/CSRF, escapes y conflictos de versión; se conservan regresiones anteriores.
+- RF11 configuración/activación, reactivación, políticas residuales y datos finales pendientes. Sin nuevas localidades ni dependencias. [Alcance](docs/incremento-patrimonio.md).
+
 ## 0.5.0 — Iglesias web y catálogos, 1 de noviembre de 2026
 
 - Listado, alta/edición EJS con roles existentes, CSRF, Zod y conflicto de versión sin sobrescribir ni perder campos.
