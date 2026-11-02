@@ -1,0 +1,14 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Pieza patrimonial · Ecclesia</title>
+<style>body{font:18px system-ui;max-width:48rem;margin:auto;padding:1.5rem;color:#18352c;background:#f7f5ef}label{display:block;margin:1rem 0}input,select,button{display:block;font:inherit;padding:.5rem;max-width:100%;box-sizing:border-box}input,select{width:100%}a{color:#136650}.error{color:#8b2323}</style>
+<main><a href="/personal/patrimonio/<%= iglesiaId %>">Volver al patrimonio</a><h1><%= objetoId ? 'Editar pieza' : 'Registrar pieza' %></h1><p><%= iglesia.nombre %></p>
+<% if (errores.length) { %><div class="error" role="alert"><h2>Revise el formulario</h2><% for (const e of errores) { %><p><%= e %></p><% } %><p>Ante conflicto, abra de nuevo la pieza para consultar su versión actual.</p></div><% } %>
+<form method="post"><input type="hidden" name="_csrf" value="<%= csrf %>"><% if (objetoId) { %><input type="hidden" name="version" value="<%= valores.version %>"><% } %>
+<label>Descripción<input name="descripcion" maxlength="300" required value="<%= valores.descripcion ?? '' %>"></label>
+<label>Tipo<select name="tipoId" required><option value="">Seleccione</option><% for (const t of tipos) { %><option value="<%= t.id %>" <%= valores.tipoId === t.id ? 'selected' : '' %>><%= t.nombre %></option><% } %></select></label>
+<p>Indique solo el año exacto o solo el siglo en número. Siglo XVIII = 18 → 1750. Año desconocido y futuro pendientes.</p>
+<label>Año exacto<input name="anioExacto" type="number" min="1" max="9999" value="<%= valores.anioExacto ?? '' %>"></label>
+<label>Siglo (número)<input name="siglo" type="number" min="1" max="100" value="<%= valores.siglo ?? '' %>"></label>
+<label>Material<input name="material" maxlength="200" required value="<%= valores.material ?? '' %>"></label>
+<label>Estado de conservación<input name="conservacion" maxlength="300" required value="<%= valores.conservacion ?? '' %>"></label>
+<label>Ubicación dentro del templo<input name="ubicacionInterna" maxlength="300" required value="<%= valores.ubicacionInterna ?? '' %>"></label>
+<label>Catalogación INAH<select name="catalogadoInah"><option value="false" <%= valores.catalogadoInah === false || valores.catalogadoInah === 'false' ? 'selected' : '' %>>No catalogado</option><option value="true" <%= valores.catalogadoInah === true || valores.catalogadoInah === 'true' ? 'selected' : '' %>>Catalogado</option></select></label><button>Guardar pieza</button></form></main></html>

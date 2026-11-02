@@ -24,6 +24,13 @@ import { ServicioCatalogos } from "../modules/iglesias/application/catalogos.js"
 import { PrismaRepositorioCatalogos } from "../modules/iglesias/infrastructure/catalogos.js";
 import { gestionRouter } from "../modules/iglesias/presentation/gestion.js";
 import { catalogosRouter } from "../modules/iglesias/presentation/catalogos.js";
+import { ServicioPatrimonio } from "../modules/patrimonio/application/servicio.js";
+import { PrismaRepositorioPatrimonio } from "../modules/patrimonio/infrastructure/prisma-repositorio.js";
+import {
+  patrimonioRouter,
+  patrimonioWeb,
+} from "../modules/patrimonio/presentation/router.js";
+import { ErrorPatrimonio } from "../modules/patrimonio/domain/patrimonio.js";
 export function createApp(
   db: PrismaClient,
   config: AccesoConfig,
@@ -59,7 +66,13 @@ export function createApp(
   };
   const personal = personalSesion(repoIdentidad, acceso, personalJwt(config));
   const catalogos = new ServicioCatalogos(new PrismaRepositorioCatalogos(db));
+  const patrimonio = new ServicioPatrimonio(
+    new PrismaRepositorioPatrimonio(db),
+    anioActual,
+  );
   app.use(identidadRouter(identidad, personal, acceso.origin));
+  app.use("/api/v1", patrimonioRouter(patrimonio, personal));
+  app.use(patrimonioWeb(patrimonio, personal));
   app.use("/api/v1/catalogos", catalogosRouter(catalogos));
   app.use("/personal/iglesias", gestionRouter(servicio, catalogos, personal));
   app.use("/api/v1/iglesias", iglesiasRouter(servicio, personal));
@@ -80,12 +93,16 @@ export function createApp(
         : 500;
     if (
       req.path.startsWith("/personal/iglesias") ||
-      req.path.startsWith("/iglesias")
+      req.path.startsWith("/iglesias") ||
+      req.path.startsWith("/personal/patrimonio") ||
+      req.path.startsWith("/ranking-patrimonial")
     ) {
       const status =
         error instanceof ZodError
           ? 422
-          : error instanceof ErrorIglesias || error instanceof ErrorIdentidad
+          : error instanceof ErrorIglesias ||
+              error instanceof ErrorIdentidad ||
+              error instanceof ErrorPatrimonio
             ? error.status
             : httpStatus === 400 || httpStatus === 413
               ? httpStatus
@@ -95,7 +112,9 @@ export function createApp(
         message:
           error instanceof ZodError
             ? "Revise los filtros o el identificador solicitado."
-            : error instanceof ErrorIglesias || error instanceof ErrorIdentidad
+            : error instanceof ErrorIglesias ||
+                error instanceof ErrorIdentidad ||
+                error instanceof ErrorPatrimonio
               ? error.message
               : status === 413
                 ? "Entrada demasiado grande"
@@ -116,7 +135,11 @@ export function createApp(
       });
       return;
     }
-    if (error instanceof ErrorIglesias || error instanceof ErrorIdentidad) {
+    if (
+      error instanceof ErrorIglesias ||
+      error instanceof ErrorIdentidad ||
+      error instanceof ErrorPatrimonio
+    ) {
       res
         .status(error.status)
         .json({ code: error.code, message: error.message, details: [] });

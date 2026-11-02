@@ -49,25 +49,26 @@ model TipoIglesia {
 }
 
 model Iglesia {
-  id               String      @id @default(uuid()) @db.Uuid
-  nombre           String      @db.VarChar(200)
-  nombreBusqueda   String      @db.VarChar(200)
-  tipoId           String      @db.Uuid
-  tipo             TipoIglesia @relation(fields: [tipoId], references: [id], onDelete: Restrict)
-  estadoClave      String      @db.VarChar(2)
-  municipioClave   String      @db.VarChar(3)
-  localidadClave   String      @db.VarChar(4)
-  localidad        Localidad   @relation(fields: [estadoClave, municipioClave, localidadClave], references: [estadoClave, municipioClave, localidadClave], onDelete: Restrict)
-  direccion        String      @db.VarChar(500)
+  id               String              @id @default(uuid()) @db.Uuid
+  nombre           String              @db.VarChar(200)
+  nombreBusqueda   String              @db.VarChar(200)
+  tipoId           String              @db.Uuid
+  tipo             TipoIglesia         @relation(fields: [tipoId], references: [id], onDelete: Restrict)
+  estadoClave      String              @db.VarChar(2)
+  municipioClave   String              @db.VarChar(3)
+  localidadClave   String              @db.VarChar(4)
+  localidad        Localidad           @relation(fields: [estadoClave, municipioClave, localidadClave], references: [estadoClave, municipioClave, localidadClave], onDelete: Restrict)
+  direccion        String              @db.VarChar(500)
   capacidad        Int?
   anioConstruccion Int?
-  contacto         String?     @db.VarChar(300)
+  contacto         String?             @db.VarChar(300)
   latitud          Float?
   longitud         Float?
-  zonaIana         String?     @db.VarChar(100)
+  zonaIana         String?             @db.VarChar(100)
   cerradaDesde     DateTime?
-  version          Int         @default(1)
+  version          Int                 @default(1)
   usuarios         Usuario[]
+  objetos          ObjetoPatrimonial[]
 
   @@index([estadoClave, municipioClave, localidadClave])
 }
@@ -79,14 +80,66 @@ enum RolPersonal {
 }
 
 model Usuario {
-  id            String      @id @default(uuid()) @db.Uuid
-  identificador String      @unique @db.VarChar(80)
-  passwordHash  String      @db.VarChar(60)
-  rol           RolPersonal
-  iglesiaId     String?     @db.Uuid
-  iglesia       Iglesia?    @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
-  activo        Boolean     @default(true)
-  sesiones      Sesion[]
+  id                String             @id @default(uuid()) @db.Uuid
+  identificador     String             @unique @db.VarChar(80)
+  passwordHash      String             @db.VarChar(60)
+  rol               RolPersonal
+  iglesiaId         String?            @db.Uuid
+  iglesia           Iglesia?           @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  activo            Boolean            @default(true)
+  sesiones          Sesion[]
+  cambiosPatrimonio CambioPatrimonio[]
+}
+
+enum CondicionPatrimonio {
+  VIGENTE
+  PERDIDO
+  PRESTADO
+  BAJA
+}
+
+model TipoObjeto {
+  id      String              @id @db.Uuid
+  nombre  String              @unique
+  objetos ObjetoPatrimonial[]
+}
+
+model CriterioPatrimonio {
+  id         String @id
+  parametros Json
+}
+
+model ObjetoPatrimonial {
+  id               String              @id @default(uuid()) @db.Uuid
+  iglesiaId        String              @db.Uuid
+  iglesia          Iglesia             @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  descripcion      String              @db.VarChar(300)
+  tipoId           String              @db.Uuid
+  tipo             TipoObjeto          @relation(fields: [tipoId], references: [id], onDelete: Restrict)
+  anioExacto       Int?
+  siglo            Int?
+  material         String              @db.VarChar(200)
+  conservacion     String              @db.VarChar(300)
+  ubicacionInterna String              @db.VarChar(300)
+  catalogadoInah   Boolean
+  condicion        CondicionPatrimonio @default(VIGENTE)
+  version          Int                 @default(1)
+  cambios          CambioPatrimonio[]
+
+  @@index([iglesiaId, condicion])
+}
+
+model CambioPatrimonio {
+  id       String            @id @default(uuid()) @db.Uuid
+  objetoId String            @db.Uuid
+  objeto   ObjetoPatrimonial @relation(fields: [objetoId], references: [id], onDelete: Restrict)
+  actorId  String            @db.Uuid
+  actor    Usuario           @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  fecha    DateTime          @default(now())
+  antes    Json
+  despues  Json
+
+  @@index([objetoId, fecha])
 }
 
 model Sesion {

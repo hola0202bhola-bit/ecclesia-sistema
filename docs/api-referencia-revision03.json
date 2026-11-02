@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.1",
   "info": {
-    "title": "Ecclesia API ejecutable: Iglesias, Identidad y consulta de catálogos",
-    "version": "0.5.0",
-    "description": "Iglesias básico, identidad mínima y consulta de catálogos implementados; las demás operaciones indican diseño pendiente. Estado y trazabilidad: docs/estado-producto.md."
+    "title": "Ecclesia API: Iglesias, Identidad, catálogos y patrimonio",
+    "version": "0.6.0",
+    "description": "Operaciones IMPLEMENTADO ejecutables; DISEÑO_NO_IMPLEMENTADO conserva alcance futuro. Ver docs/estado-producto.md."
   },
   "servers": [
     {
@@ -1226,6 +1226,618 @@
           }
         },
         "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/ranking-patrimonial": {
+      "get": {
+        "operationId": "patrimonio_ranking",
+        "summary": "Ranking por ámbito geográfico",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "tags": [
+          "patrimonio"
+        ],
+        "x-requirements": [
+          "RF-09",
+          "RF-10"
+        ],
+        "x-pending": [
+          "PC-05",
+          "PC-07",
+          "PC-08"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "estadoClave",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{2}$"
+            }
+          },
+          {
+            "name": "municipioClave",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          },
+          {
+            "name": "localidadClave",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}$"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "tipoObjetoId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "antiguedadMin",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9999
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado del incremento; no implica cumplimiento completo de RF07–12.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatrimonioRanking"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/por-patrimonio": {
+      "get": {
+        "operationId": "patrimonio_buscar",
+        "summary": "Buscar por tipo de objeto y antigüedad",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "tags": [
+          "patrimonio"
+        ],
+        "x-requirements": [
+          "RF-12"
+        ],
+        "x-pending": [
+          "PC-05",
+          "PC-06"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "estadoClave",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{2}$"
+            }
+          },
+          {
+            "name": "municipioClave",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          },
+          {
+            "name": "localidadClave",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}$"
+            }
+          },
+          {
+            "name": "tipoObjetoId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "antiguedadMin",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9999
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado del incremento; no implica cumplimiento completo de RF07–12.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatrimonioRanking"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/{iglesiaId}/objetos": {
+      "get": {
+        "operationId": "patrimonio_objetos",
+        "summary": "Consultar objetos publicables",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "tags": [
+          "patrimonio"
+        ],
+        "x-requirements": [
+          "RF-02",
+          "RF-07"
+        ],
+        "x-pending": [
+          "PC-06"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado del incremento; no implica cumplimiento completo de RF07–12.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatrimonioConsulta"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      },
+      "post": {
+        "operationId": "patrimonio_altaObjeto",
+        "summary": "Registrar objeto",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "tags": [
+          "patrimonio"
+        ],
+        "x-requirements": [
+          "RF-07"
+        ],
+        "x-pending": [
+          "PC-02",
+          "PC-05"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resultado ejecutado del incremento; no implica cumplimiento completo de RF07–12.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatrimonioObjeto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatrimonioAlta"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/{iglesiaId}/objetos/{objetoId}": {
+      "patch": {
+        "operationId": "patrimonio_editarObjeto",
+        "summary": "Mantener objeto",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "tags": [
+          "patrimonio"
+        ],
+        "x-requirements": [
+          "RF-07"
+        ],
+        "x-pending": [
+          "PC-02",
+          "PC-05"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "objetoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado del incremento; no implica cumplimiento completo de RF07–12.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatrimonioObjeto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatrimonioPatchInput"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/{iglesiaId}/objetos/{objetoId}/condicion": {
+      "put": {
+        "operationId": "patrimonio_condicion",
+        "summary": "Cambiar condición sin borrar objeto",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "tags": [
+          "patrimonio"
+        ],
+        "x-requirements": [
+          "RF-08"
+        ],
+        "x-pending": [
+          "PC-06"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "objetoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado del incremento; no implica cumplimiento completo de RF07–12.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatrimonioObjeto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatrimonioCondicion"
+              }
+            }
+          }
+        },
         "x-implementation": "IMPLEMENTADO"
       }
     }
@@ -4608,6 +5220,465 @@
           "meta",
           "fuentes",
           "alcance"
+        ],
+        "additionalProperties": false
+      },
+      "PatrimonioAlta": {
+        "type": "object",
+        "properties": {
+          "descripcion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "tipoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "anioExacto": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 9999
+          },
+          "siglo": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 100
+          },
+          "material": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          },
+          "conservacion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "ubicacionInterna": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "catalogadoInah": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "descripcion",
+          "tipoId",
+          "material",
+          "conservacion",
+          "ubicacionInterna",
+          "catalogadoInah"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "anioExacto"
+            ],
+            "properties": {
+              "anioExacto": {
+                "type": "integer"
+              },
+              "siglo": {
+                "type": "null"
+              }
+            }
+          },
+          {
+            "required": [
+              "siglo"
+            ],
+            "properties": {
+              "anioExacto": {
+                "type": "null"
+              },
+              "siglo": {
+                "type": "integer"
+              }
+            }
+          }
+        ]
+      },
+      "PatrimonioPatchInput": {
+        "type": "object",
+        "properties": {
+          "descripcion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "tipoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "anioExacto": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 9999
+          },
+          "siglo": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 100
+          },
+          "material": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          },
+          "conservacion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "ubicacionInterna": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "catalogadoInah": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          }
+        },
+        "required": [
+          "version"
+        ],
+        "additionalProperties": false,
+        "minProperties": 2
+      },
+      "PatrimonioCondicion": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "condicion": {
+            "enum": [
+              "VIGENTE",
+              "PERDIDO",
+              "PRESTADO",
+              "BAJA"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "condicion"
+        ],
+        "additionalProperties": false
+      },
+      "PatrimonioObjeto": {
+        "type": "object",
+        "properties": {
+          "descripcion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "tipoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "anioExacto": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 9999
+          },
+          "siglo": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 100
+          },
+          "material": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          },
+          "conservacion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "ubicacionInterna": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "catalogadoInah": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "condicion": {
+            "type": "string",
+            "enum": [
+              "VIGENTE",
+              "PERDIDO",
+              "PRESTADO",
+              "BAJA"
+            ]
+          }
+        },
+        "required": [
+          "descripcion",
+          "tipoId",
+          "anioExacto",
+          "siglo",
+          "material",
+          "conservacion",
+          "ubicacionInterna",
+          "catalogadoInah",
+          "id",
+          "iglesiaId",
+          "version",
+          "condicion"
+        ],
+        "additionalProperties": false
+      },
+      "PatrimonioCalculo": {
+        "type": "object",
+        "properties": {
+          "indice": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d$"
+          },
+          "distincion": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              null,
+              "Valor patrimonial",
+              "Alto valor patrimonial",
+              "Patrimonio sobresaliente"
+            ]
+          },
+          "referencia": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "criterioId": {
+            "type": "string",
+            "const": "caso-v1"
+          },
+          "aportaciones": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "objetoId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "antiguedad": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "puntos": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d$"
+                }
+              },
+              "required": [
+                "objetoId",
+                "antiguedad",
+                "puntos"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "indice",
+          "distincion",
+          "referencia",
+          "criterioId",
+          "aportaciones"
+        ],
+        "additionalProperties": false
+      },
+      "PatrimonioConsulta": {
+        "type": "object",
+        "properties": {
+          "iglesia": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "nombre": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "pattern": "\\S"
+              }
+            },
+            "required": [
+              "id",
+              "nombre"
+            ],
+            "additionalProperties": false
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatrimonioObjeto"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "calculo": {
+            "$ref": "#/components/schemas/PatrimonioCalculo"
+          }
+        },
+        "required": [
+          "iglesia",
+          "data",
+          "meta",
+          "calculo"
+        ],
+        "additionalProperties": false
+      },
+      "PatrimonioRanking": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "iglesia": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "nombre": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200,
+                      "pattern": "\\S"
+                    },
+                    "estadoClave": {
+                      "type": "string",
+                      "pattern": "^\\d{2}$"
+                    },
+                    "municipioClave": {
+                      "type": "string",
+                      "pattern": "^\\d{3}$"
+                    },
+                    "localidadClave": {
+                      "type": "string",
+                      "pattern": "^\\d{4}$"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "nombre",
+                    "estadoClave",
+                    "municipioClave",
+                    "localidadClave"
+                  ],
+                  "additionalProperties": false
+                },
+                "indice": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d$"
+                },
+                "distincion": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    null,
+                    "Valor patrimonial",
+                    "Alto valor patrimonial",
+                    "Patrimonio sobresaliente"
+                  ]
+                },
+                "referencia": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "criterioId": {
+                  "type": "string",
+                  "const": "caso-v1"
+                }
+              },
+              "required": [
+                "iglesia",
+                "indice",
+                "distincion",
+                "referencia",
+                "criterioId"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
         ],
         "additionalProperties": false
       }

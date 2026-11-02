@@ -1,0 +1,15 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Patrimonio · Ecclesia</title>
+<style>body{font:18px system-ui;max-width:65rem;margin:auto;padding:1.5rem;color:#18352c;background:#f7f5ef}a{color:#136650}article{background:white;padding:1rem;margin:1rem 0;border:1px solid #bbc9c1}button,select{font:inherit;padding:.4rem}nav{display:flex;gap:1rem;flex-wrap:wrap}</style>
+<main><nav><a href="/iglesias/<%= resultado.iglesia.id %>">Ver iglesia</a><a href="/ranking-patrimonial">Iglesias reconocidas</a><a href="/personal">Personal</a></nav>
+<h1>Patrimonio de <%= resultado.iglesia.nombre %></h1>
+<p>Índice: <strong><%= resultado.calculo.indice %></strong> · <%= resultado.calculo.distincion ?? 'Sin distinción' %></p>
+<p>Corte por año calendario: <%= resultado.calculo.referencia %>. Criterios: <%= resultado.calculo.criterioId %>. Solo cuentan piezas vigentes.</p>
+<% if (privado) { %><p><a href="/personal/patrimonio/<%= resultado.iglesia.id %>/nuevo">Registrar pieza</a></p><p>La devolución o reactivación sigue pendiente de definición. Las piezas se conservan al cambiar su estado.</p><% } else { %><p>Consulta pública de piezas vigentes.</p><% } %>
+<p><%= resultado.meta.total %> piezas <%= privado ? 'registradas' : 'vigentes' %>.</p>
+<% for (const o of resultado.data) { const aporte = resultado.calculo.aportaciones.find(a => a.objetoId === o.id); %>
+<article><h2><%= o.descripcion %></h2><p><%= tipos.find(t => t.id === o.tipoId)?.nombre %> · <%= o.anioExacto ?? ('Siglo ' + o.siglo + ' (año estimado ' + ((o.siglo - 1) * 100 + 50) + ')') %></p>
+<p>Material: <%= o.material %>. Conservación: <%= o.conservacion %>. Ubicación: <%= o.ubicacionInterna %>.</p>
+<p>INAH: <%= o.catalogadoInah ? 'Catalogado' : 'No catalogado' %> · <%= o.condicion %> · Aportación: <%= aporte.puntos %>.</p>
+<% if (privado) { %><p><a href="/personal/patrimonio/<%= resultado.iglesia.id %>/<%= o.id %>/editar">Editar pieza</a> · Versión <%= o.version %></p>
+<% if (o.condicion === 'VIGENTE') { %><form method="post" action="/personal/patrimonio/<%= resultado.iglesia.id %>/<%= o.id %>/condicion"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="version" value="<%= o.version %>"><label>Nuevo estado <select name="condicion"><option value="PRESTADO">Prestado</option><option value="PERDIDO">Perdido</option><option value="BAJA">Dado de baja</option></select></label> <button>Guardar estado</button></form><% } %><% } %></article>
+<% } %><nav aria-label="Páginas"><% if (resultado.meta.page > 1) { %><a href="?page=<%= resultado.meta.page-1 %>&pageSize=<%= resultado.meta.pageSize %>">Anterior</a><% } %><% if (resultado.meta.page * resultado.meta.pageSize < resultado.meta.total) { %><a href="?page=<%= resultado.meta.page+1 %>&pageSize=<%= resultado.meta.pageSize %>">Siguiente</a><% } %></nav></main></html>
