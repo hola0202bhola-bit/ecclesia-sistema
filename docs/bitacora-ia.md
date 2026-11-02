@@ -1,5 +1,13 @@
 # Bitácora de trabajo asistido
 
+## Continuación de producto — 1 de noviembre de 2026
+
+El alumno autorizó priorizar los dos repositorios, inspeccionar implementación/fuente y completar el siguiente incremento vertical, con commits descriptivos y publicación sin force push. Se clonaron ambos main con los SHA indicados; se leyó la fuente numerada y se comprobó la base de 70 pruebas. No se imponen ceremonias de Fase 0 ni se atribuyen respuestas a las profesoras.
+
+Se eligió identidad porque Iglesias ya tenía persistencia y permisos pero no cuentas ni login. Se implementaron cuentas/sesiones, acceso/salida, perfil, alta/listado por Coordinación, UI de personal/usuarios y herramienta inicial explícita, conservando Iglesias. Supuestos técnicos en ADR 006; matriz/dependencias en estado-producto.md. No se activaron reglas ambiguas de patrimonio, cierres, contabilidad o solicitudes. El arnés exige ambas suites y migra PostgreSQL, amplía contrato/smoke y añade rechazo de suite de identidad ausente del índice. Ejecuciones y errores reales de la IA: [evidencia](evidencia-identidad.md). La autorización no se registra como revisión humana del código.
+
+## Antecedentes conservados
+
 Registro inicial de hechos de esta continuación. La decisión del alumno permanece pendiente; las acciones de la IA no se registran como aprobaciones humanas. No se cuenta el ejemplo del enunciado ni se inventan veinte entradas o cinco errores.
 
 | Fecha | Tarea | Instrucción resumida | Propuesta de la IA | Acción y estado de revisión | Motivo | Cambio del arnés |

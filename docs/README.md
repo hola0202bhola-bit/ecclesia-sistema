@@ -1,4 +1,8 @@
-# Documentación vigente de Fase 0
+# Documentación del proyecto
+
+Estado vigente: [matriz breve y orden de implementación](estado-producto.md), [ADR de identidad](adr/006.md), [evidencia del incremento](evidencia-identidad.md) y [arranque](../README.md). Aplicación y arnés son las dos entregas priorizadas. Los documentos de Fase 0 que siguen conservan antecedentes; sus límites de alcance se refieren a aquellas revisiones.
+
+## Documentación de Fase 0 conservada
 
 - [Repositorios publicados, SHA base, reproducción Windows y límites H01/H02/H08/H09](repositorios-revision03.md).
 - [Correcciones R1/R2/R3](correcciones-r1-r3.md) y [evidencias disponibles](evidencias-revision04/README.md).

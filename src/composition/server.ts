@@ -11,6 +11,8 @@ const server = createApp(db, {
   secret: process.env.JWT_SECRET,
   issuer: "ecclesia-personal",
   audience: "ecclesia-api",
+  origin:
+    process.env.APP_ORIGIN ?? `http://127.0.0.1:${process.env.PORT ?? 3000}`,
 }).listen(Number(process.env.PORT ?? 3000), "127.0.0.1", () =>
   console.log(
     "Referencia local: http://127.0.0.1:" + (process.env.PORT ?? 3000),

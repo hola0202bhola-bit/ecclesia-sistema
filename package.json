@@ -1,6 +1,6 @@
 {
-  "name": "ecclesia-referencia-iglesias",
-  "version": "0.3.0",
+  "name": "ecclesia-sistema",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -16,11 +16,13 @@
     "lint": "eslint src tests prisma/seed.ts",
     "format:check": "prettier --check src tests prisma scripts views *.json *.ts *.mjs",
     "test": "node scripts/test-db.mjs",
-    "check": "node ../arnes-codex/scripts/check.mjs ."
+    "check": "node ../arnes-codex/scripts/check.mjs .",
+    "db:coordinacion": "npm run build && node scripts/crear-coordinacion.mjs"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",
     "@prisma/client": "7.10.1",
+    "bcryptjs": "3.0.3",
     "dotenv": "17.4.2",
     "ejs": "7.0.2",
     "express": "5.3.0",

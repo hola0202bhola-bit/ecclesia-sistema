@@ -1,4 +1,10 @@
-# Ecclesia — instrucciones vigentes tras R1/R2/R3
+# Ecclesia — instrucciones vigentes de continuación
+
+La instrucción actual del alumno autoriza completar aplicación y arnés con commits y publicación sin force push. Leer primero `docs/estado-producto.md`, ADR 006 y README. Las restricciones de alcance R1/R2/R3 y cierre de Fase 0 que siguen abajo son antecedentes de esa revisión; no bloquean nuevos incrementos autorizados ni exigen ceremonias, entregables separados o aprobación docente inventada. Conservar requisitos, fuentes y evidencias históricas. Tratar ambigüedades de negocio por su impacto; decisiones técnicas revisables explícitas permiten avanzar.
+
+Identidad mínima usa cuentas/sesiones PostgreSQL, bcrypt 12 y JWT con sesión revocable; standalone no acepta emisor externo sin sesión. Perfil de un rol y una iglesia máxima es supuesto técnico, no respuesta a G7. `npm run db:coordinacion` es provisión local explícita cuando no hay usuarios; nunca crear claves por defecto, bootstrap HTTP ni cuentas en seed. No extender privilegios P092/P093 por inferencia. Cambiar el arnés solo con regresiones, diff revisado y gate completo. Ambos proyectos deben pasar antes de publicar y verificar SHA remotos. Commits asistidos terminan `Asistido-por: Codex`.
+
+## Antecedente conservado: R1/R2/R3
 
 ## Siempre
 

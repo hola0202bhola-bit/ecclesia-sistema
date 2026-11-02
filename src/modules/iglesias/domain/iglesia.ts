@@ -34,11 +34,7 @@ export interface Filtros {
   page: number;
   pageSize: number;
 }
-export interface Principal {
-  id: string;
-  rol: "COORDINACION" | "ADMIN_IGLESIA" | "TESORERO";
-  iglesiaId?: string;
-}
+export type { Principal } from "../../../shared/domain/personal.js";
 export interface RepositorioIglesias {
   listar(filtros: Filtros): Promise<{
     data: Iglesia[];

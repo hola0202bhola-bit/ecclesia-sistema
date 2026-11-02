@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.1",
   "info": {
-    "title": "Ecclesia referencia Iglesias ejecutable",
-    "version": "0.3.0",
-    "description": "Diseño general con subconjunto Iglesias mínimo implementado en revisión03. Resto no implementado. x-implementation indica disponibilidad; decisiones técnicas documentadas, ambigüedades docentes abiertas. No valida Fase0."
+    "title": "Ecclesia API ejecutable: Iglesias e Identidad",
+    "version": "0.4.0",
+    "description": "Iglesias básico e identidad mínima implementados; las demás operaciones indican diseño pendiente. Estado y trazabilidad: docs/estado-producto.md."
   },
   "servers": [
     {
@@ -553,6 +553,327 @@
         ],
         "x-implementation": "BLOQUEADA_PC04"
       }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "identidad_login",
+        "summary": "Autenticar personal",
+        "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
+        "tags": [
+          "identidad"
+        ],
+        "x-requirements": [
+          "RF-06"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginInput"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA"
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "operationId": "identidad_perfil",
+        "summary": "Consultar mi sesión",
+        "description": "Sesión vigente en PostgreSQL. Bearer para API; la web usa cookie HttpOnly con Origin y token CSRF para cambios.",
+        "tags": [
+          "identidad"
+        ],
+        "x-requirements": [
+          "RF-06"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "COORDINACION",
+          "ADMIN_IGLESIA",
+          "TESORERO"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA",
+        "responses": {
+          "200": {
+            "description": "Resultado real",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerfilPersonal"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "identidad_logout",
+        "summary": "Cerrar y revocar mi sesión",
+        "description": "Sesión vigente en PostgreSQL. Bearer para API; la web usa cookie HttpOnly con Origin y token CSRF para cambios.",
+        "tags": [
+          "identidad"
+        ],
+        "x-requirements": [
+          "RF-06"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "COORDINACION",
+          "ADMIN_IGLESIA",
+          "TESORERO"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA",
+        "responses": {
+          "204": {
+            "description": "Sesión revocada"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        }
+      }
+    },
+    "/usuarios": {
+      "get": {
+        "operationId": "identidad_usuarios",
+        "summary": "Listar usuarios",
+        "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
+        "tags": [
+          "identidad"
+        ],
+        "x-requirements": [
+          "RF-06"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "COORDINACION"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado real",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CuentaPersonal"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA"
+      },
+      "post": {
+        "operationId": "identidad_alta",
+        "summary": "Crear cuenta de personal",
+        "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
+        "tags": [
+          "identidad"
+        ],
+        "x-requirements": [
+          "RF-06"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "COORDINACION"
+        ],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Cuenta creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CuentaPersonal"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AltaPersonal"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA"
+      }
     }
   },
   "components": {
@@ -659,14 +980,13 @@
         "properties": {
           "identificador": {
             "type": "string",
-            "minLength": 1,
-            "pattern": "\\S"
+            "minLength": 3,
+            "maxLength": 80
           },
           "password": {
             "type": "string",
             "minLength": 1,
-            "format": "password",
-            "pattern": "\\S"
+            "maxLength": 72
           }
         },
         "required": [
@@ -687,12 +1007,20 @@
           "expiresIn": {
             "type": "integer",
             "minimum": 1
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/CuentaPersonal"
+          },
+          "csrfToken": {
+            "type": "string"
           }
         },
         "required": [
           "accessToken",
           "tokenType",
-          "expiresIn"
+          "expiresIn",
+          "usuario",
+          "csrfToken"
         ],
         "additionalProperties": false
       },
@@ -3738,6 +4066,119 @@
         ],
         "additionalProperties": false,
         "description": "Solo el bloque real de Iglesias. Integración con otros dominios pendiente; FichaPublica completa sigue como diseño."
+      },
+      "CuentaPersonal": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "identificador": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]{2,79}$"
+          },
+          "rol": {
+            "type": "string",
+            "enum": [
+              "COORDINACION",
+              "ADMIN_IGLESIA",
+              "TESORERO"
+            ]
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "identificador",
+          "rol",
+          "activo"
+        ]
+      },
+      "AltaPersonal": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identificador": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80,
+            "description": "Se normaliza a minúsculas y se recortan extremos. Patrón final: ^[a-z0-9][a-z0-9._-]{2,79}$"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 72,
+            "description": "Máximo 72 bytes UTF-8, rechazo sin truncamiento bcrypt."
+          },
+          "rol": {
+            "type": "string",
+            "enum": [
+              "COORDINACION",
+              "ADMIN_IGLESIA",
+              "TESORERO"
+            ]
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "identificador",
+          "password",
+          "rol"
+        ],
+        "oneOf": [
+          {
+            "properties": {
+              "rol": {
+                "const": "COORDINACION"
+              }
+            },
+            "not": {
+              "required": [
+                "iglesiaId"
+              ]
+            }
+          },
+          {
+            "properties": {
+              "rol": {
+                "enum": [
+                  "ADMIN_IGLESIA",
+                  "TESORERO"
+                ]
+              }
+            },
+            "required": [
+              "iglesiaId"
+            ]
+          }
+        ]
+      },
+      "PerfilPersonal": {
+        "type": "object",
+        "properties": {
+          "usuario": {
+            "$ref": "#/components/schemas/CuentaPersonal"
+          },
+          "csrfToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "usuario",
+          "csrfToken"
+        ],
+        "additionalProperties": false
       }
     },
     "securitySchemes": {

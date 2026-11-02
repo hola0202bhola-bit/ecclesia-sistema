@@ -2,8 +2,8 @@
   "openapi": "3.1.1",
   "info": {
     "title": "Ecclesia API preliminar",
-    "version": "0.3.0",
-    "description": "Diseño general con subconjunto Iglesias mínimo implementado en revisión03. Resto no implementado. x-implementation indica disponibilidad; decisiones técnicas documentadas, ambigüedades docentes abiertas. No valida Fase0."
+    "version": "0.4.0",
+    "description": "Iglesias básico e identidad mínima implementados; las demás operaciones indican diseño pendiente. Estado y trazabilidad: docs/estado-producto.md."
   },
   "servers": [
     {
@@ -16,7 +16,7 @@
       "post": {
         "operationId": "identidad_login",
         "summary": "Autenticar personal",
-        "description": "Se propone esta operación; no está implementada. No cerrar ni implementar decisiones pendientes: PC-19. ",
+        "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
         "tags": [
           "identidad"
         ],
@@ -77,14 +77,14 @@
             }
           }
         },
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA"
       }
     },
     "/usuarios": {
       "get": {
         "operationId": "identidad_usuarios",
         "summary": "Listar usuarios",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-19. ",
+        "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
         "tags": [
           "identidad"
         ],
@@ -122,7 +122,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real",
             "content": {
               "application/json": {
                 "schema": {
@@ -131,7 +131,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Usuario"
+                        "$ref": "#/components/schemas/CuentaPersonal"
                       }
                     },
                     "meta": {
@@ -177,12 +177,12 @@
             "PersonalJWT": []
           }
         ],
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA"
       },
       "post": {
         "operationId": "identidad_alta",
         "summary": "Crear cuenta de personal",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-19. ",
+        "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
         "tags": [
           "identidad"
         ],
@@ -198,11 +198,11 @@
         "parameters": [],
         "responses": {
           "201": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Cuenta creada",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Usuario"
+                  "$ref": "#/components/schemas/CuentaPersonal"
                 }
               }
             }
@@ -242,12 +242,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UsuarioCreateInput"
+                "$ref": "#/components/schemas/AltaPersonal"
               }
             }
           }
         },
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA"
       }
     },
     "/usuarios/{usuarioId}": {
@@ -5930,6 +5930,89 @@
         ],
         "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
       }
+    },
+    "/auth/me": {
+      "get": {
+        "operationId": "identidad_perfil",
+        "summary": "Consultar mi sesión",
+        "description": "Sesión vigente en PostgreSQL. Bearer para API; la web usa cookie HttpOnly con Origin y token CSRF para cambios.",
+        "tags": [
+          "identidad"
+        ],
+        "x-requirements": [
+          "RF-06"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "COORDINACION",
+          "ADMIN_IGLESIA",
+          "TESORERO"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA",
+        "responses": {
+          "200": {
+            "description": "Resultado real",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerfilPersonal"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "identidad_logout",
+        "summary": "Cerrar y revocar mi sesión",
+        "description": "Sesión vigente en PostgreSQL. Bearer para API; la web usa cookie HttpOnly con Origin y token CSRF para cambios.",
+        "tags": [
+          "identidad"
+        ],
+        "x-requirements": [
+          "RF-06"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "COORDINACION",
+          "ADMIN_IGLESIA",
+          "TESORERO"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA",
+        "responses": {
+          "204": {
+            "description": "Sesión revocada"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -6036,14 +6119,13 @@
         "properties": {
           "identificador": {
             "type": "string",
-            "minLength": 1,
-            "pattern": "\\S"
+            "minLength": 3,
+            "maxLength": 80
           },
           "password": {
             "type": "string",
             "minLength": 1,
-            "format": "password",
-            "pattern": "\\S"
+            "maxLength": 72
           }
         },
         "required": [
@@ -6064,12 +6146,20 @@
           "expiresIn": {
             "type": "integer",
             "minimum": 1
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/CuentaPersonal"
+          },
+          "csrfToken": {
+            "type": "string"
           }
         },
         "required": [
           "accessToken",
           "tokenType",
-          "expiresIn"
+          "expiresIn",
+          "usuario",
+          "csrfToken"
         ],
         "additionalProperties": false
       },
@@ -9115,6 +9205,119 @@
         ],
         "additionalProperties": false,
         "description": "Solo el bloque real de Iglesias. Integración con otros dominios pendiente; FichaPublica completa sigue como diseño."
+      },
+      "CuentaPersonal": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "identificador": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]{2,79}$"
+          },
+          "rol": {
+            "type": "string",
+            "enum": [
+              "COORDINACION",
+              "ADMIN_IGLESIA",
+              "TESORERO"
+            ]
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "identificador",
+          "rol",
+          "activo"
+        ]
+      },
+      "AltaPersonal": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identificador": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80,
+            "description": "Se normaliza a minúsculas y se recortan extremos. Patrón final: ^[a-z0-9][a-z0-9._-]{2,79}$"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 72,
+            "description": "Máximo 72 bytes UTF-8, rechazo sin truncamiento bcrypt."
+          },
+          "rol": {
+            "type": "string",
+            "enum": [
+              "COORDINACION",
+              "ADMIN_IGLESIA",
+              "TESORERO"
+            ]
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "identificador",
+          "password",
+          "rol"
+        ],
+        "oneOf": [
+          {
+            "properties": {
+              "rol": {
+                "const": "COORDINACION"
+              }
+            },
+            "not": {
+              "required": [
+                "iglesiaId"
+              ]
+            }
+          },
+          {
+            "properties": {
+              "rol": {
+                "enum": [
+                  "ADMIN_IGLESIA",
+                  "TESORERO"
+                ]
+              }
+            },
+            "required": [
+              "iglesiaId"
+            ]
+          }
+        ]
+      },
+      "PerfilPersonal": {
+        "type": "object",
+        "properties": {
+          "usuario": {
+            "$ref": "#/components/schemas/CuentaPersonal"
+          },
+          "csrfToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "usuario",
+          "csrfToken"
+        ],
+        "additionalProperties": false
       }
     },
     "securitySchemes": {

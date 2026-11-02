@@ -44,6 +44,34 @@ model Iglesia {
   zonaIana         String?     @db.VarChar(100)
   cerradaDesde     DateTime?
   version          Int         @default(1)
+  usuarios         Usuario[]
 
   @@index([estadoClave, municipioClave, localidadClave])
+}
+
+enum RolPersonal {
+  COORDINACION
+  ADMIN_IGLESIA
+  TESORERO
+}
+
+model Usuario {
+  id            String      @id @default(uuid()) @db.Uuid
+  identificador String      @unique @db.VarChar(80)
+  passwordHash  String      @db.VarChar(60)
+  rol           RolPersonal
+  iglesiaId     String?     @db.Uuid
+  iglesia       Iglesia?    @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  activo        Boolean     @default(true)
+  sesiones      Sesion[]
+}
+
+model Sesion {
+  id        String   @id @default(uuid()) @db.Uuid
+  usuarioId String   @db.Uuid
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  csrf      String   @db.VarChar(64)
+  vence     DateTime
+  @@index([usuarioId])
+  @@index([vence])
 }

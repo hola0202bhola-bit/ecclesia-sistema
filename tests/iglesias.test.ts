@@ -15,6 +15,7 @@ const db = new PrismaClient({
 });
 const secret = process.env.TEST_JWT_SECRET!;
 const config = {
+  allowExternal: true, // Regresión del adaptador externo anterior; standalone solo acepta sesiones persistidas.
   secret,
   issuer: "ecclesia-personal",
   audience: "ecclesia-api",

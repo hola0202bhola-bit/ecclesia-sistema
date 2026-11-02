@@ -1,3 +1,59 @@
+# Proyecto Ecclesia — aplicación web
+
+Express/TypeScript + PostgreSQL/Prisma + EJS. IA principal: Codex, elegida por el alumno. Se priorizan dos entregas: este repositorio y [el arnés](https://github.com/hola0202bhola-bit/ecclesia-arnes-codex). No se exige cierre formal de Fase 0 para continuar desarrollo.
+
+Disponible: consulta pública de iglesias, filtros y ficha básica; alta/edición por API; acceso del personal, panel, alta/listado de usuarios por Coordinación y cierre de sesión revocable. [Matriz breve, fuentes y pendientes](docs/estado-producto.md). No es el sistema completo ni un catálogo nacional: el seed contiene una iglesia ficticia, seis tipos y una localidad oficial INEGI.
+
+## Instalar, validar y arrancar
+
+Node 24 y npm. Para ejecutar la app hace falta una base PostgreSQL propia vacía. Para las pruebas no: el arnés crea PostgreSQL aislado y nunca usa su DATABASE_URL externa. Clonar como hermanos con estos nombres:
+
+```powershell
+git clone https://github.com/hola0202bhola-bit/ecclesia-sistema.git proyecto-ecclesia
+git clone https://github.com/hola0202bhola-bit/ecclesia-arnes-codex.git arnes-codex
+cd proyecto-ecclesia
+npm ci
+npm run generate
+cd ../arnes-codex
+npm ci
+npm run check -- ../proyecto-ecclesia
+cd ../proyecto-ecclesia
+Copy-Item .env.example .env
+```
+
+Editar **solo el .env local**: DATABASE_URL de la base propia, JWT_SECRET aleatorio de al menos 32 bytes, PORT y APP_ORIGIN exacto (por defecto `http://127.0.0.1:3000`). No compartir credenciales ni versionar ese archivo. Después:
+
+```powershell
+npm run db:migrate
+npm run db:seed
+npm run db:coordinacion
+npm start
+```
+
+`db:coordinacion` compila y pide identificador y contraseña oculta/confirmación en una terminal interactiva; solo crea la primera Coordinación si no existe ninguna cuenta. No hay contraseña predeterminada ni bootstrap HTTP. Si ya hay cuentas se rechaza sin reemplazarlas. Para crear más, entrar como Coordinación en [acceso local](http://127.0.0.1:3000/personal/login) → Gestionar usuarios. Contraseña mínima 15 caracteres y máxima 72 bytes UTF-8; un rol por cuenta, iglesia obligatoria para administrador/tesorero y vacía para Coordinación. [Supuestos técnicos y límites](docs/adr/006.md).
+
+Consulta sin cuenta en [iglesias](http://127.0.0.1:3000/iglesias), estado 21. La web usa cookie HttpOnly y formularios con protección CSRF. El servidor sigue enlazado a 127.0.0.1. Para HTTPS configurar APP_ORIGIN correcto; eso activa Secure en cookie. Despliegue público y prueba móvil/carga no están realizados. El objetivo de arranque menor a 10 minutos depende de disponer de Node, red y PostgreSQL; no se afirma haberlo medido.
+
+| API /api/v1 | Uso |
+| --- | --- |
+| POST /auth/login | JSON identificador/password; devuelve bearer 1h, usuario y csrfToken; no crea cookie |
+| GET /auth/me | Perfil actual y sesión válida |
+| POST /auth/logout | Revoca el bearer usado; 204 |
+| GET /usuarios?page=1&pageSize=20 | Coordinación; paginado, sin contraseñas/hash |
+| POST /usuarios | Coordinación; identificador, password, rol e iglesiaId según rol |
+| GET /iglesias?estadoClave=21 y GET /iglesias/:id | Consulta pública |
+| POST /iglesias y PATCH /iglesias/:id | Bearer de cuenta real; Coordinación o administrador propio para edición; version requerida |
+
+Usar `Authorization: Bearer ...` en Postman para gestión de iglesias; los esquemas completos están en [OpenAPI](openapi.yaml), con disponibilidad por operación, y [subconjunto implementado](docs/api-referencia-revision03.json). El perfil histórico de JWT externo se conserva solo para regresión explícita; el servidor normal exige sesión persistida. `npm test` ejecuta todo el pipeline de producto; el gate completo se ejecuta desde el arnés como arriba.
+
+## Estado y evidencia
+
+[Matriz y dependencias](docs/estado-producto.md), [evidencia ejecutada](docs/evidencia-identidad.md), [arquitectura](docs/ARCHITECTURE.md), [ADR 006](docs/adr/006.md). Quedan patrimonio/índice, servicios/pláticas, agenda, diezmos, solicitudes, catálogo nacional y ampliaciones de identidad. No se inventan respuestas docentes ni se presenta la autorización como revisión humana del código.
+
+## Antecedente íntegro: README de R1/R2/R3
+
+El texto siguiente describe aquella revisión. Sus restricciones de alcance y ausencia de login fueron superadas por el incremento actual; se conserva para trazabilidad.
+
 # Proyecto Ecclesia — Fase 0, correcciones R1/R2/R3
 
 Fase 0 abierta. Único incremento de producto: Iglesias mínimo de referencia. Revisión 02 preservada como antecedente; no iniciar Fase 1. El alumno confirmó Express + TypeScript + PostgreSQL + Prisma, EJS, Vitest/Supertest y Codex como IA principal en esta revisión. No hay respuestas nuevas ni validación docente.
