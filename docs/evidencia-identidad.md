@@ -16,6 +16,13 @@ El primer gate completo detectó expectativas históricas de 62 pruebas internas
 
 **Gate completo final ejecutado:** `npm run check -- ../proyecto-ecclesia` desde arnés, salida **0**, 77/77 pruebas del arnés y 100/100 del producto, ninguna omitida. Las regresiones del índice ejecutaron el positivo y los cinco rechazos de producto, conservando índice y copia de trabajo. Contratos: 31 requisitos, 23 preguntas, 64 operaciones; inventario de 16 fuentes, sin infracciones. PostgreSQL 18.6 real, ambas migraciones, doble seed y smoke compilado. Cobertura final de 15 fuentes: líneas **98.97% (289/292)**, sentencias **98.65% (294/298)**, funciones **100% (87/87)**, ramas **93.29% (167/179)**. El porcentaje inicial 98.96% anterior corresponde a una ejecución previa; el final incluye el mínimo de contraseña por caracteres Unicode.
 
-El hook del commit final y la publicación se registran por separado cuando se ejecuten. Logs completos en el área local de trabajo; los reportes generados habituales son `evidence/vitest.json`, `evidence/database.json` y `coverage/coverage-summary.json` (excluidos de Git).
+**Hook y publicación ejecutados:** se instaló el hook local con fingerprint del arnés revisado. El commit funcional pasó el gate del índice materializado (64 pruebas internas no recursivas y 100 pruebas del producto, migraciones y smoke), sin saltar el hook. Luego ambos `git push origin main` terminaron con salida 0 y avance normal, sin force push. `git ls-remote origin refs/heads/main` coincidió exactamente con HEAD en cada repositorio:
+
+| Código publicado y comprobado | SHA funcional |
+| --- | --- |
+| [Aplicación](https://github.com/hola0202bhola-bit/ecclesia-sistema/commit/abf147ec131890f22c12b004aeceb01d59487791) | `abf147ec131890f22c12b004aeceb01d59487791` |
+| [Arnés](https://github.com/hola0202bhola-bit/ecclesia-arnes-codex/commit/7bdea6311a295f1ff64be3e8f64a3d5455559032) | `7bdea6311a295f1ff64be3e8f64a3d5455559032` |
+
+Este registro documental se agrega después de comprobar la publicación; identifica los commits funcionales, no pretende contener el SHA del propio commit documental. Los commits usan fechas reales y el trailer `Asistido-por: Codex`. No se hizo despliegue de aplicación ni se observó CI remoto. Logs completos en el área local de trabajo; los reportes generados habituales son `evidence/vitest.json`, `evidence/database.json` y `coverage/coverage-summary.json` (excluidos de Git).
 
 No se afirma aceptación docente, validación humana detallada, recuperación de contraseña, cobertura nacional, prueba móvil/carga ni arranque medido menor a diez minutos. `npm install` informó diez avisos moderados en el árbol de dependencias; no se aplicó actualización masiva fuera de este incremento.
