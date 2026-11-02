@@ -1,0 +1,28 @@
+
+Checking formatting...
+All matched files use Prettier code style!
+✔ permite presentación a aplicación a dominio e infraestructura a dominio (395.1001ms)
+✔ rechaza controlador que usa infraestructura (369.7532ms)
+✔ rechaza dominio que importa HTTP (361.1837ms)
+✔ rechaza importación interna de otro módulo (366.4098ms)
+✔ rechaza ciclos de dominio (364.2856ms)
+✔ acepta un contrato mínimo de herramienta (109.668ms)
+✔ rechaza referencias de esquema rotas (1.7355ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1968.0484
+Contrato estructural validado.
+Consistencia documental: { requisitos: 31, preguntas: 23, operaciones: 62 }
+[RUTA_LOCAL_REDACTADA]/work/quality/scripts/check.mjs:53
+  throw new Error(
+        ^
+
+Error: Hay código de producto: integrar su lint, formato, dependency-cruiser, pruebas y cobertura antes de usar este hook. El arnés 0.1 no acredita producto.
+    at [RUTA_LOCAL_REDACTADA]/work/quality/scripts/check.mjs:53:9
+
+Node.js v24.21.0

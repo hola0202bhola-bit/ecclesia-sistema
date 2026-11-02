@@ -1,0 +1,13 @@
+erDiagram
+  IGLESIA ||--o{ ASIGNACION_SACERDOTE : atiende
+  SACERDOTE ||--o{ ASIGNACION_SACERDOTE : participa
+  IGLESIA ||--o{ HORARIO_MISA : programa
+  SACERDOTE ||--o{ HORARIO_MISA : previsto
+  HORARIO_MISA o|--o{ CELEBRACION : origina
+  IGLESIA ||--o{ CELEBRACION : registra
+  SACERDOTE ||--o{ CELEBRACION : oficia_realmente
+  CELEBRACION ||--o{ SUSTITUCION : conserva
+  USUARIO ||--o{ SUSTITUCION : registra
+  CELEBRACION ||--o| DIEZMO : recibe
+  DIEZMO ||--o{ CORRECCION_DIEZMO : conserva
+  USUARIO ||--o{ CORRECCION_DIEZMO : realiza

@@ -1,0 +1,21 @@
+
+Checking formatting...
+All matched files use Prettier code style!
+✔ permite presentación a aplicación a dominio e infraestructura a dominio (405.3867ms)
+✔ rechaza controlador que usa infraestructura (358.1646ms)
+✔ rechaza dominio que importa HTTP (359.8933ms)
+✔ rechaza importación interna de otro módulo (365.953ms)
+✔ rechaza ciclos de dominio (364.2523ms)
+✔ acepta un contrato mínimo de herramienta (112.7076ms)
+✔ rechaza referencias de esquema rotas (2.432ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1959.4966
+Contrato estructural validado.
+Consistencia documental: { requisitos: 31, preguntas: 23, operaciones: 62 }
+Comprobaciones iniciales correctas. No hay código ni pruebas de producto; validación humana y docente pendientes.

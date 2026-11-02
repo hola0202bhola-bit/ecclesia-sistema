@@ -1,0 +1,15 @@
+erDiagram
+  ESTADO ||--o{ MUNICIPIO : contiene
+  MUNICIPIO ||--o{ LOCALIDAD : contiene
+  LOCALIDAD ||--o{ IGLESIA : ubica
+  TIPO_IGLESIA ||--o{ IGLESIA : clasifica
+  USUARIO ||--o{ MEMBRESIA : recibe
+  IGLESIA ||--o{ MEMBRESIA : delimita
+  IGLESIA ||--o{ OBJETO : resguarda
+  TIPO_OBJETO ||--o{ OBJETO : clasifica
+  IGLESIA ||--o{ SERVICIO_IGLESIA : ofrece
+  TIPO_SERVICIO ||--o{ SERVICIO_IGLESIA : define
+  SERVICIO_IGLESIA ||--o{ HORARIO_SERVICIO : programa
+  IGLESIA ||--o{ PLATICA : imparte
+  PLATICA ||--o{ HORARIO_PLATICA : programa
+  TIPO_PLATICA ||--o{ PLATICA : clasifica

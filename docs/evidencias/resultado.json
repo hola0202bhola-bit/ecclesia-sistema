@@ -1,0 +1,71 @@
+{
+  "fecha_local": "2026-11-01",
+  "zona_usuario": "America/Mexico_City",
+  "node": "v24.22.1",
+  "herramientas": {
+    "@apidevtools/swagger-parser": "13.1.0",
+    "dependency-cruiser": "18.7.0",
+    "eslint": "10.14.0",
+    "prettier": "3.9.10"
+  },
+  "cotejo": {
+    "parrafos": 288,
+    "contenido_normalizado_sin_diferencias": true,
+    "figuras_identicas": true,
+    "archivos_reutilizados_identicos": 4,
+    "indices_actualizados": [
+      "docs/README.md",
+      "docs/adr/README.md"
+    ]
+  },
+  "contrato": {
+    "validacion_estructural": "correcta",
+    "rutas": 46,
+    "operaciones": 62,
+    "rf_mapeados": 31,
+    "preguntas_abiertas": 23
+  },
+  "arnes": {
+    "lint": "correcto",
+    "formato": "correcto",
+    "pruebas_herramientas": {
+      "total": 7,
+      "pasadas": 7,
+      "fallidas": 0
+    },
+    "reglas_dependencias": "fixtures JavaScript positivos y negativos; no hay producto TypeScript evaluado",
+    "hook": {
+      "repositorio_temporal": "correcto",
+      "positivo": "permite documentación válida",
+      "negativo_contrato": "bloquea referencia rota",
+      "negativo_producto": "bloquea código sin puerta de calidad del producto",
+      "proteccion_hook_existente": "rechaza sobrescritura",
+      "proteccion_hook_predeterminado": "rechaza desactivar hook en .git/hooks"
+    }
+  },
+  "no_ejecutado": [
+    "pruebas de producto",
+    "pruebas con PostgreSQL",
+    "migraciones",
+    "seeds",
+    "cobertura de dominio/servicios",
+    "navegador móvil",
+    "arranque menor a 10 minutos",
+    "portabilidad académica final",
+    "validación y aceptación del docente",
+    "revisión humana del alumno"
+  ],
+  "repositorios_entrega": "carpetas separadas, sin Git inicializado, commits ni remotos; solo repositorio de prueba temporal para hook",
+  "incidencia_corregida": "La primera corrida falló por nombre incorrecto de binario dependency-cruiser; se corrigió y se repitió.",
+  "node_hook": "v24.21.0",
+  "diagramas": {
+    "fuentes_mermaid": 5,
+    "exportaciones_svg": 5,
+    "exportaciones_png_inspeccionadas": 5
+  },
+  "instalacion_limpia": {
+    "npm_ci": "correcto, 132 paquetes desde caché con package-lock.json entregado; sin scripts de instalación",
+    "comprobacion": "lint, formato, siete pruebas, contrato y trazabilidad correctos en copia limpia",
+    "limitacion": "La descarga inicial requirió red y certificados de confianza del sistema; no se desactivó TLS."
+  }
+}

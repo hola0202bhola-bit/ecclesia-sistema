@@ -1,0 +1,10 @@
+erDiagram
+  IGLESIA ||--o{ OFERTA_ESPACIO : ofrece
+  TIPO_ESPACIO ||--o{ OFERTA_ESPACIO : clasifica
+  OFERTA_ESPACIO ||--o{ SOLICITUD : recibe
+  SOLICITUD ||--o{ COTIZACION : conserva
+  SOLICITUD ||--o{ EVENTO_SOLICITUD : registra
+  VERSION_CRITERIO ||--|{ TRAMO_ANTIGUEDAD : configura
+  VERSION_CRITERIO ||--|{ FACTOR_TIPO : configura
+  TIPO_OBJETO ||--o{ FACTOR_TIPO : pondera
+  VERSION_CRITERIO ||--|{ UMBRAL_DISTINCION : configura

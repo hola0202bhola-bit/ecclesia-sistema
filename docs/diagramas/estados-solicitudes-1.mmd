@@ -1,0 +1,22 @@
+stateDiagram-v2
+  [*] --> Recibida: alta sin cuenta
+  Recibida --> Cotizada: administrador informa precio y condiciones
+  Recibida --> SinLugar: administrador informa falta de lugar
+  Cotizada --> Aceptada: solicitante acepta cotización vigente
+  Cotizada --> Rechazada: solicitante rechaza cotización vigente
+  Cotizada --> Vencida: 15 días sin respuesta según PC17
+  Recibida --> Cancelada: solicitante cancela antes de aceptar
+  Cotizada --> Cancelada: solicitante cancela antes de aceptar
+  note right of Cotizada
+    PC17 fija inicio, zona y frontera temporal
+    PC18 fija nombres, reemisión y duplicados
+  end note
+  note right of SinLugar
+    Cancelar aquí o tras rechazo y vencimiento
+    sigue pendiente PC18
+    No se dibujan estados finales irreversibles
+  end note
+  note right of Aceptada
+    No permite cancelación por este flujo
+    No implica pago ni reserva física
+  end note

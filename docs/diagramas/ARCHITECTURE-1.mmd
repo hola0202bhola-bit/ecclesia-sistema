@@ -1,0 +1,9 @@
+flowchart TD
+  Cliente[Web pública EJS o cliente API] --> HTTP[Presentación HTTP y DTO]
+  HTTP --> App[Aplicación y casos de uso]
+  App --> Dominio[Dominio puro y puertos]
+  Infra[Infraestructura Prisma y adaptadores] --> Dominio
+  Infra --> DB[(PostgreSQL)]
+  Composicion[Raíz de composición] --> HTTP
+  Composicion --> App
+  Composicion --> Infra

@@ -1,0 +1,12 @@
+
+[RUTA_LOCAL_REDACTADA]/work/quality/scripts/install-hook.mjs:41
+  throw new Error("Hay pre-commit diferente; no se reemplaza.");
+        ^
+
+Error: Hay pre-commit diferente; no se reemplaza.
+    at [RUTA_LOCAL_REDACTADA]/work/quality/scripts/install-hook.mjs:41:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.22.1

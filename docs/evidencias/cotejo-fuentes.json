@@ -1,0 +1,35 @@
+{
+  "parrafos_docx": 288,
+  "parrafos_transcripcion": 288,
+  "diferencias": [
+    {
+      "p": "166",
+      "docx": "arnes-ia/├── README.md              # cómo instalarlo en un proyecto nuevo├── CHANGELOG.md           # versiones del arnés y por qué cambió├── core/                  # genérico: sirve en cualquier proyecto│   ├── AGENTS.base.md│   ├── arquitectura/      # patrones y reglas de capas│   ├── prompts/           # nuevo-modulo, nuevo-endpoint, migracion, pruebas, revision│   └── checklists/        # definicion-de-terminado, revision-de-codigo├── stacks/                # express/, nest/, php/: lint, pruebas y reglas de dependencias└── plantilla-proyecto/    └── PROYECTO.md        # dominio, entidades y reglas del proyecto en turno",
+      "md": "```text\narnes-ia/\n├── README.md              # cómo instalarlo en un proyecto nuevo\n├── CHANGELOG.md           # versiones del arnés y por qué cambió\n├── core/                  # genérico: sirve en cualquier proyecto\n│   ├── AGENTS.base.md\n│   ├── arquitectura/      # patrones y reglas de capas\n│   ├── prompts/           # nuevo-modulo, nuevo-endpoint, migracion, pruebas, revision\n│   └── checklists/        # definicion-de-terminado, revision-de-codigo\n├── stacks/                # express/, nest/, php/: lint, pruebas y reglas de dependencias\n└── plantilla-proyecto/\n    └── PROYECTO.md        # dominio, entidades y reglas del proyecto en turno\n```"
+    },
+    {
+      "p": "172",
+      "docx": "Lee AGENTS.md y el módulo de referencia src/modules/iglesias.Tarea: implementar RF-14 de docs/requerimientos.md (registrar pláticas)y las reglas de negocio que ese requerimiento cita.Primero muéstrame un plan: archivos a crear o modificar, validaciones y pruebas.No escribas código hasta que apruebe el plan.",
+      "md": "```text\nLee AGENTS.md y el módulo de referencia src/modules/iglesias.\nTarea: implementar RF-14 de docs/requerimientos.md (registrar pláticas)\ny las reglas de negocio que ese requerimiento cita.\nPrimero muéstrame un plan: archivos a crear o modificar, validaciones y pruebas.\nNo escribas código hasta que apruebe el plan.\n```"
+    },
+    {
+      "p": "177",
+      "docx": "Los commits con código generado por IA terminan con la línea «Asistido-por: <herramienta>».",
+      "md": "Los commits con código generado por IA terminan con la línea «Asistido-por: &lt;herramienta&gt;»."
+    },
+    {
+      "p": "241",
+      "docx": "proyecto-iglesias/├── AGENTS.md              # o el archivo que lea su herramienta de IA├── docs/│   ├── requerimientos.md  # con preguntas al cliente y trazabilidad│   ├── modelo-datos.md│   ├── ARCHITECTURE.md│   ├── adr/│   ├── bitacora-ia.md│   └── reflexion-final.md├── src/├── tests/├── openapi.yaml├── .env.example└── README.md",
+      "md": "```text\nproyecto-iglesias/\n├── AGENTS.md              # o el archivo que lea su herramienta de IA\n├── docs/\n│   ├── requerimientos.md  # con preguntas al cliente y trazabilidad\n│   ├── modelo-datos.md\n│   ├── ARCHITECTURE.md\n│   ├── adr/\n│   ├── bitacora-ia.md\n│   └── reflexion-final.md\n├── src/\n├── tests/\n├── openapi.yaml\n├── .env.example\n└── README.md\n```"
+    }
+  ],
+  "figuras_identicas": {
+    "image1.png": true,
+    "image2.png": true
+  },
+  "docx_sha256": "D079E6D122DF85142828A376BAD11FFBBE519596A898D654EDC95C7D5FF9DD30",
+  "comentarios": false,
+  "inserciones": 0,
+  "eliminaciones": 0,
+  "diferencias_contenido_normalizado": []
+}

@@ -1,0 +1,36 @@
+> Vista histórica conservada de revisión 01/02. Para estado vigente consultar decisiones-pc-revision03.md, consultas-docente-revision03.md, referencia-iglesias-revision03.md y trazabilidad-revision03.md. Las afirmaciones anteriores de ausencia total de producto/23 preguntas docentes no describen revisión 03.
+
+# Acciones manuales pendientes H09/H10 — revisión 02
+
+Preparación: 1 de noviembre de 2026, America/Mexico_City. Lista derivada de la auditoría original y los cinco ADR entregados. **No hay evidencia nueva de remotos, commits del alumno o aprobación de decisiones. H09 y H10 siguen abiertos.** Este documento prepara una revisión concreta; no afirma que las acciones ya ocurrieron.
+
+## H09: acreditar los dos repositorios y su historial real
+
+| Orden | Acción del alumno | Evidencia a recoger | Criterio de revisión |
+| --- | --- | --- | --- |
+| 1 | Comprobar si ya existen repositorios independientes de `proyecto-ecclesia` y `arnes-codex`. Identificar propietario y ubicación real de cada uno. | Dos URLs navegables y correspondencia explícita carpeta → repositorio. Si son privados, facilitar acceso al revisor por el mecanismo del servicio; no incluir credenciales en ZIP, logs o conversación. | Dos repositorios distintos, con el contenido que se evalúa. No inferir inexistencia externa a partir de un ZIP sin `.git`. |
+| 2 | Si existen, revisar remotos y el historial disponible en cada repositorio. Conservar los commits originales y su fecha real. | Salidas de `git remote -v`, `git status --short` y `git log --date=iso-strict --format=fuller` ejecutadas desde cada repositorio; ocultar cualquier credencial embebida antes de compartir. URLs de los commits relevantes y rama revisada. | El historial debe corresponder al trabajo real. Los repositorios temporales de pruebas del hook acreditan tests, no el historial académico del alumno. |
+| 3 | Si no existen, crearlos desde ahora como repositorios separados y publicar solo el material revisado, sin secretos ni dependencias instaladas. Revisar visibilidad y acceso del docente. | URLs, fecha real de creación/publicación, responsable, estado y primer commit real. Registrar honestamente que se crearon ahora. | No reconstruir una semana 1 ficticia, alterar fechas, simular revisiones ni afirmar cumplimiento retroactivo de P056. |
+| 4 | Revisar el cambio concreto antes de cada commit y comprobar que el hook y las verificaciones corresponden al contenido que se integrará. Crear incrementos pequeños y explicables. | Comando ejecutado, resultado, hash real del commit posterior y revisión del alumno. Para código asistido, respetar el pie `Asistido-por: Codex` de AGENTS. | No crear commits vacíos para inflar historial ni presentar una comprobación documental como prueba del producto. |
+| 5 | Registrar el estado verificado en la documentación y entregar acceso o evidencia al docente. | Registro por repositorio: URL, rama, hash revisado, fecha real, autor de revisión y soporte. | H09 solo podrá reevaluarse con evidencia real; si falta historial desde semana 1, explicar el hecho y solicitar al docente su tratamiento, sin darlo por dispensado. |
+
+Los comandos anteriores son instrucciones para una futura comprobación en repositorios reales; **no se declaran ejecutados aquí**. No publicar claves, contraseñas, folios de seguimiento ni datos personales reales. Si una URL de remoto contiene credenciales, sustituirla por una URL sin credenciales antes de compartirla.
+
+## H10: revisar y decidir los ADR de primera entrega
+
+PC-21 aclara restricciones de grupo, IA, cobertura, fechas y entorno académico. Las elecciones técnicas restantes corresponden al alumno; no hace falta atribuirlas al cliente. La aprobación de un ADR técnico no contesta por sí misma permisos o reglas de negocio de H01.
+
+| Orden | Documento y estado recibido | Decisión/revisión manual pendiente | Evidencia y artefactos a actualizar |
+| --- | --- | --- | --- |
+| 1 | ADR-001, stack; propuesto | Confirmar restricciones de PC-21. Elegir stack e IA principal, justificar alternativas y fijar versiones/compatibilidad necesarias para la entrega implementada. Aclarar herramienta declarada y uso previo de Work; solo si hubo cambio efectivo de IA, registrar el ADR exigido por P054. | Fecha real, responsable, decisión y motivo; soporte de restricciones del docente cuando exista; README, AGENTS, arquitectura, instalación y dependencias según la decisión efectiva. No tomar el nombre de la aplicación actual como prueba de cambio de herramienta. |
+| 2 | ADR-002, monolito modular con capas; propuesto | Revisar separación, composición, puertos y prohibición de cruces internos entre módulos. Aceptar o ajustar la arquitectura que el alumno pueda explicar y mantener. | Estado decidido y justificación, fecha/responsable; arquitectura y reglas/pruebas coherentes. Las pruebas de reglas acreditan su comportamiento, no aprobación humana ni arquitectura de producto todavía ausente. |
+| 3 | ADR-003, PostgreSQL/Prisma; propuesto | Elegir el acceso a datos y justificarlo. Revisar compatibilidad del motor, adaptador y runtime; distinguir decisiones técnicas de nulabilidad/políticas bloqueadas por PC. | ADR y guía reproducible con versiones reales cuando se instalen; modelo y futuras migraciones. No afirmar conexión, DDL, FK o transacciones verificadas antes de ejecutarlas. |
+| 4 | ADR-004, identidad y seguimiento; propuesto | Revisar separación entre personal y seguimiento. Cerrar con el cliente PC-15/19; decidir mecanismos de autenticación, transporte web y protección con justificación técnica. | Matriz de permisos validada, decisiones técnicas reales y soporte de PC; contrato, modelo, AGENTS y futuras pruebas. No ampliar acceso de Coordinación ni inventar bootstrap, recuperación o política de cookies. |
+| 5 | ADR-005, índice puro; propuesto | Revisar cálculo puro parametrizado, alternativas y consecuencias. Resolver PC-05/07/08 sobre corte, redondeo, elegibilidad y activación. | Decisión del alumno, fecha y autor; modelo/API/pruebas alineadas. Conservar 35.5 con referencia 2026 como ejemplo documental, sin fijar esa referencia en producción. |
+| 6 | Índice de ADR y documentación del proyecto | Comprobar que cada ADR aceptado, rechazado o sustituido refleja una decisión efectivamente tomada. Mantener como propuesto lo que siga sin revisar. | Estado, fecha real y responsable por ADR; enlaces al soporte y a artefactos afectados. Si se sustituye una decisión, conservar la historia y enlazar su sucesora. |
+
+Para registrar cada decisión real: identificar ADR, estado resultante, texto decidido, motivo, alternativas consideradas, consecuencias, responsable, fecha y soporte. No rellenar responsables o fechas de aprobación por anticipado. El presente documento no cambia el estado de `docs/adr/001.md`–`005.md`.
+
+## Condiciones que siguen pendientes
+
+H01 requiere respuestas o acuerdos explícitos por subpregunta; consultar `consultas-docente-revision02.md`. H02 requiere, después de las aclaraciones de Iglesias, un módulo de referencia real con validación, servicio, datos, autorización y pruebas de producto, incluida la BD de prueba y la cobertura aplicable. H09/H10 se acreditan con las acciones y evidencias anteriores. La revisión 02 no declara Fase 0 completada ni autoriza avanzar a Fase 1.

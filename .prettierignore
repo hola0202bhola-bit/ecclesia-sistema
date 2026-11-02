@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+evidence
+prisma/fuentes
+prisma/migrations
+prisma/schema.prisma
+views

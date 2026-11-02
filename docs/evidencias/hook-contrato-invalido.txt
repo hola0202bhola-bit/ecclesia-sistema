@@ -1,0 +1,44 @@
+
+Checking formatting...
+All matched files use Prettier code style!
+✔ permite presentación a aplicación a dominio e infraestructura a dominio (422.3811ms)
+✔ rechaza controlador que usa infraestructura (360.166ms)
+✔ rechaza dominio que importa HTTP (364.1261ms)
+✔ rechaza importación interna de otro módulo (367.0319ms)
+✔ rechaza ciclos de dominio (366.2867ms)
+✔ acepta un contrato mínimo de herramienta (121.6907ms)
+✔ rechaza referencias de esquema rotas (1.9119ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1991.3569
+[RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/pointer.js:165
+                throw new MissingPointerError(token, safelyDecodeURI(this.originalPath), targetRef, targetFound, parentPath);
+                      ^
+
+MissingPointerError: Missing $ref pointer "#/components/schemas/NoExiste". Token "NoExiste" does not exist.
+    at Pointer.resolve ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/pointer.js:165:23)
+    at $Ref.resolve ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/ref.js:114:38)
+    at $Refs._resolve ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/refs.js:148:21)
+    at dereference$Ref ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/dereference.js:203:27)
+    at crawl ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/dereference.js:88:40)
+    at crawl ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/dereference.js:125:44)
+    at crawl ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/dereference.js:125:44)
+    at crawl ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/dereference.js:125:44)
+    at crawl ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/dereference.js:125:44)
+    at crawl ([RUTA_LOCAL_REDACTADA]/work/quality/node_modules/@apidevtools/json-schema-ref-parser/dist/lib/dereference.js:125:44) {
+  source: '[RUTA_LOCAL_REDACTADA]/work/ecclesia-hook-wswws_1_/proyecto-prueba/openapi.yaml',
+  path: null,
+  code: 'EMISSINGPOINTER',
+  toJSON: [Function: bound toJSON],
+  targetToken: 'NoExiste',
+  targetRef: '#/components/schemas/NoExiste',
+  targetFound: '#/components/schemas',
+  parentPath: '#/paths/~1auth~1login/post/responses/200/content/application~1json/schema'
+}
+
+Node.js v24.21.0

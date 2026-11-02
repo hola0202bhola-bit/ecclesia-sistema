@@ -1,0 +1,33 @@
+# Reclasificación de las 23 PC — revisión 03
+
+1 de noviembre de 2026, America/Mexico_City. Fuente: PC originales y consultas revisión02, P063–P095/P127–P157 del caso y reclasificación recuperada del chat «Ayuda actividad programación». El alumno autorizó esta revisión y confirmó expresamente el stack y Codex en el chat actual. No se recibieron respuestas docentes. Una decisión técnica no es una respuesta del cliente.
+
+T = decisión técnica justificada; R = regla escrita; A = ambigüedad real; AC = restricción académica por confirmar. Una PC mixta no se cierra en bloque. La columna residual conserva lo aún desconocido; las letras exactas originales se pueden consultar en consultas-docente-revision02.md, que se conserva como antecedente.
+
+| PC | Clasificación y tratamiento vigente | Residual real / grupo |
+| --- | --- | --- |
+| 01 | T: catálogo oficial disponible al cargar, procedencia, consulta y corte si el proveedor lo publica; claves/equivalencias e historial controlado. No asumir claves inmutables. Ciudad se representa por localidad oficial, sin inventar un segundo catálogo | No requiere elegir versión con docente; catálogo nacional completo aún por importar, no es respuesta pendiente |
+| 02 | R: P063 enumera nombre/tipo/ubicación/capacidad/año/contacto y coordenadas cuando disponibles. T: perfil mínimo de referencia exige nombre, tipo, dirección y geografía consistente; omite desconocidos restantes, nunca rellena con ceros o fechas ficticias | A: nulabilidad definitiva, construcción por etapas, formatos de contacto, precisión y fechas desconocidas/futuras. G1/G2. Perfil no aprobado por docente |
+| 03 | T: filtros AND, nombre parcial sin acentos/caso, capacidad mínima/máxima inclusivas, paginación y orden nombre normalizado + ID. Evita resultados inestables y consultas sin límite | Resuelta como elección técnica revisable, no regla del cliente; implementada en referencia |
+| 04 | R: P065 cerradas no aparecen y conservan historia. T: ocultar también por enlace directo en referencia evita eludir publicación | A: quién cierra/reabre, gestión durante cierre y hechos históricos. G1. Comandos bloqueados 501; no se presume permiso |
+| 05 | R: tramos/factores/INAH/siglo y ejemplo 35.5 en P068–P074. T: función pura, referencia explícita y aritmética exacta | A: fecha desconocida, conjuntos fuera del ejemplo, precisión con criterios futuros y corte temporal definitivo. G2. No implementar patrimonio aquí |
+| 06 | R: perdido/prestado/baja excluido del índice sin borrar registro (P068) | A: devolución, estados y visibilidad pública de piezas no vigentes. G2 |
+| 07 | R: mayor índice primero, sin cerradas ni iglesias sin objetos (P075). T: desempate por nombre normalizado + ID y página limitada | A: objetos registrados pero ninguno vigente / índice cero, no confundir con iglesia sin objetos. G2; inclusión todavía propuesta, no implementada |
+| 08 | R: criterios ajustables sin reprogramar (P075). T: versionar configuración para auditar | A: activación, efecto en resultados históricos y aprobación. G2 |
+| 09 | R: servicios/pláticas y cupo (P078–P079). T: FK servicio–plática propuesta; sin inscripción/reservación, fuera del mínimo pedido | Si aparece requisito obligatorio de asistencia, aclararlo antes del módulo. No bloquear referencia por un extra no pedido |
+| 10 | R: padre compartido entre iglesias (P082). T: identidad única; no crear cuenta obligatoria para sacerdotes | A: datos mínimos, autoridad para identidad/asignaciones, historia y diócesis. G3/G7 |
+| 11 | R: no traslapar un padre, 60 minutos salvo otra duración y hora local (P082–P083). T: comparar instantes, zonas IANA e intervalos semiabiertos [inicio, fin) | A: agenda pública completa, traslado, misas simultáneas del templo y excepciones. G3; nombre público del padre en misa no es agenda pública |
+| 12 | R: registrar hecho real, sustituto, motivo y responsable (P083). T: historial verificable | A: quién/cuándo corrige pasado y hechos no programados. G3 |
+| 13 | R: captura una vez por misa ocurrida, corrección auditada y centavos exactos (P085–P086). T: decimal exacto. Propuesta MXN, cero y no negativos sujeta a validar | A: moneda, ajustes/negativos, cero, divisor, redondeo, semanas/cortes/empates/sin datos. G4. Ninguna propuesta contable se activa |
+| 14 | R: contacto y privacidad de solicitud (P089–P090). T: minimización | A: datos obligatorios, conservación, rectificación/eliminación. G5 |
+| 15 | R: sin cuenta, folio y clave (P089). T: aleatoriedad criptográfica, hash y límites de intentos | A: contenido visible, recuperación y política de bloqueo. G5; no inventar canal ni publicar claves |
+| 16 | R: informar precio/condiciones o falta de lugar (P089). T: propuesta de seguimiento privado en pantalla | A: canal suficiente/exigido. G5; correo automático sigue extra |
+| 17 | R: vigencia de 15 días (P090) | A: emisión/comunicación, días naturales, zona, límite exacto, carrera con aceptación y nuevas cotizaciones. G6 |
+| 18 | R: cancelar mientras no se acepta (P090); no cancelar aceptada | A: transiciones exactas, reapertura y duplicados/concurrencia. G6. Máquina previa es diseño pendiente |
+| 19 | R: Coordinación administra iglesias/catálogos/usuarios/criterios (P092), administrador gestiona su iglesia y tesorero diezmo (P093); aislamiento obligatorio | A: acumulación de roles/iglesias, bootstrap y permisos adicionales de reportes/datos privados/correcciones. G7. No extender privilegios |
+| 20 | R: consulta pública desde celular (P092). T: web adaptable y objetivos internos medibles a definir | A: SLA y concurrencia/aceptación exigidos. G8. No se declara prueba móvil ni rendimiento nacional |
+| 21 | R: elección Express/Nest/PHP, IA única salvo fijación de grupo, BD relacional y mínimo 70% (P013/P036–P054/P261). Alumno confirmó Express/TS/PostgreSQL/Prisma/EJS/Vitest/Supertest y Codex | AC: restricciones de grupo, cómputo del Work previo, fechas, métrica del 70% y prerrequisitos del arranque <10 min. G8; no son autorizaciones técnicas pendientes |
+| 22 | R: Coordinación administra catálogos (P092). T: validación, cambios versionados y tipos extensibles con trazabilidad | A: alcance exacto de catálogos administrables y aprobación de ampliaciones. G1/G2. No se inventa catálogo de negocio |
+| 23 | R: P095 declara deseables; extras del final no son base. T: excluirlos de esta revisión autorizada | Diferidos fuera del módulo mínimo; solo preguntar sus políticas si se autoriza incorporarlos |
+
+No se afirma que las 23 PC necesiten 23 respuestas ni que todas estén resueltas. Las partes técnicas pasan a decisiones de diseño; las partes R a trazabilidad; las partes A/AC quedan en ocho grupos y registro vacío de respuestas.

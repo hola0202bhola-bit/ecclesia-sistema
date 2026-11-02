@@ -1,0 +1,2 @@
+Hook inicial instalado localmente. Ejecutar git hook run pre-commit; no se realizó commit.
+

@@ -1,0 +1,12 @@
+
+[RUTA_LOCAL_REDACTADA]/work/quality/scripts/install-hook.mjs:30
+    throw new Error("Existe un pre-commit en hooks de Git; no se desactiva.");
+          ^
+
+Error: Existe un pre-commit en hooks de Git; no se desactiva.
+    at [RUTA_LOCAL_REDACTADA]/work/quality/scripts/install-hook.mjs:30:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.22.1
