@@ -1,0 +1,15 @@
+# Correcciones técnicas R1/R2/R3 — Fase 0
+
+1 de noviembre de 2026, America/Mexico_City. Incremento autorizado por el alumno a partir de `Informe_aceptacion_tecnica_Fase0.md` y `Guia_defensa_Iglesias.md`. Los documentos se recibieron como adjuntos de la conversación “Ayuda actividad programación”; son análisis, no respuestas del profesor.
+
+R1: `PrismaRepositorioIglesias.listar` normaliza y escapa en una sola pasada `\`, `%` y `_` antes de `contains`. El escape pertenece al adaptador PostgreSQL; no se altera el nombre almacenado ni se concatena SQL. Se mantienen el objeto `where` parametrizado de Prisma, el conteo y lista con idénticos predicados, transacción RepeatableRead, orden y paginación. El símbolo recibido se busca como texto literal; no hay sintaxis de comodines para el usuario.
+
+La suite distingue texto SQL de comodines e incorpora 13 casos: una consulta ordinaria sin coincidencia, seis negativos sin símbolos en nombres y seis positivos para `%`, `_`, `\`, `\%`, `\_` y dos barras. Los positivos crean nombres reales por HTTP, incluyen un señuelo sin símbolos y comprueban normalización, tres páginas, total, IDs y filtros AND. La regresión del hook exige también las 70 pruebas de producto (57 originales + 13 nuevas).
+
+R2: `.gitattributes` usa `text=auto eol=lf` y declara extensiones binarias. Las fuentes del gate ya contienen LF; algunos documentos y logs históricos tienen CRLF o mezcla dentro del blob base. Git conserva esos antecedentes sin renormalizarlos al clonar. No se aplica un reformateo global: los PNG y los archivos ajenos al incremento conservan su identidad. Los tres documentos históricos actualizados (índice, bitácora e índice de evidencias) pasan a LF con contenido anterior preservado. El [registro de repositorios](repositorios-revision03.md) contiene instrucciones para clones Windows nuevos y existentes.
+
+R3: publicación real y ambos SHA base quedan documentados en README/AGENTS/trazabilidad/registro de repositorios. Se distinguen documentos vigentes de antecedentes sin borrar historia; se sustituyen referencias vigentes a evidencias externas ausentes por un [índice local verificable](evidencias-revision04/README.md). El arnés incorpora sus propias instrucciones vigentes y mantiene su documentación histórica.
+
+La autorización permite ejecutar este incremento y crear commits nuevos. No acredita revisión humana detallada, comprensión del alumno o validación docente. H01 abierto, H02 aceptación pendiente, H08 parcial, H09 publicación base cerrada e historial P056 residual. No se inicia Fase 1 ni se actualizan dependencias por R4.
+
+Fuentes técnicas consultadas: [Prisma v7 — filtros](https://docs.prisma.io/docs/orm/v7/prisma-client/queries/filtering-and-sorting), [PostgreSQL 18 — LIKE y escape](https://www.postgresql.org/docs/18/functions-matching.html), [Git — atributos de texto, EOL y binarios](https://git-scm.com/docs/gitattributes). La ejecución PostgreSQL de esta versión fijada, registrada en evidencias, comprueba la semántica del escape.

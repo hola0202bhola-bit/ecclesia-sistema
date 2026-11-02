@@ -1,12 +1,14 @@
-# Proyecto Ecclesia — Fase 0, revisión 03
+# Proyecto Ecclesia — Fase 0, correcciones R1/R2/R3
 
 Fase 0 abierta. Único incremento de producto: Iglesias mínimo de referencia. Revisión 02 preservada como antecedente; no iniciar Fase 1. El alumno confirmó Express + TypeScript + PostgreSQL + Prisma, EJS, Vitest/Supertest y Codex como IA principal en esta revisión. No hay respuestas nuevas ni validación docente.
+
+Estado publicado, SHA base y límites H01/H02/H08/H09: [repositorios](docs/repositorios-revision03.md). Correcciones y resultados ejecutados: [revisión 04](docs/correcciones-r1-r3.md).
 
 Leer docs/decisiones-pc-revision03.md, docs/consultas-docente-revision03.md y docs/referencia-iglesias-revision03.md. Documentos revisión01/02 conservados son historial; las vistas revision03 prevalecen cuando difieran. RF/RN originales y fuentes no se reescriben como aprobados.
 
 ## Instalar y comprobar
 
-Requiere Node 24 y npm. Mantener los directorios hermanos proyecto-ecclesia y arnes-codex con esos nombres. Los locks fijan dependencias exactas. PostgreSQL de prueba se descarga como dependencia de desarrollo de plataforma; primera instalación necesita red y espacio, y la primera verificación puede necesitar descarga del motor Prisma. No desactivar validación TLS. En redes con CA corporativa usar la CA del sistema solo si corresponde.
+Requiere Node 24 y npm. Clonar como directorios hermanos `proyecto-ecclesia` y `arnes-codex`, con esos nombres locales, siguiendo los [comandos Windows](docs/repositorios-revision03.md). `.gitattributes` conserva LF en texto incluso con `core.autocrlf=true` y preserva binarios. Los locks fijan dependencias exactas. PostgreSQL de prueba se descarga como dependencia de desarrollo de plataforma; primera instalación necesita red y espacio, y la primera verificación puede necesitar descarga del motor Prisma. No desactivar validación TLS. En redes con CA corporativa usar la CA del sistema solo si corresponde.
 
 Desde proyecto-ecclesia:
 
@@ -43,4 +45,4 @@ Reapertura/cierre y gestión de cerradas devuelven bloqueo explícito hasta acla
 
 ## Revisión y repositorios
 
-H09: docs/repositorios-revision03.md prepara los dos repositorios; ninguno se creó/publicó en esta revisión. No se fabricó historial ni se hicieron commits. Revisión humana del código, validación del cliente, respuestas a ocho grupos, aceptación del perfil PC-02 y requisitos académicos adicionales siguen pendientes. Consultar informe y evidencias para resultados medidos.
+H09 publicación: dos repositorios reales verificados en los SHA base enlazados arriba. H09 historial desde semana 1: residual académico pendiente; los commits de importación no lo prueban. Las notas antiguas se conservan como antecedentes. Revisión humana del código, validación del cliente, respuestas a ocho grupos, aceptación del perfil PC-02 y requisitos académicos adicionales siguen pendientes. Consultar [evidencias disponibles y procedencia](docs/evidencias-revision04/README.md). Los archivos externos del antiguo paquete no son dependencias de estos repositorios.

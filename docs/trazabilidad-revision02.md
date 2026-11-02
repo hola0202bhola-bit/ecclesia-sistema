@@ -75,6 +75,6 @@ En la columna capas, P=presentation, A=application, D=domain, I=infrastructure. 
 
 ## Evidencia ejecutable separada de aceptación
 
-La [suite de esquemas](../../arnes-codex/tests/schema-regression.test.mjs) contiene los IDs citados arriba; valida muestras y forma de contrato, no criterios PV. Las salidas verificables se entregan en evidencias de revisión 02. Los conteos de RF/PC/operaciones acreditan referencias, no cobertura funcional. Las pruebas de arquitectura del arnés verifican fixtures de herramientas y no sustituyen pruebas de aislamiento/BD.
+La [suite de esquemas](https://github.com/hola0202bhola-bit/ecclesia-arnes-codex/blob/3d107dab51140b23c594d7da73e5ba9ca82bef7f/tests/schema-regression.test.mjs) contiene los IDs citados arriba; valida muestras y forma de contrato, no criterios PV. Las salidas verificables se entregan en evidencias de revisión 02. Los conteos de RF/PC/operaciones acreditan referencias, no cobertura funcional. Las pruebas de arquitectura del arnés verifican fixtures de herramientas y no sustituyen pruebas de aislamiento/BD.
 
 Las demás filas RNF/CT/DES/EXT de la extracción inicial conservan su trazabilidad histórica. H09/H10 y las PC se atienden en los listados manuales; los extras no se convierten en alcance aprobado.

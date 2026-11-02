@@ -1,3 +1,5 @@
+> Evidencias históricas de revisión 01. Para resultados vigentes y salidas externas no incluidas en GitHub, consultar [revisión 04](../evidencias-revision04/README.md). Las afirmaciones antiguas de ausencia de BD/producto describen su fecha.
+
 # Alcance de las verificaciones
 
 Las evidencias de esta entrega distinguen cotejo documental, contrato y herramientas de pruebas del producto. Ver `resultado.json` y archivos de salida adjuntos cuando existan.

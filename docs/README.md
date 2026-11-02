@@ -1,3 +1,13 @@
+# Documentación vigente de Fase 0
+
+- [Repositorios publicados, SHA base, reproducción Windows y límites H01/H02/H08/H09](repositorios-revision03.md).
+- [Correcciones R1/R2/R3](correcciones-r1-r3.md) y [evidencias disponibles](evidencias-revision04/README.md).
+- [Referencia Iglesias](referencia-iglesias-revision03.md), [trazabilidad](trazabilidad-revision03.md), [decisiones PC](decisiones-pc-revision03.md) y [consultas pendientes](consultas-docente-revision03.md).
+
+Las rutas a carpetas externas en el registro siguiente corresponden al paquete histórico. No existen como dependencias hermanas del clon; su procedencia se aclara en el índice de evidencias anterior. No se convierten resultados antiguos en pruebas nuevas.
+
+## Índice histórico conservado
+
 > Vista histórica conservada de revisión 01/02. Para estado vigente consultar decisiones-pc-revision03.md, consultas-docente-revision03.md, referencia-iglesias-revision03.md y trazabilidad-revision03.md. Las afirmaciones anteriores de ausencia total de producto/23 preguntas docentes no describen revisión 03.
 
 # Documentación de Ecclesia

@@ -1,0 +1,247 @@
+{
+  "dateLocal": "2026-11-01",
+  "timezone": "America/Mexico_City",
+  "recordedUTC": "2026-11-02T01:18:54.512Z",
+  "scope": "R1/R2/R3; Fase 0 abierta, no Fase 1; no aceptación docente/humana atribuida",
+  "baseline": {
+    "product": "fb3ffc78affdad76ae61b1d5eda7a6694dc5d0b3",
+    "harness": "3d107dab51140b23c594d7da73e5ba9ca82bef7f",
+    "verification": "clonación Git de ambos main y ls-remote antes de cambios"
+  },
+  "installation": {
+    "command": "npm ci --offline --ignore-scripts --no-audit --no-fund",
+    "productPackages": 426,
+    "harnessPackages": 133,
+    "fromExistingCache": true,
+    "lockChanged": false,
+    "limits": "No demuestra descarga npm desde cero; requiere red inicial para preparar caché/motor."
+  },
+  "executed": [
+    {
+      "command": "node ../arnes-codex/scripts/run-product-tests.mjs (regresiones antes del arreglo)",
+      "exit": 1,
+      "passed": 65,
+      "failed": 5,
+      "expectedReproduction": true
+    },
+    {
+      "command": "npm run check -- ../proyecto-ecclesia",
+      "exit": 0,
+      "harnessPassed": 75,
+      "harnessFailed": 0,
+      "productPassed": 70,
+      "productFailed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "npm run check -- ../proyecto-ecclesia (clones Windows nuevos)",
+      "exit": 0,
+      "harnessPassed": 75,
+      "productPassed": 70
+    }
+  ],
+  "database": {
+    "date": "2026-11-02T01:11:02.752Z",
+    "database": "PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
+    "migrations": "prisma migrate deploy",
+    "seedRuns": 2,
+    "isolated": true,
+    "externalDatabaseUsed": false,
+    "compiledServerSmoke": {
+      "api": 200,
+      "ejs": 200,
+      "anonymousWrite": 401,
+      "browserOrMobileTest": false
+    }
+  },
+  "coverage": {
+    "lines": {
+      "total": 139,
+      "covered": 139,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 141,
+      "covered": 141,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 44,
+      "covered": 44,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 79,
+      "covered": 76,
+      "skipped": 0,
+      "pct": 96.2
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "measuredSourceFiles": 7,
+  "excludedSource": "src/composition/server.ts: smoke HTTP compilado separado",
+  "hookScenarios": [
+    {
+      "label": "positivo: índice completo válido, working tree inválido",
+      "command": "git hook run pre-commit",
+      "tree": "7825917a2bc52475e81d935004b4d496d7fcc633",
+      "exit": 0,
+      "indexPreserved": true,
+      "workingTreePreserved": true
+    },
+    {
+      "label": "error de tipos staged reparado solo en working tree",
+      "command": "git hook run pre-commit",
+      "tree": "70b3bc60f67ac2ca2cf7505fa5b51568d602b1e1",
+      "exit": 1,
+      "indexPreserved": true,
+      "workingTreePreserved": true
+    },
+    {
+      "label": "pruebas eliminadas del índice pero presentes en disco",
+      "command": "git hook run pre-commit",
+      "tree": "11a091b5660d370f151ff832c6f2062a68e4fd65",
+      "exit": 1,
+      "indexPreserved": true,
+      "workingTreePreserved": true
+    },
+    {
+      "label": "migración staged rota con working tree reparado",
+      "command": "git hook run pre-commit",
+      "tree": "458e9d9b8102485dac73627c59eb6811981f28e6",
+      "exit": 1,
+      "indexPreserved": true,
+      "workingTreePreserved": true
+    },
+    {
+      "label": "test staged fallido aunque package test retorna cero",
+      "command": "git hook run pre-commit",
+      "tree": "83dc80ebd77c9f46c9862fe1336983af871bf54d",
+      "exit": 1,
+      "indexPreserved": true,
+      "workingTreePreserved": true
+    }
+  ],
+  "windows": {
+    "platform": "win32",
+    "records": [
+      {
+        "repository": "proyecto-ecclesia",
+        "commit": "cad40970b0b6ffc1eae92bf9b3293e07c1e7501c",
+        "cloneSource": "repositorio local derivado de la base GitHub verificada",
+        "autocrlf": "true",
+        "tracked": 90,
+        "checkoutEqualsEveryBlob": true,
+        "statusClean": true,
+        "binary": [
+          {
+            "file": "docs/diagramas/ARCHITECTURE-1.png",
+            "sha256": "c3902d66119f98f204b4993e5da9e1da694f1d71e102648341397436fda50a38"
+          },
+          {
+            "file": "docs/diagramas/estados-solicitudes-1.png",
+            "sha256": "19d770e4b4f870258109085cf7a2425a14e8ef128a8bed13c42115ba70e285cc"
+          },
+          {
+            "file": "docs/diagramas/modelo-datos-1.png",
+            "sha256": "d8bbdf4e91a832748100e42230c884dd298dcf5d5b3355c46aeb3e7dbc5f72af"
+          },
+          {
+            "file": "docs/diagramas/modelo-datos-2.png",
+            "sha256": "feff5ab5ab599229aa2beb559dde842100f86812d0108994081c656406ab1f78"
+          },
+          {
+            "file": "docs/diagramas/modelo-datos-3.png",
+            "sha256": "7610042cf516ad27bbc91b9fb26594a2ad4689136dcfe0523e83f58fd3228463"
+          },
+          {
+            "file": "docs/fuentes/image1.png",
+            "sha256": "d534e2aad53a270981ec3be3c88d02be79360b3f49dfdbcc1ba97f24b07ced1d"
+          },
+          {
+            "file": "docs/fuentes/image2.png",
+            "sha256": "2d606473fb80571f8c2d631eb2aae559303834942bd5f77de89cda0d29918922"
+          }
+        ],
+        "legacyCRLF": [
+          ".gitignore",
+          "docs/README.md",
+          "docs/bitacora-ia.md",
+          "docs/diagramas/ARCHITECTURE-1.mmd",
+          "docs/diagramas/estados-solicitudes-1.mmd",
+          "docs/diagramas/modelo-datos-1.mmd",
+          "docs/diagramas/modelo-datos-2.mmd",
+          "docs/diagramas/modelo-datos-3.mmd",
+          "docs/diseno-api.md",
+          "docs/estados-solicitudes.md",
+          "docs/evidencias/README.md",
+          "docs/evidencias/check-inicial.txt",
+          "docs/evidencias/cotejo-fuentes.json",
+          "docs/evidencias/git-init-temporal.txt",
+          "docs/evidencias/hook-codigo-sin-puerta.txt",
+          "docs/evidencias/hook-contrato-invalido.txt",
+          "docs/evidencias/hook-instalar.txt",
+          "docs/evidencias/hook-no-desactiva-previo.txt",
+          "docs/evidencias/hook-no-sobrescribe.txt",
+          "docs/evidencias/hook-positivo.txt",
+          "docs/evidencias/instalacion-limpia-check.txt",
+          "docs/evidencias/resultado.json",
+          "docs/fuentes/caso-parrafos.md",
+          "docs/modelo-datos.md",
+          "docs/pendientes-docente.md",
+          "docs/plan-incremental.md",
+          "docs/requerimientos.md",
+          "docs/revision-fase0.md"
+        ],
+        "eol": "i/lf    w/lf    attr/text=auto eol=lf \t.env.example\ni/lf    w/lf    attr/text=auto eol=lf \t.gitattributes\ni/mixed w/mixed attr/text=auto eol=lf \t.gitignore\ni/lf    w/lf    attr/text=auto eol=lf \t.prettierignore\ni/lf    w/lf    attr/text=auto eol=lf \tAGENTS.md\ni/lf    w/lf    attr/text=auto eol=lf \tREADME.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/ARCHITECTURE.md\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/README.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/acciones-manuales-revision02.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/adr/001.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/adr/002.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/adr/003.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/adr/004.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/adr/005.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/adr/README.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/api-referencia-revision03.json\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/bitacora-ia.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/consultas-docente-revision02.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/consultas-docente-revision03.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/contrato-revision02.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/decisiones-pc-revision03.md\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/diagramas/ARCHITECTURE-1.mmd\ni/-text w/-text attr/-text            \tdocs/diagramas/ARCHITECTURE-1.png\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/diagramas/ARCHITECTURE-1.svg\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/diagramas/README.md\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/diagramas/estados-solicitudes-1.mmd\ni/-text w/-text attr/-text            \tdocs/diagramas/estados-solicitudes-1.png\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/diagramas/estados-solicitudes-1.svg\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/diagramas/modelo-datos-1.mmd\ni/-text w/-text attr/-text            \tdocs/diagramas/modelo-datos-1.png\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/diagramas/modelo-datos-1.svg\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/diagramas/modelo-datos-2.mmd\ni/-text w/-text attr/-text            \tdocs/diagramas/modelo-datos-2.png\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/diagramas/modelo-datos-2.svg\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/diagramas/modelo-datos-3.mmd\ni/-text w/-text attr/-text            \tdocs/diagramas/modelo-datos-3.png\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/diagramas/modelo-datos-3.svg\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/diseno-api.md\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/estados-solicitudes.md\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/evidencias/README.md\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/check-inicial.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/cotejo-fuentes.json\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/git-init-temporal.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/hook-codigo-sin-puerta.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/hook-contrato-invalido.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/hook-instalar.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/hook-no-desactiva-previo.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/hook-no-sobrescribe.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/hook-positivo.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/instalacion-limpia-check.txt\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/evidencias/resultado.json\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/fuentes-tecnicas-revision03.md\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/fuentes/caso-parrafos.md\ni/-text w/-text attr/-text            \tdocs/fuentes/image1.png\ni/-text w/-text attr/-text            \tdocs/fuentes/image2.png\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/matriz-seguridad-revision02.md\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/modelo-datos.md\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/pendientes-docente.md\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/plan-incremental.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/referencia-iglesias-revision03.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/repositorios-revision03.md\ni/crlf  w/crlf  attr/text=auto eol=lf \tdocs/requerimientos.md\ni/mixed w/mixed attr/text=auto eol=lf \tdocs/revision-fase0.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/trazabilidad-revision02.md\ni/lf    w/lf    attr/text=auto eol=lf \tdocs/trazabilidad-revision03.md\ni/lf    w/lf    attr/text=auto eol=lf \teslint.config.mjs\ni/lf    w/lf    attr/text=auto eol=lf \topenapi.yaml\ni/lf    w/lf    attr/text=auto eol=lf \tpackage-lock.json\ni/lf    w/lf    attr/text=auto eol=lf \tpackage.json\ni/lf    w/lf    attr/text=auto eol=lf \tprisma.config.ts\ni/none  w/none  attr/text=auto eol=lf \tprisma/fuentes/inegi-localidad.json\ni/lf    w/lf    attr/text=auto eol=lf \tprisma/migrations/202611010001_referencia_iglesias/migration.sql\ni/lf    w/lf    attr/text=auto eol=lf \tprisma/migrations/migration_lock.toml\ni/lf    w/lf    attr/text=auto eol=lf \tprisma/schema.prisma\ni/lf    w/lf    attr/text=auto eol=lf \tprisma/seed.ts\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/test-db.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tsrc/composition/app.ts\ni/lf    w/lf    attr/text=auto eol=lf \tsrc/composition/server.ts\ni/lf    w/lf    attr/text=auto eol=lf \tsrc/modules/iglesias/application/servicio.ts\ni/lf    w/lf    attr/text=auto eol=lf \tsrc/modules/iglesias/domain/iglesia.ts\ni/lf    w/lf    attr/text=auto eol=lf \tsrc/modules/iglesias/infrastructure/prisma-repositorio.ts\ni/lf    w/lf    attr/text=auto eol=lf \tsrc/modules/iglesias/presentation/router.ts\ni/lf    w/lf    attr/text=auto eol=lf \tsrc/modules/iglesias/presentation/validacion.ts\ni/lf    w/lf    attr/text=auto eol=lf \tsrc/shared/infrastructure/personal-jwt.ts\ni/lf    w/lf    attr/text=auto eol=lf \ttests/iglesias.test.ts\ni/lf    w/lf    attr/text=auto eol=lf \ttsconfig.build.json\ni/lf    w/lf    attr/text=auto eol=lf \ttsconfig.json\ni/lf    w/lf    attr/text=auto eol=lf \tviews/ficha.ejs\ni/lf    w/lf    attr/text=auto eol=lf \tviews/iglesias.ejs\ni/lf    w/lf    attr/text=auto eol=lf \tvitest.config.ts\n"
+      },
+      {
+        "repository": "arnes-codex",
+        "commit": "0df183680ad090c8c1385494cbfba7831ce3fb45",
+        "cloneSource": "repositorio local derivado de la base GitHub verificada",
+        "autocrlf": "true",
+        "tracked": 36,
+        "checkoutEqualsEveryBlob": true,
+        "statusClean": true,
+        "binary": [],
+        "legacyCRLF": [".gitignore"],
+        "eol": "i/lf    w/lf    attr/text=auto eol=lf \t.gitattributes\ni/mixed w/mixed attr/text=auto eol=lf \t.gitignore\ni/lf    w/lf    attr/text=auto eol=lf \tARCHITECTURE.md\ni/lf    w/lf    attr/text=auto eol=lf \tCHANGELOG.md\ni/lf    w/lf    attr/text=auto eol=lf \tREADME.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/AGENTS.base.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/arquitectura/README.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/checklists/revision.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/checklists/terminado.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/prompts/migracion.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/prompts/nuevo-endpoint.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/prompts/nuevo-modulo.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/prompts/pruebas.md\ni/lf    w/lf    attr/text=auto eol=lf \tcore/prompts/revision.md\ni/lf    w/lf    attr/text=auto eol=lf \teslint.config.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tpackage-lock.json\ni/lf    w/lf    attr/text=auto eol=lf \tpackage.json\ni/lf    w/lf    attr/text=auto eol=lf \tplantilla-proyecto/PROYECTO.md\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/check-architecture.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/check-artifacts.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/check-index.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/check-product.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/check.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/harness-fingerprint.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/install-hook.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/run-product-tests.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tscripts/validate-contract.mjs\ni/lf    w/lf    attr/text=auto eol=lf \tstacks/express/dependency-cruiser.cjs\ni/lf    w/lf    attr/text=auto eol=lf \tstacks/express/ecclesia-security-policy.json\ni/lf    w/lf    attr/text=auto eol=lf \ttests/architecture-regression.test.mjs\ni/lf    w/lf    attr/text=auto eol=lf \ttests/architecture.test.mjs\ni/lf    w/lf    attr/text=auto eol=lf \ttests/artifacts-regression.test.mjs\ni/lf    w/lf    attr/text=auto eol=lf \ttests/contract.test.mjs\ni/lf    w/lf    attr/text=auto eol=lf \ttests/hook-regression.test.mjs\ni/lf    w/lf    attr/text=auto eol=lf \ttests/product-index.test.mjs\ni/lf    w/lf    attr/text=auto eol=lf \ttests/schema-regression.test.mjs\n"
+      }
+    ]
+  },
+  "failuresBeforeFinal": [
+    "npm offline en entorno restringido: caché no disponible; repetido con acceso local permitido",
+    "Primer gate: checkout CRLF de fuentes LF; se materializaron los blobs LF y se añadieron atributos",
+    "Segunda corrida interrumpida por cambio de .gitignore del arnés durante su fingerprint; se repitió con arnés estable. No se cuenta como validación"
+  ],
+  "hashes": {
+    "adapter": "6606c8501e0e2163a8cc0bc54b3efb6a397f7a9942fd84739014ef6bc77eaa39",
+    "productTests": "23346dda2cde99501ddfecce71b1aedccd38e56e385bdc11e4e2c8cf0c2d860e",
+    "harnessIndexTests": "9a871cbdd8938f8c9f3bbcdb26b26ea1af98ebd1c4c2c2db19746760d8e336c2",
+    "productLock": "8964623bc0ed53dcf6263bf7f2ecfc8d16a348734962b8b85a81f2213fb67f86",
+    "harnessLock": "76ff1157acd23a0fce57187381693150d13eb59149687ec1210018928eb12121",
+    "gateLog": "ca662611ea217f2f7c8a7a2167e21d0815f33c4053943562f4a4f65eea26c391",
+    "windowsGateLog": "a9fc19e211732f9e4f555cee2d935721748117af7c2318bb8526c71fcaf5803f"
+  },
+  "acceptance": {
+    "H01": "abierto",
+    "H02": "núcleo técnico demostrado; aceptación pendiente PC02/04/19 y P154",
+    "H08": "parcial",
+    "H09publication": "bases remotas acreditadas; verificar SHA nuevos por separado",
+    "H09history": "residual P056 pendiente"
+  },
+  "limits": [
+    "no móvil/carga/disponibilidad/portabilidad académica/CI remoto",
+    "no instalación humana en menos de diez minutos",
+    "no revisión detallada humana ni aprobación del profesor",
+    "no actualización de dependencias R4"
+  ]
+}

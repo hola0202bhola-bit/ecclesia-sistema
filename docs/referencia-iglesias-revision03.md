@@ -4,7 +4,7 @@
 
 | Operación | Estado |
 | --- | --- |
-| GET /api/v1/iglesias | Real: estado requerido; municipio/localidad/tipo/nombre/capacidadMin/capacidadMax; AND, capacidad inclusiva, page/pageSize, orden estable |
+| GET /api/v1/iglesias | Real: estado requerido; municipio/localidad/tipo/nombre/capacidadMin/capacidadMax; coincidencia parcial literal del nombre (incluye `%`, `_` y `\`), sin acentos/caso; AND, capacidad inclusiva, page/pageSize, orden estable |
 | GET /api/v1/iglesias/:id | Real: solo bloque iglesia de ficha; cerrada/inexistente 404. No simula bloques de otros dominios |
 | POST /api/v1/iglesias | Real: principal de Coordinación verificado. Perfil mínimo de referencia sujeto PC-02 |
 | PATCH /api/v1/iglesias/:id | Real: Coordinación o administrador de ESA iglesia; version requerida, UPDATE condicional e incremento transaccional; conflicto 409 |
@@ -22,4 +22,4 @@ PostgreSQL tiene FK de tipo y combinación geográfica, CHECK de capacidad/nombr
 
 INEGI: respuesta oficial conservada en prisma/fuentes/inegi-localidad.json, consulta 2026-11-01, clave 211140001. El proveedor devuelve periodo 2015-06-01 y metadato Censo 2020; fecha de consulta NO es fecha de corte de catálogo. Un registro de servicio no demuestra que se importó el catálogo nacional vigente. Los seis tipos provienen de P063 y la iglesia/ubicación de calle/contactos son ficticios.
 
-Pruebas: PostgreSQL real nuevo por ejecución, migra, ejecuta seed dos veces y Vitest/Supertest. Ignora DATABASE_URL externa para no tocar BD ajenas. Mide las siete fuentes salvo server.ts (arranque), con umbral interno de 70% en líneas/sentencias/funciones/ramas. El mínimo académico no se reduce; su métrica sigue PC-21. El arnés exige reporte no vacío y cobertura por cada fuente medida. Evidencias definitivas en ../evidencias-revision03/; no extrapolar al resto de Ecclesia, al catálogo nacional, móvil, carga o seguridad productiva completa.
+Pruebas: PostgreSQL real nuevo por ejecución, migra, ejecuta seed dos veces y Vitest/Supertest. Ignora DATABASE_URL externa para no tocar BD ajenas. Mide las siete fuentes salvo server.ts (arranque), con umbral interno de 70% en líneas/sentencias/funciones/ramas. El mínimo académico no se reduce; su métrica sigue PC-21. El arnés exige reporte no vacío y cobertura por cada fuente medida. Las salidas originales de revisión 03 pertenecen al paquete externo, ausente en GitHub; consultar [procedencia y resultados actuales](evidencias-revision04/README.md); no extrapolar al resto de Ecclesia, al catálogo nacional, móvil, carga o seguridad productiva completa.

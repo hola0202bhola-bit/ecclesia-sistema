@@ -40,4 +40,4 @@ Las pruebas de esta revisión acreditan únicamente pasos contractuales 1/2 y la
 
 ## Pruebas y alcance
 
-[Suite de muestras](../../arnes-codex/tests/schema-regression.test.mjs): IDs H06/H07/H08/H13. Ejecutar desde el arnés: node --test tests/schema-regression.test.mjs. Usa Ajv 2020 con strict=false y validateFormats=false: valida estructura, patrones de reloj/decimales y dependencias de propiedades; no certifica formatos UUID, email, fecha, zona IANA, servidor, BD ni cobertura funcional. Las salidas de la revisión 02 se entregan aparte; no se modifican las evidencias de revisión 01.
+[Suite de muestras](https://github.com/hola0202bhola-bit/ecclesia-arnes-codex/blob/3d107dab51140b23c594d7da73e5ba9ca82bef7f/tests/schema-regression.test.mjs): IDs H06/H07/H08/H13. Ejecutar desde el arnés: node --test tests/schema-regression.test.mjs. Usa Ajv 2020 con strict=false y validateFormats=false: valida estructura, patrones de reloj/decimales y dependencias de propiedades; no certifica formatos UUID, email, fecha, zona IANA, servidor, BD ni cobertura funcional. Las salidas de la revisión 02 se entregan aparte; no se modifican las evidencias de revisión 01.
