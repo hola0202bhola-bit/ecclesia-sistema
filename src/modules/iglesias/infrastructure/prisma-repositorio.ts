@@ -44,7 +44,12 @@ export class PrismaRepositorioIglesias implements RepositorioIglesias {
       localidadClave: f.localidadClave,
       tipoId: f.tipoId,
       nombreBusqueda:
-        f.nombre === undefined ? undefined : { contains: normalizar(f.nombre) },
+        f.nombre === undefined
+          ? undefined
+          : {
+              // contains usa LIKE: escapar su patrón, manteniendo parámetros Prisma.
+              contains: normalizar(f.nombre).replace(/[\\%_]/g, "\\$&"),
+            },
       capacidad: { gte: f.capacidadMin, lte: f.capacidadMax },
     };
     const [rows, total] = await this.db.$transaction(

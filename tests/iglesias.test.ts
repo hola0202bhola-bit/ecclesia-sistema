@@ -155,13 +155,77 @@ describe("consulta pública con PostgreSQL", () => {
   ])("rechaza consulta inválida %s", async (query) => {
     expect((await request(app).get(base + query)).status).toBe(422);
   });
-  it("no interpreta SQL ni comodines como operadores", async () => {
+  it("no interpreta texto SQL como una condición", async () => {
     const r = await request(app)
       .get(base)
       .query({ estadoClave: "21", nombre: "%' OR 1=1 --" });
     expect(r.status).toBe(200);
     expect(r.body.meta.total).toBe(0);
   });
+  it("una búsqueda ordinaria sin coincidencias devuelve una lista vacía", async () => {
+    const r = await request(app)
+      .get(base)
+      .query({ estadoClave: "21", nombre: "ZZZ" });
+    expect(r.status).toBe(200);
+    expect(r.body.meta.total).toBe(0);
+    expect(r.body.data).toEqual([]);
+  });
+  it.each(["%", "_", "\\", "\\%", "\\_", "\\\\"])(
+    "no devuelve nombres sin el texto literal %j",
+    async (nombre) => {
+      const r = await request(app)
+        .get(base)
+        .query({ estadoClave: "21", nombre });
+      expect(r.status).toBe(200);
+      expect(r.body.meta.total).toBe(0);
+      expect(r.body.data).toEqual([]);
+    },
+  );
+  it.each(["%", "_", "\\", "\\%", "\\_", "\\\\"])(
+    "encuentra el texto literal %j con normalización, filtros y páginas",
+    async (symbol) => {
+      const ids = [];
+      for (const suffix of ["Norte", "Sur"]) {
+        const created = await request(app)
+          .post(base)
+          .set("Authorization", coord())
+          .send({ ...data, nombre: `Capilla ÁNGEL ${symbol} ${suffix}` });
+        expect(created.status).toBe(201);
+        ids.push(created.body.id);
+      }
+      const decoy = await request(app)
+        .post(base)
+        .set("Authorization", coord())
+        .send({ ...data, nombre: "Capilla ÁNGEL X Norte" });
+      expect(decoy.status).toBe(201);
+      const query = {
+        estadoClave: "21",
+        municipioClave: "114",
+        localidadClave: "0001",
+        tipoId: data.tipoId,
+        nombre: `aNGeL ${symbol}`,
+        capacidadMin: 100,
+        capacidadMax: 100,
+        pageSize: 1,
+      };
+      for (const page of [1, 2, 3]) {
+        const r = await request(app)
+          .get(base)
+          .query({ ...query, page });
+        expect(r.status).toBe(200);
+        expect(r.body.meta).toEqual({ page, pageSize: 1, total: 2 });
+        expect(r.body.data.map((row: { id: string }) => row.id)).toEqual(
+          page <= 2 ? [ids[page - 1]] : [],
+        );
+      }
+      const excluded = await request(app)
+        .get(base)
+        .query({ ...query, capacidadMin: 101, capacidadMax: 200 });
+      expect(excluded.status).toBe(200);
+      expect(excluded.body.meta.total).toBe(0);
+      expect(excluded.body.data).toEqual([]);
+    },
+  );
 });
 describe("escritura mínima y persistencia", () => {
   it("alta completa de referencia y lectura desde un segundo cliente Prisma", async () => {

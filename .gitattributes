@@ -1,0 +1,21 @@
+# LF reproducible incluso con core.autocrlf=true; detectar texto nuevo.
+* text=auto eol=lf
+
+# Medios y documentos binarios: conservar bytes, sin filtros de texto.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.zip binary
+*.rar binary
+*.7z binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
