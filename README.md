@@ -2,7 +2,7 @@
 
 Express/TypeScript + PostgreSQL/Prisma + EJS. IA principal: Codex, elegida por el alumno. Se priorizan dos entregas: este repositorio y [el arnés](https://github.com/hola0202bhola-bit/ecclesia-arnes-codex). No se exige cierre formal de Fase 0 para continuar desarrollo.
 
-Disponible: consulta pública de iglesias, filtros y ficha básica; alta/edición por API; acceso del personal, panel, alta/listado de usuarios por Coordinación y cierre de sesión revocable. [Matriz breve, fuentes y pendientes](docs/estado-producto.md). No es el sistema completo ni un catálogo nacional: el seed contiene una iglesia ficticia, seis tipos y una localidad oficial INEGI.
+Disponible: consulta pública con selectores y filtros; listado, alta y edición EJS de iglesias; API, personal, usuarios por Coordinación y sesiones revocables. [Estado y límites](docs/estado-producto.md). Seed: una iglesia ficticia, seis tipos de P063, 32 estados y 2,478 municipios del snapshot oficial INEGI. Localidades: solo 211140001, Heroica Puebla de Zaragoza. No es el catálogo nacional completo ni el sistema terminado.
 
 ## Instalar, validar y arrancar
 
@@ -26,11 +26,18 @@ Editar **solo el .env local**: DATABASE_URL de la base propia, JWT_SECRET aleato
 ```powershell
 npm run db:migrate
 npm run db:seed
+npm run build
 npm run db:coordinacion
 npm start
 ```
 
 `db:coordinacion` compila y pide identificador y contraseña oculta/confirmación en una terminal interactiva; solo crea la primera Coordinación si no existe ninguna cuenta. No hay contraseña predeterminada ni bootstrap HTTP. Si ya hay cuentas se rechaza sin reemplazarlas. Para crear más, entrar como Coordinación en [acceso local](http://127.0.0.1:3000/personal/login) → Gestionar usuarios. Contraseña mínima 15 caracteres y máxima 72 bytes UTF-8; un rol por cuenta, iglesia obligatoria para administrador/tesorero y vacía para Coordinación. [Supuestos técnicos y límites](docs/adr/006.md).
+
+Si ya hay cuentas, omitir `db:coordinacion`. Para actualizar: `git pull --ff-only`, `npm ci`, `npm run generate`, `npm run db:migrate`, `npm run db:seed`, `npm run build` y `npm start`. Conservar base y .env existentes.
+
+En el navegador: [acceso del personal](http://127.0.0.1:3000/personal/login) → **Gestionar iglesias** → **Registrar iglesia** (Coordinación) o **Editar**. Administrador solo edita la asignada; tesorero no obtiene gestión. Tipo y ubicación se seleccionan por nombre; el alta solo ofrece localidades verificadas cargadas. Errores conservan campos; una edición obsoleta responde 409 sin sobrescribir y permite cargar la versión actual para comparar. Campos opcionales vacíos conservan datos previos al editar; borrado pendiente de política. Cierre/reapertura bloqueados.
+
+Fuentes: [servicio oficial INEGI](https://www.inegi.org.mx/servicios/catalogounico.html), respuestas originales, URL, fecha y hashes en `prisma/fuentes/manifest.json`. Consulta del 1 de noviembre de 2026, metadatos estadísticos Censo 2020; no se afirma vigencia territorial nacional actualizada. `db:seed` valida hashes, conteos, claves y jerarquía antes de importar en una transacción; conserva versión/manifest en CatalogoVersion. Repetir no duplica; cambiar contenido bajo una versión ya importada se rechaza con rollback. Nuevas fuentes/versiones requieren revisión del snapshot. No hay descarga remota al arrancar ni edición web de catálogos.
 
 Consulta sin cuenta en [iglesias](http://127.0.0.1:3000/iglesias), estado 21. La web usa cookie HttpOnly y formularios con protección CSRF. El servidor sigue enlazado a 127.0.0.1. Para HTTPS configurar APP_ORIGIN correcto; eso activa Secure en cookie. Despliegue público y prueba móvil/carga no están realizados. El objetivo de arranque menor a 10 minutos depende de disponer de Node, red y PostgreSQL; no se afirma haberlo medido.
 
@@ -42,13 +49,14 @@ Consulta sin cuenta en [iglesias](http://127.0.0.1:3000/iglesias), estado 21. La
 | GET /usuarios?page=1&pageSize=20 | Coordinación; paginado, sin contraseñas/hash |
 | POST /usuarios | Coordinación; identificador, password, rol e iglesiaId según rol |
 | GET /iglesias?estadoClave=21 y GET /iglesias/:id | Consulta pública |
+| GET /catalogos/estados, /catalogos/municipios?estadoClave=21, /catalogos/localidades?estadoClave=21&municipioClave=114 y /catalogos/tipos-iglesia | Consulta pública paginada (page/pageSize), versión y alcance parcial |
 | POST /iglesias y PATCH /iglesias/:id | Bearer de cuenta real; Coordinación o administrador propio para edición; version requerida |
 
-Usar `Authorization: Bearer ...` en Postman para gestión de iglesias; los esquemas completos están en [OpenAPI](openapi.yaml), con disponibilidad por operación, y [subconjunto implementado](docs/api-referencia-revision03.json). El perfil histórico de JWT externo se conserva solo para regresión explícita; el servidor normal exige sesión persistida. `npm test` ejecuta todo el pipeline de producto; el gate completo se ejecuta desde el arnés como arriba.
+También se puede usar `Authorization: Bearer ...` en Postman para gestión de iglesias; los esquemas completos están en [OpenAPI](openapi.yaml), con disponibilidad por operación, y [subconjunto implementado](docs/api-referencia-revision03.json). El perfil histórico de JWT externo se conserva solo para regresión explícita; el servidor normal exige sesión persistida. `npm test` ejecuta todo el pipeline de producto; el gate completo se ejecuta desde el arnés como arriba.
 
 ## Estado y evidencia
 
-[Matriz y dependencias](docs/estado-producto.md), [evidencia ejecutada](docs/evidencia-identidad.md), [arquitectura](docs/ARCHITECTURE.md), [ADR 006](docs/adr/006.md). Quedan patrimonio/índice, servicios/pláticas, agenda, diezmos, solicitudes, catálogo nacional y ampliaciones de identidad. No se inventan respuestas docentes ni se presenta la autorización como revisión humana del código.
+[Matriz y dependencias](docs/estado-producto.md), [evidencia del incremento previo de identidad](docs/evidencia-identidad.md), [arquitectura](docs/ARCHITECTURE.md), [ADR 006](docs/adr/006.md). Quedan patrimonio/índice, servicios/pláticas, agenda, diezmos, solicitudes, catálogo nacional y ampliaciones de identidad. No se inventan respuestas docentes ni se presenta la autorización como revisión humana del código.
 
 ## Antecedente íntegro: README de R1/R2/R3
 

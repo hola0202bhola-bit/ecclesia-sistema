@@ -6,6 +6,29 @@ datasource db {
   provider = "postgresql"
 }
 
+model Estado {
+  clave      String      @id @db.VarChar(2)
+  nombre     String
+  municipios Municipio[]
+}
+
+model Municipio {
+  clave       String @id @db.VarChar(5)
+  estadoClave String @db.VarChar(2)
+  codigo      String @db.VarChar(3)
+  nombre      String
+  estado      Estado @relation(fields: [estadoClave], references: [clave], onDelete: Restrict)
+
+  @@unique([estadoClave, codigo])
+}
+
+model CatalogoVersion {
+  version  String @id
+  consulta String
+  sha256   String @db.VarChar(64)
+  manifest Json
+}
+
 model Localidad {
   clave          String    @id @db.VarChar(9)
   estadoClave    String    @db.VarChar(2)
@@ -72,6 +95,7 @@ model Sesion {
   usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   csrf      String   @db.VarChar(64)
   vence     DateTime
+
   @@index([usuarioId])
   @@index([vence])
 }

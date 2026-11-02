@@ -20,6 +20,10 @@ import {
   webRouter,
 } from "../modules/iglesias/presentation/router.js";
 import { personalJwt } from "../shared/infrastructure/personal-jwt.js";
+import { ServicioCatalogos } from "../modules/iglesias/application/catalogos.js";
+import { PrismaRepositorioCatalogos } from "../modules/iglesias/infrastructure/catalogos.js";
+import { gestionRouter } from "../modules/iglesias/presentation/gestion.js";
+import { catalogosRouter } from "../modules/iglesias/presentation/catalogos.js";
 export function createApp(
   db: PrismaClient,
   config: AccesoConfig,
@@ -54,9 +58,12 @@ export function createApp(
     origin: config.origin ?? "http://127.0.0.1:3000",
   };
   const personal = personalSesion(repoIdentidad, acceso, personalJwt(config));
+  const catalogos = new ServicioCatalogos(new PrismaRepositorioCatalogos(db));
   app.use(identidadRouter(identidad, personal, acceso.origin));
+  app.use("/api/v1/catalogos", catalogosRouter(catalogos));
+  app.use("/personal/iglesias", gestionRouter(servicio, catalogos, personal));
   app.use("/api/v1/iglesias", iglesiasRouter(servicio, personal));
-  app.use("/iglesias", webRouter(servicio));
+  app.use("/iglesias", webRouter(servicio, catalogos));
   app.get("/", (_req, res) => res.redirect("/iglesias"));
   app.use((_req, res) =>
     res.status(404).json({
@@ -65,8 +72,39 @@ export function createApp(
       details: [],
     }),
   );
-  const errores: ErrorRequestHandler = (error: unknown, _req, res, _next) => {
+  const errores: ErrorRequestHandler = (error: unknown, req, res, _next) => {
     void _next;
+    const httpStatus =
+      typeof error === "object" && error !== null && "status" in error
+        ? Number(error.status)
+        : 500;
+    if (
+      req.path.startsWith("/personal/iglesias") ||
+      req.path.startsWith("/iglesias")
+    ) {
+      const status =
+        error instanceof ZodError
+          ? 422
+          : error instanceof ErrorIglesias || error instanceof ErrorIdentidad
+            ? error.status
+            : httpStatus === 400 || httpStatus === 413
+              ? httpStatus
+              : 500;
+      res.status(status).render("error", {
+        status,
+        message:
+          error instanceof ZodError
+            ? "Revise los filtros o el identificador solicitado."
+            : error instanceof ErrorIglesias || error instanceof ErrorIdentidad
+              ? error.message
+              : status === 413
+                ? "Entrada demasiado grande"
+                : status === 400
+                  ? "Solicitud inválida"
+                  : "Error interno",
+      });
+      return;
+    }
     if (error instanceof ZodError) {
       res.status(422).json({
         code: "ENTRADA_INVALIDA",

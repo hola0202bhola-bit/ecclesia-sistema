@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.1",
   "info": {
-    "title": "Ecclesia API ejecutable: Iglesias e Identidad",
-    "version": "0.4.0",
-    "description": "Iglesias básico e identidad mínima implementados; las demás operaciones indican diseño pendiente. Estado y trazabilidad: docs/estado-producto.md."
+    "title": "Ecclesia API ejecutable: Iglesias, Identidad y consulta de catálogos",
+    "version": "0.5.0",
+    "description": "Iglesias básico, identidad mínima y consulta de catálogos implementados; las demás operaciones indican diseño pendiente. Estado y trazabilidad: docs/estado-producto.md."
   },
   "servers": [
     {
@@ -873,6 +873,360 @@
           }
         },
         "x-implementation": "IMPLEMENTADO_IDENTIDAD_MINIMA"
+      }
+    },
+    "/catalogos/estados": {
+      "get": {
+        "operationId": "catalogos_estados",
+        "summary": "Consultar estados",
+        "description": "Consulta pública paginada del snapshot oficial INEGI: 32 estados, 2478 municipios y una localidad (211140001). Tipos de iglesia según P063. Fuentes, fecha de consulta y hashes en prisma/fuentes/manifest.json y CatalogoVersion. Localidades parciales; no habilita administración de otros catálogos.",
+        "tags": [
+          "catalogos"
+        ],
+        "x-requirements": [
+          "RF-05"
+        ],
+        "x-pending": [],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "maximum": 1000000
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Página del catálogo cargado con procedencia y alcance explícitos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogoPaginaLectura"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/catalogos/municipios": {
+      "get": {
+        "operationId": "catalogos_municipios",
+        "summary": "Consultar municipios",
+        "description": "Consulta pública paginada del snapshot oficial INEGI: 32 estados, 2478 municipios y una localidad (211140001). Tipos de iglesia según P063. Fuentes, fecha de consulta y hashes en prisma/fuentes/manifest.json y CatalogoVersion. Localidades parciales; no habilita administración de otros catálogos.",
+        "tags": [
+          "catalogos"
+        ],
+        "x-requirements": [
+          "RF-05"
+        ],
+        "x-pending": [],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "estadoClave",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^(0[1-9]|[12][0-9]|3[0-2])$"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "maximum": 1000000
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Página del catálogo cargado con procedencia y alcance explícitos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogoPaginaLectura"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/catalogos/localidades": {
+      "get": {
+        "operationId": "catalogos_localidades",
+        "summary": "Consultar localidades",
+        "description": "Consulta pública paginada del snapshot oficial INEGI: 32 estados, 2478 municipios y una localidad (211140001). Tipos de iglesia según P063. Fuentes, fecha de consulta y hashes en prisma/fuentes/manifest.json y CatalogoVersion. Localidades parciales; no habilita administración de otros catálogos.",
+        "tags": [
+          "catalogos"
+        ],
+        "x-requirements": [
+          "RF-05"
+        ],
+        "x-pending": [],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "estadoClave",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^(0[1-9]|[12][0-9]|3[0-2])$"
+            }
+          },
+          {
+            "name": "municipioClave",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{3}$"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "maximum": 1000000
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Página del catálogo cargado con procedencia y alcance explícitos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogoPaginaLectura"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/catalogos/{catalogo}": {
+      "get": {
+        "operationId": "catalogos_tipos",
+        "summary": "Consultar tipos públicos",
+        "description": "Consulta pública paginada del snapshot oficial INEGI: 32 estados, 2478 municipios y una localidad (211140001). Tipos de iglesia según P063. Fuentes, fecha de consulta y hashes en prisma/fuentes/manifest.json y CatalogoVersion. Localidades parciales; no habilita administración de otros catálogos.",
+        "tags": [
+          "catalogos"
+        ],
+        "x-requirements": [
+          "RF-05"
+        ],
+        "x-pending": [],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "catalogo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "tipos-iglesia"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "maximum": 1000000
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Página del catálogo cargado con procedencia y alcance explícitos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogoPaginaLectura"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
       }
     }
   },
@@ -4177,6 +4531,83 @@
         "required": [
           "usuario",
           "csrfToken"
+        ],
+        "additionalProperties": false
+      },
+      "CatalogoItemLectura": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string",
+            "minLength": 1
+          },
+          "estadoClave": {
+            "type": "string",
+            "pattern": "^[0-9]{2}$"
+          },
+          "municipioClave": {
+            "type": "string",
+            "pattern": "^[0-9]{3}$"
+          }
+        },
+        "required": [
+          "id",
+          "nombre"
+        ],
+        "additionalProperties": false
+      },
+      "CatalogoFuente": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "consulta": {
+            "type": "string",
+            "format": "date"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "version",
+          "consulta",
+          "sha256"
+        ],
+        "additionalProperties": false
+      },
+      "CatalogoPaginaLectura": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogoItemLectura"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "fuentes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogoFuente"
+            }
+          },
+          "alcance": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "data",
+          "meta",
+          "fuentes",
+          "alcance"
         ],
         "additionalProperties": false
       }

@@ -1,5 +1,11 @@
 # Bitácora de trabajo asistido
 
+## Incremento Iglesias web/catálogos — 1 de noviembre de 2026
+
+Solicitud: continuar los dos repositorios existentes, gestión EJS, catálogos auténticos, pruebas y publicación autorizada sin force push. Se inspeccionaron fuentes originales, código, pruebas y bases remotas. Se reutilizan servicios/permisos; se descargaron respuestas oficiales INEGI y se fijaron hashes/versión. La migración es aditiva; fuentes y antecedentes no se reescriben.
+
+Incidencias reales: PostgreSQL no pudo inicializar archivos en el entorno restringido; se ejecutó con acceso local permitido. La primera corrida real pasó 144/145: una aserción esperaba la dirección original aun cuando la prueba la enviaba vacía. Se corrigió para comprobar los valores realmente enviados; no se rellenan datos inventados. Después pasó 147/147. La revisión añadió conservación de opcionales y estados HTTP de errores grandes/malformados; el resultado final se registra en estado-producto.md. Son hallazgos de Codex/herramientas, no errores ni aprobaciones atribuidos al alumno. Revisión humana y reglas ambiguas mantienen su estado; sin ceremonia ni entregable separado.
+
 ## Continuación de producto — 1 de noviembre de 2026
 
 El alumno autorizó priorizar los dos repositorios, inspeccionar implementación/fuente y completar el siguiente incremento vertical, con commits descriptivos y publicación sin force push. Se clonaron ambos main con los SHA indicados; se leyó la fuente numerada y se comprobó la base de 70 pruebas. No se imponen ceremonias de Fase 0 ni se atribuyen respuestas a las profesoras.

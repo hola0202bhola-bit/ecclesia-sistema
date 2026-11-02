@@ -1,32 +1,21 @@
 import "dotenv/config";
-import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import {
+  cargarFuentes,
+  importarFuentes,
+} from "../src/modules/iglesias/infrastructure/fuentes-inegi.js";
 if (!process.env.DATABASE_URL) throw new Error("Configure DATABASE_URL");
 const db = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
 });
 try {
-  const source = JSON.parse(
-    readFileSync(
-      new URL("./fuentes/inegi-localidad.json", import.meta.url),
-      "utf8",
-    ),
+  // Validar todas las fuentes antes de la primera escritura; importación atómica.
+  const source = cargarFuentes(
+    fileURLToPath(new URL("./fuentes", import.meta.url)),
   );
-  const loc = source.datos[0];
-  await db.localidad.upsert({
-    where: { clave: loc.cvegeo },
-    update: {},
-    create: {
-      clave: loc.cvegeo,
-      estadoClave: loc.cve_ent,
-      municipioClave: loc.cve_mun,
-      localidadClave: loc.cve_loc,
-      nombre: loc.nomgeo,
-      fuente: "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/211140001",
-      consulta: "2026-11-01",
-    },
-  });
+  await importarFuentes(db, source);
   const tipos = [
     "Catedral",
     "Basílica",
@@ -61,7 +50,7 @@ try {
     },
   });
   console.log(
-    "Seed idempotente: 1 localidad oficial, 6 tipos del caso y 1 iglesia ficticia. No es el seed nacional final.",
+    `Seed idempotente: ${source.estados.length} estados, ${source.municipios.length} municipios, 1 localidad oficial, 6 tipos del caso y 1 iglesia ficticia. Localidades parciales.`,
   );
 } finally {
   await db.$disconnect();

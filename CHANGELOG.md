@@ -1,5 +1,12 @@
 # Cambios de Ecclesia
 
+## 0.5.0 — Iglesias web y catálogos, 1 de noviembre de 2026
+
+- Listado, alta/edición EJS con roles existentes, CSRF, Zod y conflicto de versión sin sobrescribir ni perder campos.
+- Selectores y consulta API paginada: 32 estados, 2,478 municipios del snapshot oficial, una localidad y seis tipos del caso. Fuentes originales con URL/fecha/hash.
+- Importación atómica/versionada e idempotente, migración aditiva y regresiones HTTP+PostgreSQL. Sin cambios de dependencias.
+- Localidades nacionales, ficha integrada y cierre/reapertura pendientes. [Estado y resultados](docs/estado-producto.md).
+
 ## 0.4.0 — Identidad mínima, 1 de noviembre de 2026
 
 - Login/logout, perfil, cuentas y sesiones PostgreSQL; bcrypt 12, JWT 1h revocable y permisos actuales desde BD.

@@ -67,3 +67,46 @@ export const filtrosInput = z
     "Localidad requiere municipio",
   );
 export const idInput = z.uuid();
+
+const numeroFormulario = (schema: z.ZodType) =>
+  z.preprocess(
+    (v) =>
+      v === ""
+        ? undefined
+        : typeof v === "string" && /^-?\d+(\.\d+)?$/.test(v)
+          ? Number(v)
+          : v,
+    schema,
+  );
+export const formularioInput = z
+  .strictObject({
+    _csrf: z.string().optional(),
+    ubicacion: z
+      .string()
+      .regex(/^\d{9}$/, "Seleccione una localidad del catálogo cargado"),
+    nombre: campos.nombre,
+    tipoId: campos.tipoId,
+    direccion: campos.direccion,
+    capacidad: numeroFormulario(campos.capacidad).optional(),
+    anioConstruccion: numeroFormulario(campos.anioConstruccion).optional(),
+    latitud: numeroFormulario(campos.latitud).optional(),
+    longitud: numeroFormulario(campos.longitud).optional(),
+    contacto: z
+      .preprocess((v) => (v === "" ? undefined : v), campos.contacto)
+      .optional(),
+    zonaIana: z
+      .preprocess((v) => (v === "" ? undefined : v), campos.zonaIana)
+      .optional(),
+    version: numeroFormulario(
+      z.number().int().min(1).max(2147483646),
+    ).optional(),
+  })
+  .transform(({ _csrf, ubicacion, ...datos }) => {
+    void _csrf;
+    return {
+      ...datos,
+      estadoClave: ubicacion.slice(0, 2),
+      municipioClave: ubicacion.slice(2, 5),
+      localidadClave: ubicacion.slice(5),
+    };
+  });

@@ -1,0 +1,20 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><%= id ? 'Editar' : 'Registrar' %> iglesia · Ecclesia</title>
+<style>body{font:18px system-ui;max-width:55rem;margin:auto;padding:1.5rem;color:#18352c;background:#f7f5ef}a{color:#136650}label{display:block;margin:1rem 0}input,select,textarea,button{font:inherit;padding:.5rem;max-width:100%;box-sizing:border-box}input,select,textarea{display:block;width:100%}.errores{border:2px solid #a22;padding:1rem}small{display:block}fieldset{margin:1.5rem 0}</style>
+<main><a href="/personal/iglesias">Volver a gestión</a><h1><%= id ? 'Editar' : 'Registrar' %> iglesia</h1>
+<% if (guardado) { %><p role="status">Iglesia guardada. Se muestran los datos actuales.</p><% } %>
+<% if (errores.length) { %><div class="errores" role="alert"><h2>Revise el formulario</h2><ul><% for (const error of errores) { %><li><%= error %></li><% } %></ul><p>Se conservaron sus datos.</p><% if (id) { %><p>Si otra persona guardó cambios, <a href="/personal/iglesias/<%= id %>/editar">cargue la versión actual</a> y compare antes de reenviar. Esta acción descarta los cambios sin guardar.</p><% } %></div><% } %>
+<% if (id && !errores.length) { %><p>Datos actuales · versión <%= valores.version %>. <a href="/iglesias/<%= id %>">Ver ficha pública</a></p><% } %>
+<p>Campos con * obligatorios. Ubicaciones: solo localidades oficiales cargadas. El catálogo de localidades es parcial.</p>
+<form method="post" action="/personal/iglesias/<%= id ? id + '/editar' : 'nueva' %>">
+<input type="hidden" name="_csrf" value="<%= csrf %>"><% if (id) { %><input type="hidden" name="version" value="<%= valores.version ?? '' %>"><% } %>
+<label>Nombre *<input name="nombre" maxlength="200" required value="<%= valores.nombre ?? '' %>"></label>
+<label>Tipo de iglesia *<select name="tipoId" required><option value="">Seleccione</option><% for (const tipo of catalogos.tipos) { %><option value="<%= tipo.id %>" <%= valores.tipoId === tipo.id ? 'selected' : '' %>><%= tipo.nombre %></option><% } %></select></label>
+<label>Estado / municipio / localidad INEGI *<select name="ubicacion" required><option value="">Seleccione una localidad disponible</option><% for (const lugar of catalogos.ubicaciones) { %><option value="<%= lugar.clave %>" <%= valores.ubicacion === lugar.clave ? 'selected' : '' %>><%= lugar.nombre %></option><% } %></select></label>
+<label>Dirección *<textarea name="direccion" maxlength="500" required><%= valores.direccion ?? '' %></textarea></label>
+<fieldset><legend>Datos adicionales</legend><p>Un campo vacío conserva su dato previo al editar. El borrado de datos opcionales requiere definir su política.</p>
+<% for (const [campo, etiqueta, minimo, maximo] of [['capacidad','Capacidad',0,2147483647],['anioConstruccion','Año de construcción',1,9999],['latitud','Latitud',-90,90],['longitud','Longitud',-180,180]]) { %><label><%= etiqueta %><input type="number" name="<%= campo %>" min="<%= minimo %>" max="<%= maximo %>" step="<%= campo === 'latitud' || campo === 'longitud' ? 'any' : '1' %>" value="<%= valores[campo] ?? '' %>"></label><% } %>
+<small>Latitud y longitud se proporcionan juntas.</small>
+<label>Contacto<input name="contacto" maxlength="300" value="<%= valores.contacto ?? '' %>"></label>
+<label>Zona horaria IANA<input name="zonaIana" maxlength="100" placeholder="America/Mexico_City" value="<%= valores.zonaIana ?? '' %>"></label>
+</fieldset><button>Guardar iglesia</button></form><p>El cierre y la reapertura siguen pendientes de definición.</p>
+<p><a href="https://www.inegi.org.mx/servicios/catalogounico.html">Fuente geográfica: servicio oficial del INEGI</a>. Los seis tipos de iglesia proceden del caso original (P063).</p><% for (const version of catalogos.versiones) { %><small>Catálogo: <%= version.version %> · consultado <%= version.consulta %></small><% } %></main></html>

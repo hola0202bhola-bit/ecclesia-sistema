@@ -1,0 +1,211 @@
+{
+  "version": "inegi-consulta-2026-11-01",
+  "alcance": "Estados y municipios devueltos por servicio oficial; localidades parciales",
+  "archivos": [
+    {
+      "archivo": "inegi-estados.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgee/",
+      "sha256": "504d80452aa87d483ae5c927c3dad6f666f517e93a68ee09c2c076ac3422e8c6",
+      "registros": 32
+    },
+    {
+      "archivo": "inegi-municipios-01.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/01",
+      "sha256": "3143fa70bf5200f619607e444072264a37210244df7826ae28bfee5c645a82d1",
+      "registros": 11
+    },
+    {
+      "archivo": "inegi-municipios-02.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/02",
+      "sha256": "31e633c6ea1b3704bcdc175d75a535a56a35629962789d6acd1a1cd9ca350e65",
+      "registros": 7
+    },
+    {
+      "archivo": "inegi-municipios-03.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/03",
+      "sha256": "243080b6c4571587e2f2d3b3b0823ea6d0fb78fff1fbe5adf195c8a7ce807189",
+      "registros": 5
+    },
+    {
+      "archivo": "inegi-municipios-04.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/04",
+      "sha256": "8cc5f12b823ac594dc72eda819f72fb9786589e5031f05816594951dafb106e5",
+      "registros": 13
+    },
+    {
+      "archivo": "inegi-municipios-05.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/05",
+      "sha256": "25a91ad8e4bf84037a22d49eace530033523c822958a0fe9737b96a1cf23d04a",
+      "registros": 38
+    },
+    {
+      "archivo": "inegi-municipios-06.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/06",
+      "sha256": "d3915837448bdf7004688bcefc2b542aef6f6285af5705566a1be4f42c99ecf9",
+      "registros": 10
+    },
+    {
+      "archivo": "inegi-municipios-07.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/07",
+      "sha256": "8bf119b5cc25a0421ee7c86f5d52948aae50377a8c4820b2e2bfec9b8ea43145",
+      "registros": 124
+    },
+    {
+      "archivo": "inegi-municipios-08.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/08",
+      "sha256": "a60a4234c34c2c7b893f15cea664ae70f3bb8d27e4025fc23972788040d51900",
+      "registros": 67
+    },
+    {
+      "archivo": "inegi-municipios-09.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/09",
+      "sha256": "b11a202fd0ed19956b098f1f2f3e8a4d9edcca6c7ea5408534da1ef0b02510e2",
+      "registros": 16
+    },
+    {
+      "archivo": "inegi-municipios-10.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/10",
+      "sha256": "0dad1522e9c14b269ac2a5976810cdae6c638e9b2cff1bebcf8a87fbebabfccd",
+      "registros": 39
+    },
+    {
+      "archivo": "inegi-municipios-11.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/11",
+      "sha256": "ad8a28c7d7bdbbe993cea70a6ed7bdc66c25d545e3759aadf3990429add63f88",
+      "registros": 46
+    },
+    {
+      "archivo": "inegi-municipios-12.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/12",
+      "sha256": "0fe0da20b587e90d1e304cebaa7cad21948be1d50a2ce8992f0a25f059c5ed7e",
+      "registros": 85
+    },
+    {
+      "archivo": "inegi-municipios-13.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/13",
+      "sha256": "d44e31190fdb6142f776023d55fe4e6cac332b5238456433b29e867848e03b84",
+      "registros": 84
+    },
+    {
+      "archivo": "inegi-municipios-14.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/14",
+      "sha256": "e5e35a99b9dac7d33128403adc8400bfeabee28334333c04a269c88c95ee1a38",
+      "registros": 125
+    },
+    {
+      "archivo": "inegi-municipios-15.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/15",
+      "sha256": "cf14d09d1db9e158ac8a1fa7483225bc447388ef5ffc00fa61517dd2614f3a62",
+      "registros": 125
+    },
+    {
+      "archivo": "inegi-municipios-16.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/16",
+      "sha256": "dd3370193086485db54a865a49fae64fec07101bc92aa4ccb27f0811acde5514",
+      "registros": 113
+    },
+    {
+      "archivo": "inegi-municipios-17.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/17",
+      "sha256": "eae31f8203faa218efa7d94b4f1dcd7270e88a020d7f15bf0900490a7ca3eb2a",
+      "registros": 36
+    },
+    {
+      "archivo": "inegi-municipios-18.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/18",
+      "sha256": "9b06caef35c52234532858ea72ba68efcd6b5aceb050ab3d6faa50f22945da37",
+      "registros": 20
+    },
+    {
+      "archivo": "inegi-municipios-19.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/19",
+      "sha256": "31f5a3912494ba652d25964af7871190d9e83c258a2b6fbed9e31f5d33fbf19e",
+      "registros": 51
+    },
+    {
+      "archivo": "inegi-municipios-20.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/20",
+      "sha256": "39c2b503a15eddf5c3bef56b16892ff896a5aa7ba57ae151dadc0f3c7db72fdc",
+      "registros": 570
+    },
+    {
+      "archivo": "inegi-municipios-21.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/21",
+      "sha256": "054a9fb30faf071eee7c915c63a352cee67e5215bd1a367512818c463dffc8f2",
+      "registros": 217
+    },
+    {
+      "archivo": "inegi-municipios-22.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/22",
+      "sha256": "5bc7b1678d062666c32423b7dc9cae9b9e80cda7e23caf22ed79edd56159b935",
+      "registros": 18
+    },
+    {
+      "archivo": "inegi-municipios-23.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/23",
+      "sha256": "ea31ed8bfb6df4fbbb79788f7e8344d163bae1d4e4754290c0bc3d1b67b86440",
+      "registros": 11
+    },
+    {
+      "archivo": "inegi-municipios-24.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/24",
+      "sha256": "795baf09719d8c8462a93d843b5efaaf3ca333e2688d6ae63e4bac0358ba334c",
+      "registros": 59
+    },
+    {
+      "archivo": "inegi-municipios-25.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/25",
+      "sha256": "823d6637b08395c702c753dd2f5b1d1f45ced39271b79bb55f1fe8cd9afb4444",
+      "registros": 20
+    },
+    {
+      "archivo": "inegi-municipios-26.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/26",
+      "sha256": "ab63badd30cff561c658040c3c81eba8141ddaa4b7e2c206c22b681d310277be",
+      "registros": 72
+    },
+    {
+      "archivo": "inegi-municipios-27.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/27",
+      "sha256": "21d2fee2a258f0ba229d3765b8227b31a42279813f7888e85384070305108b90",
+      "registros": 17
+    },
+    {
+      "archivo": "inegi-municipios-28.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/28",
+      "sha256": "7c2a43bb4b067fb043f417cc6e1c2a5f16c74afe68d7fc8492cb45a480151369",
+      "registros": 43
+    },
+    {
+      "archivo": "inegi-municipios-29.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/29",
+      "sha256": "fa32c92c55beb6b3adb006d96009b26a3c92d95225d248884530d8171ca700e1",
+      "registros": 60
+    },
+    {
+      "archivo": "inegi-municipios-30.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/30",
+      "sha256": "661c235fa4cc60a23f2632d44dc61dce4c714b4567f52a9b2271a346399c91c3",
+      "registros": 212
+    },
+    {
+      "archivo": "inegi-municipios-31.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/31",
+      "sha256": "8f93f889d64f90eaf8dcfe10ae666b61e43c9dfbccb11bee496dfac40b30d0b1",
+      "registros": 106
+    },
+    {
+      "archivo": "inegi-municipios-32.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/32",
+      "sha256": "067fb84e1526a1a390658cf5d98dd0c7b159c58a277cb28cd7137332bce05f50",
+      "registros": 58
+    },
+    {
+      "archivo": "inegi-localidad.json",
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/211140001",
+      "sha256": "e7e8a0fb9ccc7b55855220101ad1d5e076a8baf3149c0b490ffcd4093ed578a6",
+      "registros": 1
+    }
+  ],
+  "consulta": "2026-11-01"
+}

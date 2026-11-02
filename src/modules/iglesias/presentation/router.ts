@@ -2,6 +2,7 @@ import { Router } from "express";
 import type { Request, RequestHandler } from "express";
 import type { ServicioIglesias } from "../application/servicio.js";
 import type { Principal } from "../domain/iglesia.js";
+import type { ServicioCatalogos } from "../application/catalogos.js";
 import {
   crearInput,
   editarInput,
@@ -45,13 +46,30 @@ export function iglesiasRouter(
     });
   return router;
 }
-export function webRouter(servicio: ServicioIglesias) {
+export function webRouter(
+  servicio: ServicioIglesias,
+  catalogos: ServicioCatalogos,
+) {
   const router = Router();
   router.get("/", async (req, res) => {
-    const resultado = req.query.estadoClave
-      ? await servicio.listar(filtrosInput.parse(req.query))
-      : null;
-    res.render("iglesias", { resultado });
+    const query = Object.fromEntries(
+      Object.entries(req.query).filter(([, v]) => v !== ""),
+    );
+    const filtros = query.estadoClave ? filtrosInput.parse(query) : null;
+    const resultado = filtros ? await servicio.listar(filtros) : null;
+    res.render("iglesias", {
+      resultado,
+      filtros: filtros ?? {},
+      catalogos: await catalogos.consultar(filtros ?? {}),
+      queryPagina: (page: number) =>
+        "?" +
+        new URLSearchParams({
+          ...Object.fromEntries(
+            Object.entries(query).map(([k, v]) => [k, String(v)]),
+          ),
+          page: String(page),
+        }).toString(),
+    });
   });
   router.get("/:id", async (req, res) => {
     res.render("ficha", await servicio.ficha(idInput.parse(req.params.id)));

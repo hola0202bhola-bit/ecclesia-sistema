@@ -29,6 +29,55 @@ export class ServicioIglesias {
       );
     return principal;
   }
+  async formulario(id: string | undefined, principal?: Principal) {
+    const actor = this.autenticar(principal);
+    if (!id) {
+      if (actor.rol !== "COORDINACION")
+        throw new ErrorIglesias(
+          403,
+          "SIN_PERMISO",
+          "Alta reservada a Coordinación: P092",
+        );
+      return null;
+    }
+    this.permisoEdicion(id, actor);
+    const actual = await this.repo.obtener(id);
+    if (!actual)
+      throw new ErrorIglesias(404, "NO_ENCONTRADA", "Iglesia no encontrada");
+    if (actual.cerradaDesde)
+      throw new ErrorIglesias(
+        501,
+        "PC04_PENDIENTE",
+        "Gestión durante el cierre pendiente de validación",
+      );
+    return actual;
+  }
+  async gestion(filtros: Filtros, principal?: Principal) {
+    const actor = this.autenticar(principal);
+    if (actor.rol === "COORDINACION") return this.repo.listar(filtros);
+    if (actor.rol !== "ADMIN_IGLESIA" || !actor.iglesiaId)
+      throw new ErrorIglesias(
+        403,
+        "SIN_PERMISO",
+        "Gestión reservada a Coordinación y al administrador de su iglesia",
+      );
+    const iglesia = await this.formulario(actor.iglesiaId, actor);
+    return {
+      data: iglesia ? [iglesia] : [],
+      meta: { page: 1, pageSize: 1, total: iglesia ? 1 : 0 },
+    };
+  }
+  private permisoEdicion(id: string, actor: Principal) {
+    if (
+      actor.rol !== "COORDINACION" &&
+      !(actor.rol === "ADMIN_IGLESIA" && actor.iglesiaId === id)
+    )
+      throw new ErrorIglesias(
+        403,
+        "SIN_AMBITO",
+        "Edición fuera del ámbito explícito P092–P093",
+      );
+  }
   private fechas(datos: Partial<DatosIglesia>) {
     if (datos.anioConstruccion && datos.anioConstruccion > this.anioActual)
       throw new ErrorIglesias(
@@ -55,15 +104,7 @@ export class ServicioIglesias {
     principal?: Principal,
   ) {
     const actor = this.autenticar(principal);
-    if (
-      actor.rol !== "COORDINACION" &&
-      !(actor.rol === "ADMIN_IGLESIA" && actor.iglesiaId === id)
-    )
-      throw new ErrorIglesias(
-        403,
-        "SIN_AMBITO",
-        "Edición fuera del ámbito explícito P092–P093",
-      );
+    this.permisoEdicion(id, actor);
     const actual = await this.repo.obtener(id);
     if (!actual)
       throw new ErrorIglesias(404, "NO_ENCONTRADA", "Iglesia no encontrada");
