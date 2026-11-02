@@ -69,6 +69,8 @@ model Iglesia {
   version          Int                 @default(1)
   usuarios         Usuario[]
   objetos          ObjetoPatrimonial[]
+  servicios        ServicioOfrecido[]
+  platicas         Platica[]
 
   @@index([estadoClave, municipioClave, localidadClave])
 }
@@ -89,6 +91,7 @@ model Usuario {
   activo            Boolean            @default(true)
   sesiones          Sesion[]
   cambiosPatrimonio CambioPatrimonio[]
+  cambiosOferta     CambioOferta[]
 }
 
 enum CondicionPatrimonio {
@@ -151,4 +154,95 @@ model Sesion {
 
   @@index([usuarioId])
   @@index([vence])
+}
+
+model TipoServicio {
+  id        String             @id @db.Uuid
+  nombre    String             @unique
+  servicios ServicioOfrecido[]
+}
+
+model TipoPlatica {
+  id       String    @id @db.Uuid
+  nombre   String    @unique
+  platicas Platica[]
+}
+
+enum ModalidadAportacion {
+  FIJO
+  GRATUITO
+  DONATIVO
+}
+
+model ServicioOfrecido {
+  id              String              @id @default(uuid()) @db.Uuid
+  iglesiaId       String              @db.Uuid
+  iglesia         Iglesia             @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  tipoId          String              @db.Uuid
+  tipo            TipoServicio        @relation(fields: [tipoId], references: [id], onDelete: Restrict)
+  nombre          String              @db.VarChar(200)
+  modalidad       ModalidadAportacion
+  importe         Decimal?            @db.Decimal(11, 2)
+  moneda          String              @db.VarChar(3)
+  requisitos      String              @db.VarChar(2000)
+  duracionMinutos Int
+  requiereCita    Boolean
+  version         Int                 @default(1)
+  horarios        HorarioServicio[]
+  cambios         CambioOferta[]
+
+  @@index([iglesiaId, id])
+}
+
+model HorarioServicio {
+  servicioId String           @db.Uuid
+  servicio   ServicioOfrecido @relation(fields: [servicioId], references: [id], onDelete: Cascade)
+  diaSemana  Int
+  horaLocal  String           @db.VarChar(5)
+
+  @@id([servicioId, diaSemana, horaLocal])
+}
+
+model Platica {
+  id         String           @id @default(uuid()) @db.Uuid
+  iglesiaId  String           @db.Uuid
+  iglesia    Iglesia          @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  tipoId     String           @db.Uuid
+  tipo       TipoPlatica      @relation(fields: [tipoId], references: [id], onDelete: Restrict)
+  sesiones   Int
+  importe    Decimal          @db.Decimal(11, 2)
+  moneda     String           @db.VarChar(3)
+  cupo       Int
+  lugar      String           @db.VarChar(300)
+  impartidor String           @db.VarChar(200)
+  version    Int              @default(1)
+  horarios   HorarioPlatica[]
+  cambios    CambioOferta[]
+
+  @@index([iglesiaId, id])
+}
+
+model HorarioPlatica {
+  platicaId String  @db.Uuid
+  platica   Platica @relation(fields: [platicaId], references: [id], onDelete: Cascade)
+  diaSemana Int
+  horaLocal String  @db.VarChar(5)
+
+  @@id([platicaId, diaSemana, horaLocal])
+}
+
+model CambioOferta {
+  id         String            @id @default(uuid()) @db.Uuid
+  servicioId String?           @db.Uuid
+  servicio   ServicioOfrecido? @relation(fields: [servicioId], references: [id], onDelete: Restrict)
+  platicaId  String?           @db.Uuid
+  platica    Platica?          @relation(fields: [platicaId], references: [id], onDelete: Restrict)
+  actorId    String            @db.Uuid
+  actor      Usuario           @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  fecha      DateTime          @default(now())
+  antes      Json
+  despues    Json
+
+  @@index([servicioId, fecha])
+  @@index([platicaId, fecha])
 }

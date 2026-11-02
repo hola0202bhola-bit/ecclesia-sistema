@@ -1,3 +1,5 @@
+Servicios y pláticas RF13–15 disponibles: administrador propio → **Gestionar servicios** / **Gestionar pláticas** → registrar y editar. Consulta sin cuenta desde la ficha de iglesia. [Uso, alcance y límites](docs/incremento-servicios.md).
+
 # Proyecto Ecclesia — aplicación web
 
 Patrimonio disponible: administrador de su iglesia → **Gestionar patrimonio** → registrar/editar piezas y cambiar vigencia sin borrar. Consulta pública desde la ficha → **Consultar patrimonio e índice**, y [ranking local](http://127.0.0.1:3000/ranking-patrimonial). Cálculo exacto del caso y ejemplo 35.5, ranking geográfico y búsqueda por tipo/antigüedad. [Guía breve, ejemplo y límites](docs/incremento-patrimonio.md). Ajuste/activación de criterios y reactivación pendientes; no se declara completo RF07–12.
@@ -58,7 +60,7 @@ También se puede usar `Authorization: Bearer ...` en Postman para gestión de i
 
 ## Estado y evidencia
 
-[Matriz y dependencias](docs/estado-producto.md), [evidencia del incremento previo de identidad](docs/evidencia-identidad.md), [arquitectura](docs/ARCHITECTURE.md), [ADR 006](docs/adr/006.md). Quedan patrimonio/índice, servicios/pláticas, agenda, diezmos, solicitudes, catálogo nacional y ampliaciones de identidad. No se inventan respuestas docentes ni se presenta la autorización como revisión humana del código.
+[Matriz y dependencias](docs/estado-producto.md), [evidencia del incremento previo de identidad](docs/evidencia-identidad.md), [arquitectura](docs/ARCHITECTURE.md), [ADR 006](docs/adr/006.md). Quedan ampliaciones de patrimonio/índice, políticas residuales de servicios/pláticas, agenda, diezmos, solicitudes, catálogo nacional y ampliaciones de identidad. No se inventan respuestas docentes ni se presenta la autorización como revisión humana del código.
 
 ## Antecedente íntegro: README de R1/R2/R3
 

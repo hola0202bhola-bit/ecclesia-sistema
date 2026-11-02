@@ -1,3 +1,5 @@
+RF13–15 implementados en el subalcance informativo: [guía vigente](incremento-servicios.md), ADR007 y DTO ejecutables en OpenAPI. Las descripciones de propuesta que siguen se conservan como antecedentes; PC-09/22 permanecen abiertas.
+
 > Vista histórica conservada de revisión 01/02. Para estado vigente consultar decisiones-pc-revision03.md, consultas-docente-revision03.md, referencia-iglesias-revision03.md y trazabilidad-revision03.md. Las afirmaciones anteriores de ausencia total de producto/23 preguntas docentes no describen revisión 03.
 
 # Diseño preliminar de API REST

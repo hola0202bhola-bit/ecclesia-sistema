@@ -1,3 +1,5 @@
+Incremento servicios/pláticas: módulo por capas en `src/modules/servicios`; horarios y auditoría transaccionales, consultas paginadas y EJS con las sesiones existentes. [ADR 007](adr/007.md) y [guía](incremento-servicios.md). Las ausencias de este módulo mencionadas en antecedentes quedan superadas para RF13–15 informativos.
+
 # Arquitectura vigente — revisión 03
 
 Incremento patrimonio: `src/modules/patrimonio/{domain,application,presentation,infrastructure}` y composición. Dominio contiene cálculo puro/reglas; repositorio Prisma obtiene criterios/objetos en snapshot y escribe cambios+auditoría atómicamente. Router valida DTO Zod y renderiza EJS con sesiones/CSRF existentes. Sin imports entre módulos. [Reglas y límites](incremento-patrimonio.md). Los párrafos históricos de “patrimonio no implementado” que siguen quedan sustituidos para este alcance.

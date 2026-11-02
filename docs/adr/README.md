@@ -1,3 +1,5 @@
+Oferta de servicios/pláticas: [ADR 007](007.md), aplicado en el incremento autorizado RF13–15. PC-09 y PC-22 permanecen abiertas.
+
 # Decisiones vigentes
 
 Patrimonio: ADR005 aplicado parcialmente por autorización del alumno el 2 de noviembre; fórmula, persistencia/UI y regresiones reales. Ajuste/activación de criterios y políticas residuales pendientes; ver alcance vigente en incremento-patrimonio.md.

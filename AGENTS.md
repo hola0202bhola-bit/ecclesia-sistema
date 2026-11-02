@@ -1,3 +1,5 @@
+Incremento vigente servicios/pláticas RF13–15: leer docs/incremento-servicios.md y ADR007. Preservar P078–079, sesiones como número informativo, modalidades excluyentes, horarios locales, administrador propio y consultas públicas. Sin inscripción/reserva ni vínculo obligatorio inferido; PC-09/22 abiertas. Quinta suite PostgreSQL, auditoría/horarios atómicos y gate completo obligatorios. Las restricciones históricas de servicios pendientes quedan superadas en este subalcance autorizado.
+
 # Ecclesia — instrucciones vigentes de continuación
 
 Incremento vigente: patrimonio autorizado el 2 de noviembre de 2026; leer docs/incremento-patrimonio.md y ADR005 actualizado. Preservar P067–076 y prueba exacta 35.5 en 2026. Solo administrador propio captura; Coordinación no obtiene ese permiso. No habilitar reactivación ni activación de criterios; corte, cero, visibilidad y perfiles provisionales explícitos. Migración aditiva, auditoría transaccional y cuarta suite PostgreSQL obligatoria. Las prohibiciones históricas de ampliar patrimonio que siguen describen revisiones anteriores.

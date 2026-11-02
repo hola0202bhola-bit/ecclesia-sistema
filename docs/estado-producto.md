@@ -1,5 +1,15 @@
 # Estado de la aplicación y siguiente incremento
 
+## Servicios y pláticas — incremento del 2 de noviembre de 2026
+
+RF13–15 informativos implementados: alta/edición EJS y API de servicios/pláticas por administrador propio, consulta pública desde la ficha, modalidades de aportación, horarios múltiples y número de sesiones/cupo/lugar/impartidor. Migración aditiva, control de versiones y auditoría transaccional privada; sin privilegios nuevos. [Cómo probar y límites](incremento-servicios.md), [ADR 007](adr/007.md).
+
+Validación integral ejecutada: desde arnés, `npm run check -- ../proyecto-ecclesia`, salida 0. **83/83 pruebas del arnés y 264/264 del producto**, ninguna omitida: 70 Iglesias, 30 Identidad, 49 gestión/INEGI, 85 Patrimonio y 30 servicios/pláticas. PostgreSQL 18.6 temporal real, cinco migraciones, doble seed, actualización desde esquema anterior sin pérdida de datos, operaciones HTTP positivas/negativas, aislamiento, concurrencia 200/409, rollback de auditoría/horarios, CSRF/Origin y escape EJS. Cobertura en 31 fuentes: líneas **99.03%**, sentencias 98.74%, funciones 100%, ramas 91.77%; server.ts verificado mediante arranque HTTP compilado separado. Arquitectura: 32/32 fuentes, cero violaciones. Se conservan las 234 pruebas anteriores y el ejemplo exacto **20 + 9.1 + 4 + 2.4 = 35.5**.
+
+El gate del índice aceptó el producto completo y rechazó fórmula patrimonial/modalidad de aportación alteradas, suite/migración/formulario ausentes, errores de tipos, migración rota y prueba fallida pese a un comando test que retorna cero; índice y archivos conservados. Reportes reproducibles locales excluidos de Git: evidence/vitest.json, evidence/database.json y coverage/coverage-summary.json. El arnés queda fijado sin cambios durante esta ejecución integral.
+
+Pendientes del módulo: PC-09 (relación entre preparación y servicio, asistencia, inscripción/reserva), PC-22 (administración general de tipos), fechas/excepciones y retirada de ofertas. Solo se registra el número de sesiones y los horarios informados, sin crear agenda individual. No se ejecutó recorrido manual en navegador, móvil físico, carga ni despliegue; las pruebas de interfaz fueron HTTP/EJS reales. No se acredita aceptación humana/docente. INEGI y los ejemplos/fuentes originales permanecen intactos; cantidades finales, agenda, finanzas, solicitudes y políticas residuales anteriores siguen pendientes.
+
 ## Patrimonio — incremento del 2 de noviembre de 2026
 
 Bases remotas verificadas por clonación: aplicación b23b6b62e2dd3ec8ce7531fd075a4965928e6961 y arnés 453eb8368090e3f83b066905087ec0625e1859e3. Disponible: captura/edición y cambio a perdido/prestado/baja por administrador propio, consulta EJS/API de vigentes, índice puro exacto, ranking geográfico y búsqueda por tipo/edad de la misma pieza. Auditoría con antes/después/actor/fecha dentro de la transacción, sin exposición pública. [Uso, decisiones provisionales y trazabilidad RF07–12](incremento-patrimonio.md).
@@ -28,7 +38,7 @@ Inspección inicial real: sistema `acc6cd353512ddfdb0e330083f83f4843e990e0b`, ar
 | RF05: catálogos INEGI; P063/P092 | Migración y seed: seis tipos y una localidad oficial | Estados y municipios del snapshot oficial consultables; localidades nacionales y administración general pendientes |
 | RF06: autenticación, usuarios y aislamiento; P022/P092–093/P130 | Solo JWT externo; sin cuentas/login | Login/logout, sesiones persistidas, perfil, lista paginada y alta por Coordinación; UI de personal y usuarios. Edición/desactivación/recuperación y roles múltiples pendientes |
 | RF07–12: patrimonio, índice y ranking; P067–076 | Contratos/ADR y fórmula escrita | Incremento vertical operativo según sección vigente; configuración/activación RF11 y políticas residuales pendientes |
-| RF13–15: servicios y pláticas; P078–079 | Solo diseño | Pendiente |
+| RF13–15: servicios y pláticas; P078–079 | Diseño previo | Alta/edición EJS/API y consulta pública operativas; [alcance y límites](incremento-servicios.md) |
 | RF16–21: padres, horarios y celebraciones; P081–083 | Solo diseño | Pendiente; requiere iglesias/zona e identidad |
 | RF22–24: diezmos y reportes; P085–086 | Solo diseño | Pendiente; depende de celebraciones e identidad |
 | RF25–31: espacios, solicitudes y cotizaciones; P088–090 | Solo diseño | Pendiente; depende de iglesias e identidad para personal; visitante sin cuenta |

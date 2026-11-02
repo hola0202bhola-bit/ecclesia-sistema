@@ -1840,6 +1840,646 @@
         },
         "x-implementation": "IMPLEMENTADO"
       }
+    },
+    "/iglesias/{iglesiaId}/servicios": {
+      "get": {
+        "operationId": "servicios_servicios",
+        "summary": "Consultar servicios y horarios",
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
+        "tags": [
+          "servicios"
+        ],
+        "x-requirements": [
+          "RF-13",
+          "RF-15"
+        ],
+        "x-pending": [
+          "PC-09",
+          "PC-22"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado; importes decimales como texto, horarios ordenados; sin auditoría pública.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiciosConsulta"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      },
+      "post": {
+        "operationId": "servicios_altaServicio",
+        "summary": "Registrar servicios",
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
+        "tags": [
+          "servicios"
+        ],
+        "x-requirements": [
+          "RF-13"
+        ],
+        "x-pending": [
+          "PC-09",
+          "PC-22"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resultado ejecutado; importes decimales como texto, horarios ordenados; sin auditoría pública.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Servicio"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServicioCreateInput"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/{iglesiaId}/servicios/{recursoId}": {
+      "patch": {
+        "operationId": "servicios_editarServicio",
+        "summary": "Mantener servicios",
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
+        "tags": [
+          "servicios"
+        ],
+        "x-requirements": [
+          "RF-13"
+        ],
+        "x-pending": [
+          "PC-09",
+          "PC-22"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "recursoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado; importes decimales como texto, horarios ordenados; sin auditoría pública.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Servicio"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServicioPatchInput"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/{iglesiaId}/platicas": {
+      "get": {
+        "operationId": "servicios_platicas",
+        "summary": "Consultar platicas y horarios",
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
+        "tags": [
+          "servicios"
+        ],
+        "x-requirements": [
+          "RF-14",
+          "RF-15"
+        ],
+        "x-pending": [
+          "PC-09",
+          "PC-22"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado; importes decimales como texto, horarios ordenados; sin auditoría pública.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlaticasConsulta"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [],
+        "x-implementation": "IMPLEMENTADO"
+      },
+      "post": {
+        "operationId": "servicios_altaPlatica",
+        "summary": "Registrar platicas",
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
+        "tags": [
+          "servicios"
+        ],
+        "x-requirements": [
+          "RF-14"
+        ],
+        "x-pending": [
+          "PC-09",
+          "PC-22"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resultado ejecutado; importes decimales como texto, horarios ordenados; sin auditoría pública.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Platica"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaticaCreateInput"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/{iglesiaId}/platicas/{recursoId}": {
+      "patch": {
+        "operationId": "servicios_editarPlatica",
+        "summary": "Mantener platicas",
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
+        "tags": [
+          "servicios"
+        ],
+        "x-requirements": [
+          "RF-14"
+        ],
+        "x-pending": [
+          "PC-09",
+          "PC-22"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "recursoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado ejecutado; importes decimales como texto, horarios ordenados; sin auditoría pública.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Platica"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaticaPatchInput"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/catalogos/tipos-servicio": {
+      "get": {
+        "operationId": "servicios_tiposServicio",
+        "summary": "Consultar tipos informativos de tipos-servicio",
+        "x-requirements": [
+          "RF-13",
+          "RF-14"
+        ],
+        "x-pending": [
+          "PC-22"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "security": [],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "200": {
+            "description": "Catálogo finito de P078/P079; ampliación general pendiente PC-22.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "nombre": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "nombre"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalogos/tipos-platica": {
+      "get": {
+        "operationId": "servicios_tiposPlatica",
+        "summary": "Consultar tipos informativos de tipos-platica",
+        "x-requirements": [
+          "RF-13",
+          "RF-14"
+        ],
+        "x-pending": [
+          "PC-22"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "security": [],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "200": {
+            "description": "Catálogo finito de P078/P079; ampliación general pendiente PC-22.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "nombre": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "nombre"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2696,8 +3336,52 @@
         "properties": {
           "tipoId": {
             "type": "string",
-            "format": "uuid",
+            "format": "uuid"
+          },
+          "importe": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "moneda": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "horarios": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "diaSemana": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "horaLocal": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                }
+              },
+              "required": [
+                "diaSemana",
+                "horaLocal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "nombre": {
+            "type": "string",
             "minLength": 1,
+            "maxLength": 200,
             "pattern": "\\S"
           },
           "modalidad": {
@@ -2708,42 +3392,25 @@
               "DONATIVO"
             ]
           },
-          "importe": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Decimal"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "moneda": {
+          "requisitos": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 2000,
             "pattern": "\\S"
-          },
-          "requisitos": {
-            "type": "string"
           },
           "duracionMinutos": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 1,
+            "maximum": 2147483646
           },
           "requiereCita": {
             "type": "boolean"
-          },
-          "horarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HorarioSemanal"
-            }
           }
         },
         "required": [],
         "additionalProperties": false,
-        "description": "Campos y obligatoriedad finales PC-02/09/13. No convertir donativo en tarifa obligatoria.",
-        "minProperties": 1
+        "minProperties": 1,
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md."
       },
       "Servicio": {
         "type": "object",
@@ -2752,10 +3419,59 @@
             "type": "string",
             "format": "uuid"
           },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
           "tipoId": {
             "type": "string",
-            "format": "uuid",
+            "format": "uuid"
+          },
+          "importe": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "moneda": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "horarios": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "diaSemana": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "horaLocal": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                }
+              },
+              "required": [
+                "diaSemana",
+                "horaLocal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "nombre": {
+            "type": "string",
             "minLength": 1,
+            "maxLength": 200,
             "pattern": "\\S"
           },
           "modalidad": {
@@ -2766,95 +3482,147 @@
               "DONATIVO"
             ]
           },
-          "importe": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Decimal"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "moneda": {
+          "requisitos": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 2000,
             "pattern": "\\S"
-          },
-          "requisitos": {
-            "type": "string"
           },
           "duracionMinutos": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 1,
+            "maximum": 2147483646
           },
           "requiereCita": {
             "type": "boolean"
-          },
-          "horarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HorarioSemanal"
-            }
-          },
-          "version": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
         "required": [
           "id",
-          "version"
+          "version",
+          "tipoId",
+          "importe",
+          "moneda",
+          "horarios",
+          "nombre",
+          "modalidad",
+          "requisitos",
+          "duracionMinutos",
+          "requiereCita"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "modalidad": {
+                  "const": "FIJO"
+                }
+              },
+              "required": [
+                "modalidad"
+              ]
+            },
+            "then": {
+              "properties": {
+                "importe": {
+                  "type": "string",
+                  "pattern": "^(?=.*[1-9])(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "modalidad": {
+                  "enum": [
+                    "GRATUITO",
+                    "DONATIVO"
+                  ]
+                }
+              },
+              "required": [
+                "modalidad"
+              ]
+            },
+            "then": {
+              "properties": {
+                "importe": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
       },
       "PlaticaInput": {
         "type": "object",
         "properties": {
           "tipoId": {
             "type": "string",
-            "format": "uuid",
-            "minLength": 1,
-            "pattern": "\\S"
-          },
-          "sesiones": {
-            "type": "integer",
-            "minimum": 1
+            "format": "uuid"
           },
           "importe": {
-            "$ref": "#/components/schemas/Decimal"
+            "type": "string",
+            "pattern": "^(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
           },
           "moneda": {
             "type": "string",
-            "minLength": 1,
-            "pattern": "\\S"
+            "pattern": "^[A-Z]{3}$"
+          },
+          "horarios": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "diaSemana": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "horaLocal": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                }
+              },
+              "required": [
+                "diaSemana",
+                "horaLocal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "sesiones": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
           },
           "cupo": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 0,
+            "maximum": 2147483646
           },
           "lugar": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 300,
             "pattern": "\\S"
           },
           "impartidor": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 200,
             "pattern": "\\S"
-          },
-          "horarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HorarioSemanal"
-            }
           }
         },
         "required": [],
         "additionalProperties": false,
-        "description": "No incluye inscripción automática; relación a servicios pendiente PC-09.",
-        "minProperties": 1
+        "minProperties": 1,
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md."
       },
       "Platica": {
         "type": "object",
@@ -2863,53 +3631,82 @@
             "type": "string",
             "format": "uuid"
           },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
           "tipoId": {
             "type": "string",
-            "format": "uuid",
-            "minLength": 1,
-            "pattern": "\\S"
-          },
-          "sesiones": {
-            "type": "integer",
-            "minimum": 1
+            "format": "uuid"
           },
           "importe": {
-            "$ref": "#/components/schemas/Decimal"
+            "type": "string",
+            "pattern": "^(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
           },
           "moneda": {
             "type": "string",
-            "minLength": 1,
-            "pattern": "\\S"
+            "pattern": "^[A-Z]{3}$"
+          },
+          "horarios": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "diaSemana": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "horaLocal": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                }
+              },
+              "required": [
+                "diaSemana",
+                "horaLocal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "sesiones": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
           },
           "cupo": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 0,
+            "maximum": 2147483646
           },
           "lugar": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 300,
             "pattern": "\\S"
           },
           "impartidor": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 200,
             "pattern": "\\S"
-          },
-          "horarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HorarioSemanal"
-            }
-          },
-          "version": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
         "required": [
           "id",
-          "version"
+          "version",
+          "tipoId",
+          "importe",
+          "moneda",
+          "horarios",
+          "sesiones",
+          "cupo",
+          "lugar",
+          "impartidor"
         ],
         "additionalProperties": false
       },
@@ -4119,8 +4916,52 @@
         "properties": {
           "tipoId": {
             "type": "string",
-            "format": "uuid",
+            "format": "uuid"
+          },
+          "importe": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "moneda": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "horarios": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "diaSemana": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "horaLocal": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                }
+              },
+              "required": [
+                "diaSemana",
+                "horaLocal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "nombre": {
+            "type": "string",
             "minLength": 1,
+            "maxLength": 200,
             "pattern": "\\S"
           },
           "modalidad": {
@@ -4131,51 +4972,130 @@
               "DONATIVO"
             ]
           },
-          "importe": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Decimal"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "moneda": {
+          "requisitos": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 2000,
             "pattern": "\\S"
-          },
-          "requisitos": {
-            "type": "string"
           },
           "duracionMinutos": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 1,
+            "maximum": 2147483646
           },
           "requiereCita": {
             "type": "boolean"
-          },
-          "horarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HorarioSemanal"
-            }
           }
         },
-        "required": [],
+        "required": [
+          "tipoId",
+          "importe",
+          "moneda",
+          "horarios",
+          "nombre",
+          "modalidad",
+          "requisitos",
+          "duracionMinutos",
+          "requiereCita"
+        ],
         "additionalProperties": false,
-        "description": "Campos y obligatoriedad finales PC-02/09/13. No convertir donativo en tarifa obligatoria.",
-        "minProperties": 1,
-        "x-validation-status": "PARCIAL: campos obligatorios de negocio sujetos a PC de la operación; no es DTO final."
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "modalidad": {
+                  "const": "FIJO"
+                }
+              },
+              "required": [
+                "modalidad"
+              ]
+            },
+            "then": {
+              "properties": {
+                "importe": {
+                  "type": "string",
+                  "pattern": "^(?=.*[1-9])(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "modalidad": {
+                  "enum": [
+                    "GRATUITO",
+                    "DONATIVO"
+                  ]
+                }
+              },
+              "required": [
+                "modalidad"
+              ]
+            },
+            "then": {
+              "properties": {
+                "importe": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
       },
       "ServicioPatchInput": {
         "type": "object",
         "properties": {
           "tipoId": {
             "type": "string",
-            "format": "uuid",
+            "format": "uuid"
+          },
+          "importe": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "moneda": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "horarios": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "diaSemana": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "horaLocal": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                }
+              },
+              "required": [
+                "diaSemana",
+                "horaLocal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "nombre": {
+            "type": "string",
             "minLength": 1,
+            "maxLength": 200,
             "pattern": "\\S"
           },
           "modalidad": {
@@ -4186,151 +5106,183 @@
               "DONATIVO"
             ]
           },
-          "importe": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Decimal"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "moneda": {
+          "requisitos": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 2000,
             "pattern": "\\S"
-          },
-          "requisitos": {
-            "type": "string"
           },
           "duracionMinutos": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 1,
+            "maximum": 2147483646
           },
           "requiereCita": {
             "type": "boolean"
           },
-          "horarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HorarioSemanal"
-            }
-          },
           "version": {
             "type": "integer",
             "minimum": 1,
-            "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
+            "maximum": 2147483646
           }
         },
         "required": [
           "version"
         ],
         "additionalProperties": false,
-        "description": "Campos y obligatoriedad finales PC-02/09/13. No convertir donativo en tarifa obligatoria. Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación.",
-        "minProperties": 2
+        "minProperties": 2,
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Se compara versión y se valida el agregado resultante."
       },
       "PlaticaCreateInput": {
         "type": "object",
         "properties": {
           "tipoId": {
             "type": "string",
-            "format": "uuid",
-            "minLength": 1,
-            "pattern": "\\S"
-          },
-          "sesiones": {
-            "type": "integer",
-            "minimum": 1
+            "format": "uuid"
           },
           "importe": {
-            "$ref": "#/components/schemas/Decimal"
+            "type": "string",
+            "pattern": "^(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
           },
           "moneda": {
             "type": "string",
-            "minLength": 1,
-            "pattern": "\\S"
+            "pattern": "^[A-Z]{3}$"
+          },
+          "horarios": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "diaSemana": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "horaLocal": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                }
+              },
+              "required": [
+                "diaSemana",
+                "horaLocal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "sesiones": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
           },
           "cupo": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 0,
+            "maximum": 2147483646
           },
           "lugar": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 300,
             "pattern": "\\S"
           },
           "impartidor": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 200,
             "pattern": "\\S"
-          },
-          "horarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HorarioSemanal"
-            }
           }
         },
-        "required": [],
+        "required": [
+          "tipoId",
+          "importe",
+          "moneda",
+          "horarios",
+          "sesiones",
+          "cupo",
+          "lugar",
+          "impartidor"
+        ],
         "additionalProperties": false,
-        "description": "No incluye inscripción automática; relación a servicios pendiente PC-09.",
-        "minProperties": 1,
-        "x-validation-status": "PARCIAL: campos obligatorios de negocio sujetos a PC de la operación; no es DTO final."
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md."
       },
       "PlaticaPatchInput": {
         "type": "object",
         "properties": {
           "tipoId": {
             "type": "string",
-            "format": "uuid",
-            "minLength": 1,
-            "pattern": "\\S"
-          },
-          "sesiones": {
-            "type": "integer",
-            "minimum": 1
+            "format": "uuid"
           },
           "importe": {
-            "$ref": "#/components/schemas/Decimal"
+            "type": "string",
+            "pattern": "^(?:0|[1-9]\\d{0,8})(?:\\.\\d{1,2})?$"
           },
           "moneda": {
             "type": "string",
-            "minLength": 1,
-            "pattern": "\\S"
+            "pattern": "^[A-Z]{3}$"
+          },
+          "horarios": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "diaSemana": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "horaLocal": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+                }
+              },
+              "required": [
+                "diaSemana",
+                "horaLocal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "sesiones": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
           },
           "cupo": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 0,
+            "maximum": 2147483646
           },
           "lugar": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 300,
             "pattern": "\\S"
           },
           "impartidor": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 200,
             "pattern": "\\S"
-          },
-          "horarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HorarioSemanal"
-            }
           },
           "version": {
             "type": "integer",
             "minimum": 1,
-            "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
+            "maximum": 2147483646
           }
         },
         "required": [
           "version"
         ],
         "additionalProperties": false,
-        "description": "No incluye inscripción automática; relación a servicios pendiente PC-09. Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación.",
-        "minProperties": 2
+        "minProperties": 2,
+        "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Se compara versión y se valida el agregado resultante."
       },
       "SacerdoteCreateInput": {
         "type": "object",
@@ -5677,6 +6629,80 @@
           }
         },
         "required": [
+          "data",
+          "meta"
+        ],
+        "additionalProperties": false
+      },
+      "ServiciosConsulta": {
+        "type": "object",
+        "properties": {
+          "iglesia": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "nombre": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "nombre"
+            ],
+            "additionalProperties": false
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Servicio"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "iglesia",
+          "data",
+          "meta"
+        ],
+        "additionalProperties": false
+      },
+      "PlaticasConsulta": {
+        "type": "object",
+        "properties": {
+          "iglesia": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "nombre": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "nombre"
+            ],
+            "additionalProperties": false
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Platica"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "iglesia",
           "data",
           "meta"
         ],

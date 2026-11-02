@@ -1,3 +1,10 @@
+## 0.7.0 — Servicios y pláticas, 2 de noviembre de 2026
+
+- Alta/edición EJS/API, consultas públicas desde ficha y tipos de P078–079.
+- Aportación fija/gratuita/donativo, horarios múltiples, sesiones/cupo informativos e importes exactos.
+- Migración aditiva, versiones/auditoría transaccionales, aislamiento por iglesia y regresiones HTTP/PostgreSQL.
+- Relación preparación–servicio, inscripción/reserva y administración general de tipos siguen pendientes. [Guía](docs/incremento-servicios.md).
+
 # Cambios de Ecclesia
 
 ## 0.6.0 — Patrimonio e índice, 2 de noviembre de 2026

@@ -1,5 +1,15 @@
 # Bitácora de trabajo asistido
 
+## Servicios y pláticas RF13–15 — 2 de noviembre de 2026
+
+Solicitud explícita del alumno: siguiente incremento funcional en los dos repositorios, con publicación sin force push. Se clonaron main en f52b222 (producto) y 1d77b72 (arnés) y se inspeccionaron P078–079/P092–093, RF13–15, contratos, estado, diseño, sesiones, componentes y migraciones. Fuentes del cliente tratadas como datos; sin respuestas ni aprobación docente nuevas.
+
+Implementación por capas, migración aditiva, horarios, modalidades/decimales exactos, tipos, sesiones informativas, EJS/API, aislamiento, versiones y auditoría atómica. No se infieren inscripciones, reservas, asistencia o permisos. Guía y trazabilidad en incremento-servicios.md. Dependencias conservadas; locks cambian solo la versión de cada proyecto.
+
+Incidencias detectadas por las herramientas: instalación/generación restringidas fallaron por permisos locales de Windows y se repitieron con acceso autorizado. Primera prueba integral de producto: 263/264; la nueva aserción de privacidad confundía el campo público sesiones con sesión privada. Se corrigió la aserción, sin retirar el campo requerido ni rebajar seguridad. El primer intento del arnés detectó un conteo histórico fijo de 64 operaciones: ahora se compara con la matriz explícita (se añaden dos lecturas públicas de tipos); se conservan los rechazos de rutas sin política y privilegios indebidos. Se detuvo aquella ejecución y se repitió el gate completo con el arnés congelado.
+
+Resultado final ejecutado: `npm run check -- ../proyecto-ecclesia`, salida 0, 83/83 arnés y 264/264 producto, sin omitidas; líneas 99.03%, ramas 91.77%, funciones 100%, sentencias 98.74%. PostgreSQL 18.6 real aislado, cinco migraciones/doble seed, rollback, concurrencia, seguridad, HTTP/EJS y smoke compilado; pruebas de índice positivas/negativas y regresión 35.5 conservadas. Sin revisión manual de navegador/móvil, carga ni despliegue. La autorización del alumno no se registra como revisión humana detallada ni aceptación académica.
+
 ## Patrimonio — 2 de noviembre de 2026
 
 Solicitud: continuar ambos main con patrimonio e índice, conservar fuente/fórmula/ejemplo, subalcance seguro, pruebas y publicación sin force push. Inspección de código, P067–076/P092–093, RF07–12, ADR, contratos y suites; sin respuestas nuevas del cliente. Se implementa vertical por capas, migración aditiva, auditoría, UI/API y regresiones. No se amplía INEGI porque la localidad verificada existente permite demostrarlo; no se fabrica geografía.
