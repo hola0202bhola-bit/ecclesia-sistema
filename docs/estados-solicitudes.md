@@ -1,3 +1,5 @@
+Implementación vigente autorizada RF25–31: [ADR010](adr/010.md). Máquina técnica provisional REGISTRADA → COTIZADA/SIN_LUGAR; COTIZADA → ACEPTADA/RECHAZADA/VENCIDA; cualquier estado no aceptado/no cancelado → CANCELADA. Sin reapertura/recotización. Frontera técnica UTC emisión +360h, inclusiva para vencer; reloj tras bloqueo, consulta/comando hace efectivo vencimiento aun si responde 409. PC17/18 siguen abiertas; no se presenta la máquina como decisión definitiva del cliente. El diagrama y las restricciones de diseño siguientes son antecedentes conservados, sustituidos para este alcance autorizado.
+
 > Vista histórica conservada de revisión 01/02. Para estado vigente consultar decisiones-pc-revision03.md, consultas-docente-revision03.md, referencia-iglesias-revision03.md y trazabilidad-revision03.md. Las afirmaciones anteriores de ausencia total de producto/23 preguntas docentes no describen revisión 03.
 
 # Estados preliminares de solicitudes de espacio

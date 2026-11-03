@@ -17,18 +17,10 @@
         "operationId": "identidad_login",
         "summary": "Autenticar personal",
         "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
-        "tags": [
-          "identidad"
-        ],
-        "x-requirements": [
-          "RF-06"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["PUBLICO"],
         "parameters": [],
         "responses": {
           "200": {
@@ -85,18 +77,10 @@
         "operationId": "identidad_usuarios",
         "summary": "Listar usuarios",
         "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
-        "tags": [
-          "identidad"
-        ],
-        "x-requirements": [
-          "RF-06"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["COORDINACION"],
         "parameters": [
           {
             "name": "page",
@@ -138,10 +122,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 }
               }
@@ -183,18 +164,10 @@
         "operationId": "identidad_alta",
         "summary": "Crear cuenta de personal",
         "description": "Implementado con cuentas PostgreSQL y sesiones JWT revocables. Un rol y como máximo una iglesia por cuenta; roles múltiples, recuperación y edición de cuentas pendientes. Decisión técnica ADR 006, sin respuestas docentes inventadas.",
-        "tags": [
-          "identidad"
-        ],
-        "x-requirements": [
-          "RF-06"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["COORDINACION"],
         "parameters": [],
         "responses": {
           "201": {
@@ -255,18 +228,10 @@
         "operationId": "identidad_editar",
         "summary": "Actualizar usuario y membresías",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-19.  Concurrencia propuesta: enviar version recibida de la lectura; actualización obsoleta => 409, sin cambio ni auditoría parcial. No implementado.",
-        "tags": [
-          "identidad"
-        ],
-        "x-requirements": [
-          "RF-06"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["COORDINACION"],
         "parameters": [
           {
             "name": "usuarioId",
@@ -337,16 +302,10 @@
         "operationId": "catalogos_estados",
         "summary": "Consultar estados",
         "description": "Consulta pública paginada del snapshot oficial INEGI: 32 estados, 2478 municipios y una localidad (211140001). Tipos de iglesia según P063. Fuentes, fecha de consulta y hashes en prisma/fuentes/manifest.json y CatalogoVersion. Localidades parciales; no habilita administración de otros catálogos.",
-        "tags": [
-          "catalogos"
-        ],
-        "x-requirements": [
-          "RF-05"
-        ],
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
         "x-pending": [],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "page",
@@ -416,16 +375,10 @@
         "operationId": "catalogos_municipios",
         "summary": "Consultar municipios",
         "description": "Consulta pública paginada del snapshot oficial INEGI: 32 estados, 2478 municipios y una localidad (211140001). Tipos de iglesia según P063. Fuentes, fecha de consulta y hashes en prisma/fuentes/manifest.json y CatalogoVersion. Localidades parciales; no habilita administración de otros catálogos.",
-        "tags": [
-          "catalogos"
-        ],
-        "x-requirements": [
-          "RF-05"
-        ],
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
         "x-pending": [],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -504,16 +457,10 @@
         "operationId": "catalogos_localidades",
         "summary": "Consultar localidades",
         "description": "Consulta pública paginada del snapshot oficial INEGI: 32 estados, 2478 municipios y una localidad (211140001). Tipos de iglesia según P063. Fuentes, fecha de consulta y hashes en prisma/fuentes/manifest.json y CatalogoVersion. Localidades parciales; no habilita administración de otros catálogos.",
-        "tags": [
-          "catalogos"
-        ],
-        "x-requirements": [
-          "RF-05"
-        ],
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
         "x-pending": [],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -601,16 +548,10 @@
         "operationId": "catalogos_tipos",
         "summary": "Consultar tipos públicos",
         "description": "Consulta pública paginada del snapshot oficial INEGI: 32 estados, 2478 municipios y una localidad (211140001). Tipos de iglesia según P063. Fuentes, fecha de consulta y hashes en prisma/fuentes/manifest.json y CatalogoVersion. Localidades parciales; no habilita administración de otros catálogos.",
-        "tags": [
-          "catalogos"
-        ],
-        "x-requirements": [
-          "RF-05"
-        ],
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
         "x-pending": [],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "catalogo",
@@ -618,9 +559,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "tipos-iglesia"
-              ]
+              "enum": ["tipos-iglesia"]
             }
           },
           {
@@ -689,19 +628,10 @@
         "operationId": "catalogos_alta",
         "summary": "Administrar catálogo mediante alta",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-01, PC-22. ",
-        "tags": [
-          "catalogos"
-        ],
-        "x-requirements": [
-          "RF-05"
-        ],
-        "x-pending": [
-          "PC-01",
-          "PC-22"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
+        "x-pending": ["PC-01", "PC-22"],
+        "x-roles": ["COORDINACION"],
         "parameters": [
           {
             "name": "catalogo",
@@ -771,19 +701,10 @@
         "operationId": "catalogos_editar",
         "summary": "Actualizar catálogo",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-01, PC-22.  Concurrencia propuesta: enviar version recibida de la lectura; actualización obsoleta => 409, sin cambio ni auditoría parcial. No implementado.",
-        "tags": [
-          "catalogos"
-        ],
-        "x-requirements": [
-          "RF-05"
-        ],
-        "x-pending": [
-          "PC-01",
-          "PC-22"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
+        "x-pending": ["PC-01", "PC-22"],
+        "x-roles": ["COORDINACION"],
         "parameters": [
           {
             "name": "catalogo",
@@ -862,16 +783,10 @@
         "operationId": "iglesias_buscar",
         "summary": "Listar iglesias activas por estado",
         "description": "Referencia real: filtros AND por ubicación/tipo, nombre parcial sin caso/acentos, capacidadMin/capacidadMax inclusivas; orden nombre normalizado e ID. Solo abiertas. PC-03 reclasificada como elección técnica.",
-        "tags": [
-          "iglesias"
-        ],
-        "x-requirements": [
-          "RF-01"
-        ],
+        "tags": ["iglesias"],
+        "x-requirements": ["RF-01"],
         "x-pending": [],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -984,10 +899,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 }
               }
@@ -1025,18 +937,10 @@
         "operationId": "iglesias_alta",
         "summary": "Registrar iglesia",
         "description": "Alta real de referencia; Coordinación según P092, con JWT verificado. Campos mínimos de captura son supuesto sujeto a PC-02, no requisito aprobado.",
-        "tags": [
-          "iglesias"
-        ],
-        "x-requirements": [
-          "RF-03"
-        ],
-        "x-pending": [
-          "PC-02"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["iglesias"],
+        "x-requirements": ["RF-03"],
+        "x-pending": ["PC-02"],
+        "x-roles": ["COORDINACION"],
         "parameters": [],
         "responses": {
           "201": {
@@ -1097,18 +1001,10 @@
         "operationId": "iglesias_ficha",
         "summary": "Consultar ficha pública integrada",
         "description": "Ficha básica real; cerrada/inexistente 404. No simula recursos de otros módulos; RF-02 integrado permanece pendiente.",
-        "tags": [
-          "iglesias"
-        ],
-        "x-requirements": [
-          "RF-02"
-        ],
-        "x-pending": [
-          "PC-04"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "tags": ["iglesias"],
+        "x-requirements": ["RF-02"],
+        "x-pending": ["PC-04"],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1163,21 +1059,10 @@
         "operationId": "iglesias_editar",
         "summary": "Mantener datos de iglesia",
         "description": "Edición real: Coordinación P092 o administrador de esa iglesia P093; versión condicional transaccional, obsoleta 409. Gestión de cerrada 501 PC04_PENDIENTE; no hay múltiples roles/ámbitos ni permisos adicionales.",
-        "tags": [
-          "iglesias"
-        ],
-        "x-requirements": [
-          "RF-03"
-        ],
-        "x-pending": [
-          "PC-02",
-          "PC-04",
-          "PC-19"
-        ],
-        "x-roles": [
-          "COORDINACION",
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["iglesias"],
+        "x-requirements": ["RF-03"],
+        "x-pending": ["PC-02", "PC-04", "PC-19"],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1258,19 +1143,10 @@
         "operationId": "iglesias_cerrar",
         "summary": "Cerrar sin borrar historial",
         "description": "Ruta autenticada de bloqueo: 501 PC04_PENDIENTE; no ejecuta cambios ni atribuye permiso de cierre/reapertura. Roles del diseño general siguen propuestos.",
-        "tags": [
-          "iglesias"
-        ],
-        "x-requirements": [
-          "RF-04"
-        ],
-        "x-pending": [
-          "PC-04"
-        ],
-        "x-roles": [
-          "COORDINACION",
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["iglesias"],
+        "x-requirements": ["RF-04"],
+        "x-pending": ["PC-04"],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1351,19 +1227,10 @@
         "operationId": "iglesias_reabrir",
         "summary": "Reabrir sin borrar historial",
         "description": "Ruta autenticada de bloqueo: 501 PC04_PENDIENTE; no ejecuta cambios ni atribuye permiso de cierre/reapertura. Roles del diseño general siguen propuestos.",
-        "tags": [
-          "iglesias"
-        ],
-        "x-requirements": [
-          "RF-04"
-        ],
-        "x-pending": [
-          "PC-04"
-        ],
-        "x-roles": [
-          "COORDINACION",
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["iglesias"],
+        "x-requirements": ["RF-04"],
+        "x-pending": ["PC-04"],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1444,21 +1311,10 @@
         "operationId": "patrimonio_ranking",
         "summary": "Ranking por ámbito geográfico",
         "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-09",
-          "RF-10"
-        ],
-        "x-pending": [
-          "PC-05",
-          "PC-07",
-          "PC-08"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-09", "RF-10"],
+        "x-pending": ["PC-05", "PC-07", "PC-08"],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -1574,19 +1430,10 @@
         "operationId": "patrimonio_buscar",
         "summary": "Buscar por tipo de objeto y antigüedad",
         "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-12"
-        ],
-        "x-pending": [
-          "PC-05",
-          "PC-06"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-12"],
+        "x-pending": ["PC-05", "PC-06"],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -1702,19 +1549,10 @@
         "operationId": "patrimonio_objetos",
         "summary": "Consultar objetos publicables",
         "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-02",
-          "RF-07"
-        ],
-        "x-pending": [
-          "PC-06"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-02", "RF-07"],
+        "x-pending": ["PC-06"],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1790,19 +1628,10 @@
         "operationId": "patrimonio_altaObjeto",
         "summary": "Registrar objeto",
         "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-07"
-        ],
-        "x-pending": [
-          "PC-02",
-          "PC-05"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-07"],
+        "x-pending": ["PC-02", "PC-05"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1873,19 +1702,10 @@
         "operationId": "patrimonio_editarObjeto",
         "summary": "Mantener objeto",
         "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-07"
-        ],
-        "x-pending": [
-          "PC-02",
-          "PC-05"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-07"],
+        "x-pending": ["PC-02", "PC-05"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1965,18 +1785,10 @@
         "operationId": "patrimonio_condicion",
         "summary": "Cambiar condición sin borrar objeto",
         "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-08"
-        ],
-        "x-pending": [
-          "PC-06"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-08"],
+        "x-pending": ["PC-06"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -2056,18 +1868,10 @@
         "operationId": "patrimonio_criterios",
         "summary": "Listar versiones de criterios",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-08. ",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-11"
-        ],
-        "x-pending": [
-          "PC-08"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-11"],
+        "x-pending": ["PC-08"],
+        "x-roles": ["COORDINACION"],
         "parameters": [
           {
             "name": "page",
@@ -2109,10 +1913,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 }
               }
@@ -2154,19 +1955,10 @@
         "operationId": "patrimonio_crearCriterio",
         "summary": "Preparar versión de criterios",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-05, PC-08. ",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-11"
-        ],
-        "x-pending": [
-          "PC-05",
-          "PC-08"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-11"],
+        "x-pending": ["PC-05", "PC-08"],
+        "x-roles": ["COORDINACION"],
         "parameters": [],
         "responses": {
           "201": {
@@ -2227,18 +2019,10 @@
         "operationId": "patrimonio_editarCriterio",
         "summary": "Editar borrador de criterios",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-08.  Concurrencia propuesta: enviar version recibida de la lectura; actualización obsoleta => 409, sin cambio ni auditoría parcial. No implementado.",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-11"
-        ],
-        "x-pending": [
-          "PC-08"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-11"],
+        "x-pending": ["PC-08"],
+        "x-roles": ["COORDINACION"],
         "parameters": [
           {
             "name": "criterioId",
@@ -2309,18 +2093,10 @@
         "operationId": "patrimonio_activar",
         "summary": "Activar criterios sin reprogramar",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-08. ",
-        "tags": [
-          "patrimonio"
-        ],
-        "x-requirements": [
-          "RF-11"
-        ],
-        "x-pending": [
-          "PC-08"
-        ],
-        "x-roles": [
-          "COORDINACION"
-        ],
+        "tags": ["patrimonio"],
+        "x-requirements": ["RF-11"],
+        "x-pending": ["PC-08"],
+        "x-roles": ["COORDINACION"],
         "parameters": [
           {
             "name": "criterioId",
@@ -2391,20 +2167,10 @@
         "operationId": "servicios_servicios",
         "summary": "Consultar servicios y horarios",
         "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
-        "tags": [
-          "servicios"
-        ],
-        "x-requirements": [
-          "RF-13",
-          "RF-15"
-        ],
-        "x-pending": [
-          "PC-09",
-          "PC-22"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "tags": ["servicios"],
+        "x-requirements": ["RF-13", "RF-15"],
+        "x-pending": ["PC-09", "PC-22"],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -2480,19 +2246,10 @@
         "operationId": "servicios_altaServicio",
         "summary": "Registrar servicios",
         "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
-        "tags": [
-          "servicios"
-        ],
-        "x-requirements": [
-          "RF-13"
-        ],
-        "x-pending": [
-          "PC-09",
-          "PC-22"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["servicios"],
+        "x-requirements": ["RF-13"],
+        "x-pending": ["PC-09", "PC-22"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -2563,19 +2320,10 @@
         "operationId": "servicios_editarServicio",
         "summary": "Mantener servicios",
         "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
-        "tags": [
-          "servicios"
-        ],
-        "x-requirements": [
-          "RF-13"
-        ],
-        "x-pending": [
-          "PC-09",
-          "PC-22"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["servicios"],
+        "x-requirements": ["RF-13"],
+        "x-pending": ["PC-09", "PC-22"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -2655,20 +2403,10 @@
         "operationId": "servicios_platicas",
         "summary": "Consultar platicas y horarios",
         "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
-        "tags": [
-          "servicios"
-        ],
-        "x-requirements": [
-          "RF-14",
-          "RF-15"
-        ],
-        "x-pending": [
-          "PC-09",
-          "PC-22"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "tags": ["servicios"],
+        "x-requirements": ["RF-14", "RF-15"],
+        "x-pending": ["PC-09", "PC-22"],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -2744,19 +2482,10 @@
         "operationId": "servicios_altaPlatica",
         "summary": "Registrar platicas",
         "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
-        "tags": [
-          "servicios"
-        ],
-        "x-requirements": [
-          "RF-14"
-        ],
-        "x-pending": [
-          "PC-09",
-          "PC-22"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["servicios"],
+        "x-requirements": ["RF-14"],
+        "x-pending": ["PC-09", "PC-22"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -2827,19 +2556,10 @@
         "operationId": "servicios_editarPlatica",
         "summary": "Mantener platicas",
         "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Solo ADMIN_IGLESIA propio escribe; iglesias cerradas devuelven 404. Auditoría transaccional privada.",
-        "tags": [
-          "servicios"
-        ],
-        "x-requirements": [
-          "RF-14"
-        ],
-        "x-pending": [
-          "PC-09",
-          "PC-22"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["servicios"],
+        "x-requirements": ["RF-14"],
+        "x-pending": ["PC-09", "PC-22"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -2919,18 +2639,10 @@
         "operationId": "agenda_sacerdotes",
         "summary": "Consultar sacerdotes asignados",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-10. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-16"
-        ],
-        "x-pending": [
-          "PC-10"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-16"],
+        "x-pending": ["PC-10"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -2981,10 +2693,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 }
               }
@@ -3026,18 +2735,10 @@
         "operationId": "agenda_asignar",
         "summary": "Registrar o asignar sacerdote compartido",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-10. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-16"
-        ],
-        "x-pending": [
-          "PC-10"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-16"],
+        "x-pending": ["PC-10"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3108,18 +2809,10 @@
         "operationId": "agenda_editarSacerdote",
         "summary": "Mantener asignación e identidad autorizada",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-10.  Concurrencia propuesta: enviar version recibida de la lectura; actualización obsoleta => 409, sin cambio ni auditoría parcial. No implementado.",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-16"
-        ],
-        "x-pending": [
-          "PC-10"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-16"],
+        "x-pending": ["PC-10"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3199,19 +2892,10 @@
         "operationId": "agenda_semanal",
         "summary": "Consultar agenda semanal prevista",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-10, PC-11. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-19"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-19"],
+        "x-pending": ["PC-10", "PC-11"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "sacerdoteId",
@@ -3271,10 +2955,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 }
               }
@@ -3318,18 +2999,10 @@
         "operationId": "agenda_horarios",
         "summary": "Consultar misas con padre previsto",
         "description": "Se propone esta operación; no está implementada. No cerrar ni implementar decisiones pendientes: PC-11. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-19"
-        ],
-        "x-pending": [
-          "PC-11"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-19"],
+        "x-pending": ["PC-11"],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3380,10 +3053,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 },
                 "example": {
@@ -3441,20 +3111,10 @@
         "operationId": "agenda_crearHorario",
         "summary": "Programar misa y comprobar traslapes",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-10, PC-11. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-17",
-          "RF-18"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-17", "RF-18"],
+        "x-pending": ["PC-10", "PC-11"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3525,19 +3185,10 @@
         "operationId": "agenda_editarHorario",
         "summary": "Cambiar programación y comprobar traslapes",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-11.  Concurrencia propuesta: enviar version recibida de la lectura; actualización obsoleta => 409, sin cambio ni auditoría parcial. No implementado.",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-17",
-          "RF-18"
-        ],
-        "x-pending": [
-          "PC-11"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-17", "RF-18"],
+        "x-pending": ["PC-11"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3617,18 +3268,10 @@
         "operationId": "agenda_celebraciones",
         "summary": "Listar hechos celebrados",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-12. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-20"
-        ],
-        "x-pending": [
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-20"],
+        "x-pending": ["PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3679,10 +3322,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 }
               }
@@ -3724,19 +3364,10 @@
         "operationId": "agenda_registrarHecho",
         "summary": "Registrar celebración efectiva",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-12. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-20",
-          "RF-21"
-        ],
-        "x-pending": [
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-20", "RF-21"],
+        "x-pending": ["PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3807,19 +3438,10 @@
         "operationId": "agenda_corregirHecho",
         "summary": "Corregir celebración con autorización histórica",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-12.  Concurrencia propuesta: enviar version recibida de la lectura; actualización obsoleta => 409, sin cambio ni auditoría parcial. No implementado.",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-20",
-          "RF-21"
-        ],
-        "x-pending": [
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-20", "RF-21"],
+        "x-pending": ["PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3899,20 +3521,10 @@
         "operationId": "agenda_sustituir",
         "summary": "Registrar sustitución con autor y motivo",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-11, PC-12. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-18",
-          "RF-21"
-        ],
-        "x-pending": [
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-18", "RF-21"],
+        "x-pending": ["PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3990,18 +3602,10 @@
         "operationId": "agenda_historial",
         "summary": "Consultar sustituciones",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-12. ",
-        "tags": [
-          "agenda"
-        ],
-        "x-requirements": [
-          "RF-21"
-        ],
-        "x-pending": [
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["agenda"],
+        "x-requirements": ["RF-21"],
+        "x-pending": ["PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4061,10 +3665,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 }
               }
@@ -4108,18 +3709,10 @@
         "operationId": "diezmos_registrar",
         "summary": "Registrar único diezmo de misa celebrada",
         "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
-        "tags": [
-          "diezmos"
-        ],
-        "x-requirements": [
-          "RF-22"
-        ],
-        "x-pending": [
-          "PC-13"
-        ],
-        "x-roles": [
-          "TESORERO"
-        ],
+        "tags": ["diezmos"],
+        "x-requirements": ["RF-22"],
+        "x-pending": ["PC-13"],
+        "x-roles": ["TESORERO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4197,18 +3790,10 @@
         "operationId": "diezmos_consultar",
         "summary": "Consultar captura propia",
         "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
-        "tags": [
-          "diezmos"
-        ],
-        "x-requirements": [
-          "RF-22"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "TESORERO"
-        ],
+        "tags": ["diezmos"],
+        "x-requirements": ["RF-22"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["TESORERO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4276,18 +3861,10 @@
         "operationId": "diezmos_corregir",
         "summary": "Corregir diezmo atómicamente con historial",
         "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
-        "tags": [
-          "diezmos"
-        ],
-        "x-requirements": [
-          "RF-23"
-        ],
-        "x-pending": [
-          "PC-13"
-        ],
-        "x-roles": [
-          "TESORERO"
-        ],
+        "tags": ["diezmos"],
+        "x-requirements": ["RF-23"],
+        "x-pending": ["PC-13"],
+        "x-roles": ["TESORERO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4367,18 +3944,10 @@
         "operationId": "diezmos_historial",
         "summary": "Consultar auditoría de correcciones",
         "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
-        "tags": [
-          "diezmos"
-        ],
-        "x-requirements": [
-          "RF-23"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "TESORERO"
-        ],
+        "tags": ["diezmos"],
+        "x-requirements": ["RF-23"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["TESORERO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4448,20 +4017,10 @@
         "operationId": "diezmos_reporte",
         "summary": "Consultar reportes privados de iglesia",
         "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
-        "tags": [
-          "diezmos"
-        ],
-        "x-requirements": [
-          "RF-24"
-        ],
-        "x-pending": [
-          "PC-13",
-          "PC-19"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA",
-          "TESORERO"
-        ],
+        "tags": ["diezmos"],
+        "x-requirements": ["RF-24"],
+        "x-pending": ["PC-13", "PC-19"],
+        "x-roles": ["ADMIN_IGLESIA", "TESORERO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4495,11 +4054,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "DIA",
-                "SEMANA",
-                "MES"
-              ],
+              "enum": ["DIA", "SEMANA", "MES"],
               "default": "DIA"
             }
           },
@@ -4508,12 +4063,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "NINGUNO",
-                "HORARIO",
-                "SACERDOTE",
-                "HORARIO_SACERDOTE"
-              ],
+              "enum": ["NINGUNO", "HORARIO", "SACERDOTE", "HORARIO_SACERDOTE"],
               "default": "NINGUNO"
             }
           },
@@ -4584,17 +4134,11 @@
       "get": {
         "operationId": "solicitudes_ofertas",
         "summary": "Consultar tipos de espacio sin precios",
-        "description": "Se propone esta operación; no está implementada. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-25"
-        ],
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-25"],
         "x-pending": [],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4604,32 +4148,11 @@
               "type": "string",
               "format": "uuid"
             }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 20
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real; Cache-Control: no-store",
             "content": {
               "application/json": {
                 "schema": {
@@ -4638,17 +4161,11 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Oferta"
+                        "$ref": "#/components/schemas/EspacioPublico"
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data"],
                   "additionalProperties": false
                 }
               }
@@ -4680,24 +4197,16 @@
           }
         },
         "security": [],
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       },
       "post": {
         "operationId": "solicitudes_altaOferta",
         "summary": "Mantener oferta de tipos de espacio",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-22. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-25"
-        ],
-        "x-pending": [
-          "PC-22"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-25"],
+        "x-pending": ["PC-22"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4768,18 +4277,10 @@
         "operationId": "solicitudes_editarOferta",
         "summary": "Actualizar tipo ofrecido",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-22.  Concurrencia propuesta: enviar version recibida de la lectura; actualización obsoleta => 409, sin cambio ni auditoría parcial. No implementado.",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-25"
-        ],
-        "x-pending": [
-          "PC-22"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-25"],
+        "x-pending": ["PC-22"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4858,20 +4359,11 @@
       "post": {
         "operationId": "solicitudes_alta",
         "summary": "Solicitar espacio sin cuenta",
-        "description": "Se propone esta operación; no está implementada. No cerrar ni implementar decisiones pendientes: PC-14, PC-15. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-26"
-        ],
-        "x-pending": [
-          "PC-14",
-          "PC-15"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-26"],
+        "x-pending": ["PC-14", "PC-15"],
+        "x-roles": ["PUBLICO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4881,15 +4373,31 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "201": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real; Cache-Control: no-store",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AltaSolicitud"
+                  "$ref": "#/components/schemas/SolicitudRecibo"
                 }
               }
             }
@@ -4925,29 +4433,21 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SolicitudInput"
+                "$ref": "#/components/schemas/SolicitudAltaInput"
               }
             }
           }
         },
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       },
       "get": {
         "operationId": "solicitudes_listarPrivado",
         "summary": "Listar solicitudes privadas propias",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-19. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-28"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-28", "RF-30"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4959,7 +4459,7 @@
             }
           },
           {
-            "name": "page",
+            "name": "pagina",
             "in": "query",
             "required": false,
             "schema": {
@@ -4967,42 +4467,15 @@
               "minimum": 1,
               "default": 1
             }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 20
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real; Cache-Control: no-store",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/SolicitudPrivada"
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/Meta"
-                    }
-                  },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/components/schemas/SolicitudLista"
                 }
               }
             }
@@ -5037,46 +4510,36 @@
             "PersonalJWT": []
           }
         ],
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/solicitudes/{folio}": {
       "get": {
         "operationId": "solicitudes_seguimiento",
         "summary": "Seguir solicitud con folio y clave",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-15, PC-16, PC-17. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-27",
-          "RF-30"
-        ],
-        "x-pending": [
-          "PC-15",
-          "PC-16",
-          "PC-17"
-        ],
-        "x-roles": [
-          "SOLICITANTE"
-        ],
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-27", "RF-30"],
+        "x-pending": ["PC-15", "PC-16", "PC-17"],
+        "x-roles": ["SOLICITANTE"],
         "parameters": [
           {
             "name": "folio",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "pattern": "^[A-F0-9]{24}$"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real; Cache-Control: no-store",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Solicitud"
+                  "$ref": "#/components/schemas/SolicitudSeguimiento"
                 }
               }
             }
@@ -5111,28 +4574,18 @@
             "SolicitudClave": []
           }
         ],
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/iglesias/{iglesiaId}/solicitudes/{solicitudId}": {
       "get": {
         "operationId": "solicitudes_detallePrivado",
         "summary": "Revisar solicitud propia",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-17, PC-19. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-28",
-          "RF-30"
-        ],
-        "x-pending": [
-          "PC-17",
-          "PC-19"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-28", "RF-30"],
+        "x-pending": ["PC-17", "PC-19"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -5155,11 +4608,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real; Cache-Control: no-store",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SolicitudPrivada"
+                  "$ref": "#/components/schemas/SolicitudFicha"
                 }
               }
             }
@@ -5194,7 +4647,7 @@
             "PersonalJWT": []
           }
         ],
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/iglesias/{iglesiaId}/solicitudes/{solicitudId}/cotizaciones": {
@@ -5202,21 +4655,10 @@
         "operationId": "solicitudes_cotizar",
         "summary": "Informar precio y condiciones individuales",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-13, PC-16, PC-17, PC-18. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-28"
-        ],
-        "x-pending": [
-          "PC-13",
-          "PC-16",
-          "PC-17",
-          "PC-18"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-28"],
+        "x-pending": ["PC-13", "PC-16", "PC-17", "PC-18"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -5296,19 +4738,10 @@
         "operationId": "solicitudes_sinLugar",
         "summary": "Informar falta de disponibilidad",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-16, PC-18. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-28"
-        ],
-        "x-pending": [
-          "PC-16",
-          "PC-18"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-28"],
+        "x-pending": ["PC-16", "PC-18"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -5387,26 +4820,32 @@
       "post": {
         "operationId": "solicitudes_aceptar",
         "summary": "Aceptar con seguimiento privado",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-15, PC-17, PC-18. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-29",
-          "RF-30"
-        ],
-        "x-pending": [
-          "PC-15",
-          "PC-17",
-          "PC-18"
-        ],
-        "x-roles": [
-          "SOLICITANTE"
-        ],
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-29", "RF-30"],
+        "x-pending": ["PC-15", "PC-17", "PC-18"],
+        "x-roles": ["SOLICITANTE"],
         "parameters": [
           {
             "name": "folio",
             "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-F0-9]{24}$"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
             "required": true,
             "schema": {
               "type": "string"
@@ -5415,11 +4854,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real; Cache-Control: no-store",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Solicitud"
+                  "$ref": "#/components/schemas/SolicitudSeguimiento"
                 }
               }
             }
@@ -5459,38 +4898,44 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DecisionInput"
+                "$ref": "#/components/schemas/SolicitudDecisionInput"
               }
             }
           }
         },
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/solicitudes/{folio}/rechazar": {
       "post": {
         "operationId": "solicitudes_rechazar",
         "summary": "Rechazar con seguimiento privado",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-15, PC-17, PC-18. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-29",
-          "RF-30"
-        ],
-        "x-pending": [
-          "PC-15",
-          "PC-17",
-          "PC-18"
-        ],
-        "x-roles": [
-          "SOLICITANTE"
-        ],
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-29", "RF-30"],
+        "x-pending": ["PC-15", "PC-17", "PC-18"],
+        "x-roles": ["SOLICITANTE"],
         "parameters": [
           {
             "name": "folio",
             "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-F0-9]{24}$"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
             "required": true,
             "schema": {
               "type": "string"
@@ -5499,11 +4944,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real; Cache-Control: no-store",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Solicitud"
+                  "$ref": "#/components/schemas/SolicitudSeguimiento"
                 }
               }
             }
@@ -5543,38 +4988,44 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DecisionInput"
+                "$ref": "#/components/schemas/SolicitudDecisionInput"
               }
             }
           }
         },
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/solicitudes/{folio}/cancelar": {
       "post": {
         "operationId": "solicitudes_cancelar",
         "summary": "Cancelar con seguimiento privado",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-15, PC-17, PC-18. ",
-        "tags": [
-          "solicitudes"
-        ],
-        "x-requirements": [
-          "RF-31",
-          "RF-30"
-        ],
-        "x-pending": [
-          "PC-15",
-          "PC-17",
-          "PC-18"
-        ],
-        "x-roles": [
-          "SOLICITANTE"
-        ],
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-31", "RF-30"],
+        "x-pending": ["PC-15", "PC-17", "PC-18"],
+        "x-roles": ["SOLICITANTE"],
         "parameters": [
           {
             "name": "folio",
             "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-F0-9]{24}$"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
             "required": true,
             "schema": {
               "type": "string"
@@ -5583,11 +5034,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
+            "description": "Resultado real; Cache-Control: no-store",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Solicitud"
+                  "$ref": "#/components/schemas/SolicitudSeguimiento"
                 }
               }
             }
@@ -5627,12 +5078,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VersionInput"
+                "$ref": "#/components/schemas/SolicitudDecisionInput"
               }
             }
           }
         },
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/iglesias/{iglesiaId}/reportes/diezmos/extremos": {
@@ -5640,20 +5091,10 @@
         "operationId": "diezmos_extremos",
         "summary": "Listar celebraciones de máxima o mínima recaudación con empates paginados",
         "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-13, PC-19. ",
-        "tags": [
-          "diezmos"
-        ],
-        "x-requirements": [
-          "RF-24"
-        ],
-        "x-pending": [
-          "PC-13",
-          "PC-19"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA",
-          "TESORERO"
-        ],
+        "tags": ["diezmos"],
+        "x-requirements": ["RF-24"],
+        "x-pending": ["PC-13", "PC-19"],
+        "x-roles": ["ADMIN_IGLESIA", "TESORERO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -5688,13 +5129,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "DIA",
-                "SEMANA",
-                "MES",
-                "HORARIO",
-                "SACERDOTE"
-              ]
+              "enum": ["DIA", "SEMANA", "MES", "HORARIO", "SACERDOTE"]
             }
           },
           {
@@ -5724,10 +5159,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "MAXIMO",
-                "MINIMO"
-              ]
+              "enum": ["MAXIMO", "MINIMO"]
             }
           }
         ],
@@ -5749,10 +5181,7 @@
                       "$ref": "#/components/schemas/Meta"
                     }
                   },
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
+                  "required": ["data", "meta"],
                   "additionalProperties": false
                 }
               }
@@ -5796,20 +5225,10 @@
         "operationId": "identidad_perfil",
         "summary": "Consultar mi sesión",
         "description": "Sesión vigente en PostgreSQL. Bearer para API; la web usa cookie HttpOnly con Origin y token CSRF para cambios.",
-        "tags": [
-          "identidad"
-        ],
-        "x-requirements": [
-          "RF-06"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "COORDINACION",
-          "ADMIN_IGLESIA",
-          "TESORERO"
-        ],
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO"],
         "security": [
           {
             "PersonalJWT": []
@@ -5841,20 +5260,10 @@
         "operationId": "identidad_logout",
         "summary": "Cerrar y revocar mi sesión",
         "description": "Sesión vigente en PostgreSQL. Bearer para API; la web usa cookie HttpOnly con Origin y token CSRF para cambios.",
-        "tags": [
-          "identidad"
-        ],
-        "x-requirements": [
-          "RF-06"
-        ],
-        "x-pending": [
-          "PC-19"
-        ],
-        "x-roles": [
-          "COORDINACION",
-          "ADMIN_IGLESIA",
-          "TESORERO"
-        ],
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO"],
         "security": [
           {
             "PersonalJWT": []
@@ -5878,16 +5287,9 @@
       "get": {
         "operationId": "servicios_tiposServicio",
         "summary": "Consultar tipos informativos de tipos-servicio",
-        "x-requirements": [
-          "RF-13",
-          "RF-14"
-        ],
-        "x-pending": [
-          "PC-22"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-requirements": ["RF-13", "RF-14"],
+        "x-pending": ["PC-22"],
+        "x-roles": ["PUBLICO"],
         "security": [],
         "x-implementation": "IMPLEMENTADO",
         "responses": {
@@ -5911,17 +5313,12 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "nombre"
-                        ],
+                        "required": ["id", "nombre"],
                         "additionalProperties": false
                       }
                     }
                   },
-                  "required": [
-                    "data"
-                  ],
+                  "required": ["data"],
                   "additionalProperties": false
                 }
               }
@@ -5934,16 +5331,9 @@
       "get": {
         "operationId": "servicios_tiposPlatica",
         "summary": "Consultar tipos informativos de tipos-platica",
-        "x-requirements": [
-          "RF-13",
-          "RF-14"
-        ],
-        "x-pending": [
-          "PC-22"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-requirements": ["RF-13", "RF-14"],
+        "x-pending": ["PC-22"],
+        "x-roles": ["PUBLICO"],
         "security": [],
         "x-implementation": "IMPLEMENTADO",
         "responses": {
@@ -5967,17 +5357,12 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "nombre"
-                        ],
+                        "required": ["id", "nombre"],
                         "additionalProperties": false
                       }
                     }
                   },
-                  "required": [
-                    "data"
-                  ],
+                  "required": ["data"],
                   "additionalProperties": false
                 }
               }
@@ -5991,22 +5376,11 @@
         "operationId": "agendaV1_semanaPublica",
         "summary": "semanaPublica",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-17",
-          "RF-19"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "PUBLICO"
-        ],
+        "x-requirements": ["RF-17", "RF-19"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["PUBLICO"],
         "security": [],
         "parameters": [
           {
@@ -6107,21 +5481,11 @@
         "operationId": "agendaV1_listarPadres",
         "summary": "listarPadres",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-16"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-16"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -6215,21 +5579,11 @@
         "operationId": "agendaV1_registrarPadre",
         "summary": "registrarPadre",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-16"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-16"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -6335,21 +5689,11 @@
         "operationId": "agendaV1_vincularPadre",
         "summary": "vincularPadre",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-16"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-16"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -6455,21 +5799,11 @@
         "operationId": "agendaV1_nombrePadre",
         "summary": "nombrePadre",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-16"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-16"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -6584,21 +5918,11 @@
         "operationId": "agendaV1_listarHorarios",
         "summary": "listarHorarios",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-17"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-17"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -6692,22 +6016,11 @@
         "operationId": "agendaV1_registrarHorario",
         "summary": "registrarHorario",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-17",
-          "RF-18"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-17", "RF-18"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -6813,22 +6126,11 @@
         "operationId": "agendaV1_editarHorario",
         "summary": "editarHorario",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-17",
-          "RF-18"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-17", "RF-18"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -6943,21 +6245,11 @@
         "operationId": "agendaV1_agendaPadre",
         "summary": "agendaPadre",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-19"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-19"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -7071,22 +6363,11 @@
         "operationId": "agendaV1_listarHechos",
         "summary": "listarHechos",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-20",
-          "RF-21"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-20", "RF-21"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -7180,22 +6461,11 @@
         "operationId": "agendaV1_registrarHecho",
         "summary": "registrarHecho",
         "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
-        "tags": [
-          "agenda"
-        ],
+        "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
-        "x-requirements": [
-          "RF-20",
-          "RF-21"
-        ],
-        "x-pending": [
-          "PC-10",
-          "PC-11",
-          "PC-12"
-        ],
-        "x-roles": [
-          "ADMIN_IGLESIA"
-        ],
+        "x-requirements": ["RF-20", "RF-21"],
+        "x-pending": ["PC-10", "PC-11", "PC-12"],
+        "x-roles": ["ADMIN_IGLESIA"],
         "security": [
           {
             "PersonalJWT": []
@@ -7295,6 +6565,296 @@
           }
         }
       }
+    },
+    "/solicitudes/acceso": {
+      "get": {
+        "operationId": "solicitudes_accesoFormulario",
+        "summary": "solicitudes_accesoFormulario",
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-26", "RF-27"],
+        "x-pending": ["PC-15"],
+        "x-roles": ["PUBLICO"],
+        "x-implementation": "IMPLEMENTADO",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Resultado real; Cache-Control: no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudAccesoFormulario"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/ofertas-espacio/gestion": {
+      "get": {
+        "operationId": "solicitudes_ofertasGestion",
+        "summary": "solicitudes_ofertasGestion",
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-25"],
+        "x-pending": ["PC-19"],
+        "x-roles": ["ADMIN_IGLESIA"],
+        "x-implementation": "IMPLEMENTADO",
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado real; Cache-Control: no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/EspacioGestion"
+                      }
+                    }
+                  },
+                  "required": ["data"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/ofertas-espacio/{tipo}": {
+      "put": {
+        "operationId": "solicitudes_guardarTipo",
+        "summary": "solicitudes_guardarTipo",
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-25"],
+        "x-pending": [],
+        "x-roles": ["ADMIN_IGLESIA"],
+        "x-implementation": "IMPLEMENTADO",
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["CRIPTA", "NICHO", "COLUMBARIO", "OSARIO"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado real; Cache-Control: no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EspacioGestion"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EspacioGuardarInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/solicitudes/{solicitudId}/revision": {
+      "post": {
+        "operationId": "solicitudes_revision",
+        "summary": "solicitudes_revision",
+        "description": "Implementado con supuestos técnicos revisables ADR010; PC14–19 no resueltas. No-store. Clave nunca en URL/log. POST anónimo requiere cookie ecclesia_visitante, Origin y X-CSRF-Token obtenidos de /solicitudes/acceso. Conflictos de estado/versión 409; intentos limitados persistentemente. Vigencia [emisión, emisión + 360 horas).",
+        "tags": ["solicitudes"],
+        "x-requirements": ["RF-28"],
+        "x-pending": ["PC-16", "PC-17", "PC-18", "PC-19"],
+        "x-roles": ["ADMIN_IGLESIA"],
+        "x-implementation": "IMPLEMENTADO",
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "solicitudId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado real; Cache-Control: no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudFicha"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudRevisionInput"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -7325,18 +6885,12 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "reason"
-              ],
+              "required": ["reason"],
               "additionalProperties": false
             }
           }
         },
-        "required": [
-          "code",
-          "message",
-          "details"
-        ],
+        "required": ["code", "message", "details"],
         "additionalProperties": false
       },
       "Meta": {
@@ -7356,11 +6910,7 @@
             "minimum": 0
           }
         },
-        "required": [
-          "page",
-          "pageSize",
-          "total"
-        ],
+        "required": ["page", "pageSize", "total"],
         "additionalProperties": false
       },
       "CatalogItem": {
@@ -7389,11 +6939,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "id",
-          "nombre",
-          "version"
-        ],
+        "required": ["id", "nombre", "version"],
         "additionalProperties": false
       },
       "LoginInput": {
@@ -7410,10 +6956,7 @@
             "maxLength": 72
           }
         },
-        "required": [
-          "identificador",
-          "password"
-        ],
+        "required": ["identificador", "password"],
         "additionalProperties": false
       },
       "Token": {
@@ -7473,16 +7016,10 @@
                 },
                 "rol": {
                   "type": "string",
-                  "enum": [
-                    "ADMIN_IGLESIA",
-                    "TESORERO"
-                  ]
+                  "enum": ["ADMIN_IGLESIA", "TESORERO"]
                 }
               },
-              "required": [
-                "iglesiaId",
-                "rol"
-              ],
+              "required": ["iglesiaId", "rol"],
               "additionalProperties": false
             }
           }
@@ -7513,10 +7050,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "id",
-          "version"
-        ],
+        "required": ["id", "version"],
         "additionalProperties": false
       },
       "IglesiaInput": {
@@ -7636,20 +7170,14 @@
             "pattern": "\\S"
           },
           "cerradaDesde": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "format": "date-time"
           },
           "indice": {
             "$ref": "#/components/schemas/DecimalExacto"
           },
           "distincion": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "version": {
             "type": "integer",
@@ -7665,33 +7193,13 @@
             "minLength": 1
           }
         },
-        "required": [
-          "id",
-          "nombre",
-          "version"
-        ],
+        "required": ["id", "nombre", "version"],
         "additionalProperties": false,
         "dependentRequired": {
-          "indice": [
-            "distincion",
-            "criterioId",
-            "referenciaTemporal"
-          ],
-          "distincion": [
-            "indice",
-            "criterioId",
-            "referenciaTemporal"
-          ],
-          "criterioId": [
-            "indice",
-            "distincion",
-            "referenciaTemporal"
-          ],
-          "referenciaTemporal": [
-            "indice",
-            "distincion",
-            "criterioId"
-          ]
+          "indice": ["distincion", "criterioId", "referenciaTemporal"],
+          "distincion": ["indice", "criterioId", "referenciaTemporal"],
+          "criterioId": ["indice", "distincion", "referenciaTemporal"],
+          "referenciaTemporal": ["indice", "distincion", "criterioId"]
         }
       },
       "FichaPublica": {
@@ -7728,10 +7236,7 @@
             "additionalProperties": false
           }
         },
-        "required": [
-          "iglesia",
-          "recursos"
-        ],
+        "required": ["iglesia", "recursos"],
         "additionalProperties": false,
         "description": "Sin usuarios, diezmos, contactos de solicitudes, claves o cotizaciones. La publicación de objetos no vigentes depende PC-06."
       },
@@ -7748,10 +7253,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "motivo",
-          "version"
-        ],
+        "required": ["motivo", "version"],
         "additionalProperties": false
       },
       "ObjetoInput": {
@@ -7840,12 +7342,7 @@
           },
           "condicion": {
             "type": "string",
-            "enum": [
-              "VIGENTE",
-              "PRESTADO",
-              "PERDIDO",
-              "BAJA"
-            ]
+            "enum": ["VIGENTE", "PRESTADO", "PERDIDO", "BAJA"]
           },
           "version": {
             "type": "integer",
@@ -7853,10 +7350,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "id",
-          "version"
-        ],
+        "required": ["id", "version"],
         "additionalProperties": false,
         "description": "Rótulos propuestos PC-06."
       },
@@ -7865,12 +7359,7 @@
         "properties": {
           "condicion": {
             "type": "string",
-            "enum": [
-              "VIGENTE",
-              "PRESTADO",
-              "PERDIDO",
-              "BAJA"
-            ]
+            "enum": ["VIGENTE", "PRESTADO", "PERDIDO", "BAJA"]
           },
           "motivo": {
             "type": "string",
@@ -7882,10 +7371,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "condicion",
-          "version"
-        ],
+        "required": ["condicion", "version"],
         "additionalProperties": false,
         "description": "Retorno a vigente pendiente PC-06; no habilitarlo por figurar en enum."
       },
@@ -7905,10 +7391,7 @@
             "$ref": "#/components/schemas/DecimalExacto"
           },
           "distincion": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "criterioId": {
             "type": "string",
@@ -7919,12 +7402,7 @@
             "minLength": 1
           }
         },
-        "required": [
-          "iglesiaId",
-          "indice",
-          "criterioId",
-          "referenciaTemporal"
-        ],
+        "required": ["iglesiaId", "indice", "criterioId", "referenciaTemporal"],
         "additionalProperties": false
       },
       "CriterioInput": {
@@ -7943,21 +7421,14 @@
                   "minimum": 0
                 },
                 "edadHasta": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
+                  "type": ["integer", "null"],
                   "minimum": 0
                 },
                 "puntos": {
                   "$ref": "#/components/schemas/DecimalExacto"
                 }
               },
-              "required": [
-                "edadDesde",
-                "edadHasta",
-                "puntos"
-              ],
+              "required": ["edadDesde", "edadHasta", "puntos"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -7977,10 +7448,7 @@
                   "$ref": "#/components/schemas/DecimalExacto"
                 }
               },
-              "required": [
-                "tipoObjetoId",
-                "factor"
-              ],
+              "required": ["tipoObjetoId", "factor"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -7999,21 +7467,13 @@
                   "pattern": "\\S"
                 }
               },
-              "required": [
-                "minimo",
-                "etiqueta"
-              ],
+              "required": ["minimo", "etiqueta"],
               "additionalProperties": false
             },
             "minItems": 1
           }
         },
-        "required": [
-          "bonusInah",
-          "tramos",
-          "factores",
-          "umbrales"
-        ],
+        "required": ["bonusInah", "tramos", "factores", "umbrales"],
         "additionalProperties": false,
         "description": "Decimales exactos; validar rangos sin huecos ni superposición, cobertura de categorías y umbrales. Activación PC-08."
       },
@@ -8042,21 +7502,14 @@
                   "minimum": 0
                 },
                 "edadHasta": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
+                  "type": ["integer", "null"],
                   "minimum": 0
                 },
                 "puntos": {
                   "$ref": "#/components/schemas/DecimalExacto"
                 }
               },
-              "required": [
-                "edadDesde",
-                "edadHasta",
-                "puntos"
-              ],
+              "required": ["edadDesde", "edadHasta", "puntos"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -8076,10 +7529,7 @@
                   "$ref": "#/components/schemas/DecimalExacto"
                 }
               },
-              "required": [
-                "tipoObjetoId",
-                "factor"
-              ],
+              "required": ["tipoObjetoId", "factor"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -8098,10 +7548,7 @@
                   "pattern": "\\S"
                 }
               },
-              "required": [
-                "minimo",
-                "etiqueta"
-              ],
+              "required": ["minimo", "etiqueta"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -8115,11 +7562,7 @@
             "description": "Número de la versión de criterios patrimoniales; distinto de version, contador de concurrencia. Su publicación/activación sigue pendiente PC-08."
           }
         },
-        "required": [
-          "id",
-          "version",
-          "numeroVersionConfiguracion"
-        ],
+        "required": ["id", "version", "numeroVersionConfiguracion"],
         "additionalProperties": false
       },
       "HorarioSemanal": {
@@ -8139,10 +7582,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "diaSemana",
-          "horaLocal"
-        ],
+        "required": ["diaSemana", "horaLocal"],
         "additionalProperties": false,
         "description": "Convención técnica propuesta: lunes=1. Vigencia/excepciones PC-11."
       },
@@ -8186,10 +7626,7 @@
                   "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
                 }
               },
-              "required": [
-                "diaSemana",
-                "horaLocal"
-              ],
+              "required": ["diaSemana", "horaLocal"],
               "additionalProperties": false
             }
           },
@@ -8201,11 +7638,7 @@
           },
           "modalidad": {
             "type": "string",
-            "enum": [
-              "FIJO",
-              "GRATUITO",
-              "DONATIVO"
-            ]
+            "enum": ["FIJO", "GRATUITO", "DONATIVO"]
           },
           "requisitos": {
             "type": "string",
@@ -8276,10 +7709,7 @@
                   "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
                 }
               },
-              "required": [
-                "diaSemana",
-                "horaLocal"
-              ],
+              "required": ["diaSemana", "horaLocal"],
               "additionalProperties": false
             }
           },
@@ -8291,11 +7721,7 @@
           },
           "modalidad": {
             "type": "string",
-            "enum": [
-              "FIJO",
-              "GRATUITO",
-              "DONATIVO"
-            ]
+            "enum": ["FIJO", "GRATUITO", "DONATIVO"]
           },
           "requisitos": {
             "type": "string",
@@ -8334,9 +7760,7 @@
                   "const": "FIJO"
                 }
               },
-              "required": [
-                "modalidad"
-              ]
+              "required": ["modalidad"]
             },
             "then": {
               "properties": {
@@ -8351,15 +7775,10 @@
             "if": {
               "properties": {
                 "modalidad": {
-                  "enum": [
-                    "GRATUITO",
-                    "DONATIVO"
-                  ]
+                  "enum": ["GRATUITO", "DONATIVO"]
                 }
               },
-              "required": [
-                "modalidad"
-              ]
+              "required": ["modalidad"]
             },
             "then": {
               "properties": {
@@ -8404,10 +7823,7 @@
                   "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
                 }
               },
-              "required": [
-                "diaSemana",
-                "horaLocal"
-              ],
+              "required": ["diaSemana", "horaLocal"],
               "additionalProperties": false
             }
           },
@@ -8481,10 +7897,7 @@
                   "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
                 }
               },
-              "required": [
-                "diaSemana",
-                "horaLocal"
-              ],
+              "required": ["diaSemana", "horaLocal"],
               "additionalProperties": false
             }
           },
@@ -8571,11 +7984,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "id",
-          "nombre",
-          "version"
-        ],
+        "required": ["id", "nombre", "version"],
         "additionalProperties": false
       },
       "HorarioMisaInput": {
@@ -8597,11 +8006,7 @@
           },
           "tipo": {
             "type": "string",
-            "enum": [
-              "DIARIA",
-              "DOMINICAL",
-              "ESPECIAL"
-            ]
+            "enum": ["DIARIA", "DOMINICAL", "ESPECIAL"]
           },
           "idioma": {
             "type": "string",
@@ -8648,11 +8053,7 @@
           },
           "tipo": {
             "type": "string",
-            "enum": [
-              "DIARIA",
-              "DOMINICAL",
-              "ESPECIAL"
-            ]
+            "enum": ["DIARIA", "DOMINICAL", "ESPECIAL"]
           },
           "idioma": {
             "type": "string",
@@ -8685,11 +8086,7 @@
             "$ref": "#/components/schemas/SacerdoteResumenPublico"
           }
         },
-        "required": [
-          "id",
-          "version",
-          "sacerdotePrevisto"
-        ],
+        "required": ["id", "version", "sacerdotePrevisto"],
         "additionalProperties": false,
         "description": "Resumen público del padre previsto obligatorio para RF-19. Si se devuelve sacerdotePrevistoId debe coincidir con sacerdotePrevisto.id; verificarlo en servicio. Vigencias y visibilidad de agenda siguen pendientes PC-11."
       },
@@ -8722,12 +8119,7 @@
             "pattern": "\\S"
           }
         },
-        "required": [
-          "horarioId",
-          "iglesiaId",
-          "inicio",
-          "fin"
-        ],
+        "required": ["horarioId", "iglesiaId", "inicio", "fin"],
         "additionalProperties": false
       },
       "CelebracionInput": {
@@ -8802,10 +8194,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "id",
-          "version"
-        ],
+        "required": ["id", "version"],
         "additionalProperties": false
       },
       "SustitucionInput": {
@@ -8825,11 +8214,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "sacerdoteRealId",
-          "motivo",
-          "version"
-        ],
+        "required": ["sacerdoteRealId", "motivo", "version"],
         "additionalProperties": false
       },
       "Sustitucion": {
@@ -8861,12 +8246,7 @@
             "format": "date-time"
           }
         },
-        "required": [
-          "id",
-          "motivo",
-          "actorId",
-          "instante"
-        ],
+        "required": ["id", "motivo", "actorId", "instante"],
         "additionalProperties": false
       },
       "DiezmoInput": {
@@ -8881,10 +8261,7 @@
             "pattern": "\\S"
           }
         },
-        "required": [
-          "importe",
-          "moneda"
-        ],
+        "required": ["importe", "moneda"],
         "additionalProperties": false,
         "description": "PC-13 fija moneda admitida, signo y límites. Solo tesorero y misa ya celebrada."
       },
@@ -8899,10 +8276,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "importe",
-          "version"
-        ],
+        "required": ["importe", "version"],
         "additionalProperties": false
       },
       "Diezmo": {
@@ -8929,13 +8303,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "id",
-          "celebracionId",
-          "importe",
-          "moneda",
-          "version"
-        ],
+        "required": ["id", "celebracionId", "importe", "moneda", "version"],
         "additionalProperties": false
       },
       "Correccion": {
@@ -9005,11 +8373,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "clave",
-                "total",
-                "cantidad"
-              ],
+              "required": ["clave", "total", "cantidad"],
               "additionalProperties": false
             }
           },
@@ -9041,12 +8405,7 @@
             "description": "Colección paginada de celebraciones extremas, con filtro MAXIMO o MINIMO; conserva mismos permisos y periodo."
           }
         },
-        "required": [
-          "total",
-          "moneda",
-          "grupos",
-          "meta"
-        ],
+        "required": ["total", "moneda", "grupos", "meta"],
         "additionalProperties": false,
         "description": "Grupos paginados y enlace a extremos paginados. PC-13 fija divisor, redondeo, cortes y vacíos. Sin resultados reales."
       },
@@ -9060,9 +8419,7 @@
             "pattern": "\\S"
           }
         },
-        "required": [
-          "tipoEspacioId"
-        ],
+        "required": ["tipoEspacioId"],
         "additionalProperties": false,
         "minProperties": 1
       },
@@ -9088,11 +8445,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "id",
-          "tipoEspacioId",
-          "version"
-        ],
+        "required": ["id", "tipoEspacioId", "version"],
         "additionalProperties": false,
         "description": "No contiene precios."
       },
@@ -9127,10 +8480,7 @@
             "$ref": "#/components/schemas/ContactoPropuesto"
           }
         },
-        "required": [
-          "ofertaEspacioId",
-          "contacto"
-        ],
+        "required": ["ofertaEspacioId", "contacto"],
         "additionalProperties": false,
         "description": "PC-14 debe cerrar el contenido del contacto antes de implementar."
       },
@@ -9153,12 +8503,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "folio",
-          "clave",
-          "estado",
-          "version"
-        ],
+        "required": ["folio", "clave", "estado", "version"],
         "additionalProperties": false
       },
       "CotizacionInput": {
@@ -9183,12 +8528,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "importe",
-          "moneda",
-          "condiciones",
-          "version"
-        ],
+        "required": ["importe", "moneda", "condiciones", "version"],
         "additionalProperties": false,
         "description": "Vencimiento calculado por servidor tras PC-17; el cuerpo no fija fecha de vencimiento. version corresponde a la Solicitud, no a una cotización nueva."
       },
@@ -9275,11 +8615,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "folio",
-          "estado",
-          "version"
-        ],
+        "required": ["folio", "estado", "version"],
         "additionalProperties": false,
         "description": "Proyección para solicitante; estados propuestos PC-18, campos visibles PC-15. No contiene clave/hash ni datos ajenos."
       },
@@ -9327,13 +8663,7 @@
             "format": "uuid"
           }
         },
-        "required": [
-          "id",
-          "folio",
-          "estado",
-          "version",
-          "iglesiaId"
-        ],
+        "required": ["id", "folio", "estado", "version", "iglesiaId"],
         "additionalProperties": false,
         "description": "Solo administración de la iglesia; no usar en consultas públicas ni habilitar a Coordinación sin PC-19."
       },
@@ -9349,10 +8679,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "cotizacionId",
-          "version"
-        ],
+        "required": ["cotizacionId", "version"],
         "additionalProperties": false
       },
       "VersionInput": {
@@ -9363,9 +8690,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false
       },
       "EventoSolicitud": {
@@ -9384,19 +8709,10 @@
           },
           "tipoActor": {
             "type": "string",
-            "enum": [
-              "PERSONAL",
-              "SOLICITANTE",
-              "SISTEMA"
-            ]
+            "enum": ["PERSONAL", "SOLICITANTE", "SISTEMA"]
           }
         },
-        "required": [
-          "id",
-          "evento",
-          "instante",
-          "tipoActor"
-        ],
+        "required": ["id", "evento", "instante", "tipoActor"],
         "additionalProperties": false
       },
       "DecimalExacto": {
@@ -9432,16 +8748,10 @@
                 },
                 "rol": {
                   "type": "string",
-                  "enum": [
-                    "ADMIN_IGLESIA",
-                    "TESORERO"
-                  ]
+                  "enum": ["ADMIN_IGLESIA", "TESORERO"]
                 }
               },
-              "required": [
-                "iglesiaId",
-                "rol"
-              ],
+              "required": ["iglesiaId", "rol"],
               "additionalProperties": false
             }
           }
@@ -9480,16 +8790,10 @@
                 },
                 "rol": {
                   "type": "string",
-                  "enum": [
-                    "ADMIN_IGLESIA",
-                    "TESORERO"
-                  ]
+                  "enum": ["ADMIN_IGLESIA", "TESORERO"]
                 }
               },
-              "required": [
-                "iglesiaId",
-                "rol"
-              ],
+              "required": ["iglesiaId", "rol"],
               "additionalProperties": false
             }
           },
@@ -9499,9 +8803,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "description": "Propuesta de cuenta; acumulación de roles/ámbitos y bootstrap pendientes PC-19. Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación.",
         "minProperties": 2
@@ -9625,9 +8927,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "description": "Campos del caso; obligatoriedad y validaciones de negocio pendientes PC-01/02. No es DTO final. Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación.",
         "minProperties": 2
@@ -9719,9 +9019,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "description": "PC-02/05 determinan obligatoriedad, desconocidos y conjuntos. No aceptar año y siglo contradictorios. Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación.",
         "minProperties": 2
@@ -9766,10 +9064,7 @@
                   "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
                 }
               },
-              "required": [
-                "diaSemana",
-                "horaLocal"
-              ],
+              "required": ["diaSemana", "horaLocal"],
               "additionalProperties": false
             }
           },
@@ -9781,11 +9076,7 @@
           },
           "modalidad": {
             "type": "string",
-            "enum": [
-              "FIJO",
-              "GRATUITO",
-              "DONATIVO"
-            ]
+            "enum": ["FIJO", "GRATUITO", "DONATIVO"]
           },
           "requisitos": {
             "type": "string",
@@ -9823,9 +9114,7 @@
                   "const": "FIJO"
                 }
               },
-              "required": [
-                "modalidad"
-              ]
+              "required": ["modalidad"]
             },
             "then": {
               "properties": {
@@ -9840,15 +9129,10 @@
             "if": {
               "properties": {
                 "modalidad": {
-                  "enum": [
-                    "GRATUITO",
-                    "DONATIVO"
-                  ]
+                  "enum": ["GRATUITO", "DONATIVO"]
                 }
               },
-              "required": [
-                "modalidad"
-              ]
+              "required": ["modalidad"]
             },
             "then": {
               "properties": {
@@ -9900,10 +9184,7 @@
                   "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
                 }
               },
-              "required": [
-                "diaSemana",
-                "horaLocal"
-              ],
+              "required": ["diaSemana", "horaLocal"],
               "additionalProperties": false
             }
           },
@@ -9915,11 +9196,7 @@
           },
           "modalidad": {
             "type": "string",
-            "enum": [
-              "FIJO",
-              "GRATUITO",
-              "DONATIVO"
-            ]
+            "enum": ["FIJO", "GRATUITO", "DONATIVO"]
           },
           "requisitos": {
             "type": "string",
@@ -9941,9 +9218,7 @@
             "maximum": 2147483646
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "minProperties": 2,
         "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Se compara versión y se valida el agregado resultante."
@@ -9981,10 +9256,7 @@
                   "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
                 }
               },
-              "required": [
-                "diaSemana",
-                "horaLocal"
-              ],
+              "required": ["diaSemana", "horaLocal"],
               "additionalProperties": false
             }
           },
@@ -10057,10 +9329,7 @@
                   "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
                 }
               },
-              "required": [
-                "diaSemana",
-                "horaLocal"
-              ],
+              "required": ["diaSemana", "horaLocal"],
               "additionalProperties": false
             }
           },
@@ -10092,9 +9361,7 @@
             "maximum": 2147483646
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "minProperties": 2,
         "description": "DTO ejecutable RF13–15. Perfil técnico revisable: campos informativos completos, moneda explícita, horarios semanales locales; sin reservas, asistencia ni vínculo obligatorio servicio–plática. Ver docs/incremento-servicios.md. Se compara versión y se valida el agregado resultante."
@@ -10142,9 +9409,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "description": "Alta o asignación compartida por revisar PC-10; no duplicar identidad ni crear cuenta implícita. Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación.",
         "minProperties": 2
@@ -10168,11 +9433,7 @@
           },
           "tipo": {
             "type": "string",
-            "enum": [
-              "DIARIA",
-              "DOMINICAL",
-              "ESPECIAL"
-            ]
+            "enum": ["DIARIA", "DOMINICAL", "ESPECIAL"]
           },
           "idioma": {
             "type": "string",
@@ -10216,11 +9477,7 @@
           },
           "tipo": {
             "type": "string",
-            "enum": [
-              "DIARIA",
-              "DOMINICAL",
-              "ESPECIAL"
-            ]
+            "enum": ["DIARIA", "DOMINICAL", "ESPECIAL"]
           },
           "idioma": {
             "type": "string",
@@ -10245,9 +9502,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "description": "Duración omitida: 60 minutos según caso. Fechas de vigencia propuestas PC-11; comparar instantes entre zonas. Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación.",
         "minProperties": 2
@@ -10309,9 +9564,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "description": "Registrar hecho ocurrido; zona y padre previsto derivan del servidor. Sin horario y correcciones pendientes PC-12. Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación.",
         "minProperties": 2
@@ -10326,9 +9579,7 @@
             "pattern": "\\S"
           }
         },
-        "required": [
-          "tipoEspacioId"
-        ],
+        "required": ["tipoEspacioId"],
         "additionalProperties": false,
         "minProperties": 1,
         "x-validation-status": "PARCIAL: campos obligatorios de negocio sujetos a PC de la operación; no es DTO final."
@@ -10348,9 +9599,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "minProperties": 2,
         "description": " Edición parcial: version esperada y al menos un campo modificable. PC abiertas no autorizan implementar esta operación."
@@ -10371,21 +9620,14 @@
                   "minimum": 0
                 },
                 "edadHasta": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
+                  "type": ["integer", "null"],
                   "minimum": 0
                 },
                 "puntos": {
                   "$ref": "#/components/schemas/DecimalExacto"
                 }
               },
-              "required": [
-                "edadDesde",
-                "edadHasta",
-                "puntos"
-              ],
+              "required": ["edadDesde", "edadHasta", "puntos"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -10405,10 +9647,7 @@
                   "$ref": "#/components/schemas/DecimalExacto"
                 }
               },
-              "required": [
-                "tipoObjetoId",
-                "factor"
-              ],
+              "required": ["tipoObjetoId", "factor"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -10427,21 +9666,13 @@
                   "pattern": "\\S"
                 }
               },
-              "required": [
-                "minimo",
-                "etiqueta"
-              ],
+              "required": ["minimo", "etiqueta"],
               "additionalProperties": false
             },
             "minItems": 1
           }
         },
-        "required": [
-          "bonusInah",
-          "tramos",
-          "factores",
-          "umbrales"
-        ],
+        "required": ["bonusInah", "tramos", "factores", "umbrales"],
         "additionalProperties": false,
         "description": "Decimales exactos; validar rangos sin huecos ni superposición, cobertura de categorías y umbrales. Activación PC-08."
       },
@@ -10461,21 +9692,14 @@
                   "minimum": 0
                 },
                 "edadHasta": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
+                  "type": ["integer", "null"],
                   "minimum": 0
                 },
                 "puntos": {
                   "$ref": "#/components/schemas/DecimalExacto"
                 }
               },
-              "required": [
-                "edadDesde",
-                "edadHasta",
-                "puntos"
-              ],
+              "required": ["edadDesde", "edadHasta", "puntos"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -10495,10 +9719,7 @@
                   "$ref": "#/components/schemas/DecimalExacto"
                 }
               },
-              "required": [
-                "tipoObjetoId",
-                "factor"
-              ],
+              "required": ["tipoObjetoId", "factor"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -10517,10 +9738,7 @@
                   "pattern": "\\S"
                 }
               },
-              "required": [
-                "minimo",
-                "etiqueta"
-              ],
+              "required": ["minimo", "etiqueta"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -10531,13 +9749,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "bonusInah",
-          "tramos",
-          "factores",
-          "umbrales",
-          "version"
-        ],
+        "required": ["bonusInah", "tramos", "factores", "umbrales", "version"],
         "additionalProperties": false,
         "description": "Decimales exactos; validar rangos sin huecos ni superposición, cobertura de categorías y umbrales. Activación PC-08."
       },
@@ -10562,10 +9774,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id",
-          "nombre"
-        ],
+        "required": ["id", "nombre"],
         "additionalProperties": false
       },
       "CatalogPatchInput": {
@@ -10594,9 +9803,7 @@
             "description": "Versión de concurrencia del recurso leído; enviar la esperada. El servidor incrementa al mutar y rechaza obsoletas con 409."
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "minProperties": 2
       },
@@ -10613,10 +9820,7 @@
             "pattern": "\\S"
           }
         },
-        "required": [
-          "id",
-          "nombre"
-        ],
+        "required": ["id", "nombre"],
         "additionalProperties": false
       },
       "IglesiaReferenciaCreateInput": {
@@ -10694,12 +9898,8 @@
         ],
         "additionalProperties": false,
         "dependentRequired": {
-          "latitud": [
-            "longitud"
-          ],
-          "longitud": [
-            "latitud"
-          ]
+          "latitud": ["longitud"],
+          "longitud": ["latitud"]
         },
         "description": "Perfil mínimo provisional de referencia, sujeto PC-02. No es aprobación del cliente."
       },
@@ -10773,18 +9973,12 @@
             "maximum": 2147483646
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "minProperties": 2,
         "additionalProperties": false,
         "dependentRequired": {
-          "latitud": [
-            "longitud"
-          ],
-          "longitud": [
-            "latitud"
-          ]
+          "latitud": ["longitud"],
+          "longitud": ["latitud"]
         }
       },
       "FichaBasicaPublica": {
@@ -10794,9 +9988,7 @@
             "$ref": "#/components/schemas/Iglesia"
           }
         },
-        "required": [
-          "iglesia"
-        ],
+        "required": ["iglesia"],
         "additionalProperties": false,
         "description": "Solo el bloque real de Iglesias. Integración con otros dominios pendiente; FichaPublica completa sigue como diseño."
       },
@@ -10814,11 +10006,7 @@
           },
           "rol": {
             "type": "string",
-            "enum": [
-              "COORDINACION",
-              "ADMIN_IGLESIA",
-              "TESORERO"
-            ]
+            "enum": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO"]
           },
           "iglesiaId": {
             "type": "string",
@@ -10828,12 +10016,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "id",
-          "identificador",
-          "rol",
-          "activo"
-        ]
+        "required": ["id", "identificador", "rol", "activo"]
       },
       "AltaPersonal": {
         "type": "object",
@@ -10853,22 +10036,14 @@
           },
           "rol": {
             "type": "string",
-            "enum": [
-              "COORDINACION",
-              "ADMIN_IGLESIA",
-              "TESORERO"
-            ]
+            "enum": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO"]
           },
           "iglesiaId": {
             "type": "string",
             "format": "uuid"
           }
         },
-        "required": [
-          "identificador",
-          "password",
-          "rol"
-        ],
+        "required": ["identificador", "password", "rol"],
         "oneOf": [
           {
             "properties": {
@@ -10877,23 +10052,16 @@
               }
             },
             "not": {
-              "required": [
-                "iglesiaId"
-              ]
+              "required": ["iglesiaId"]
             }
           },
           {
             "properties": {
               "rol": {
-                "enum": [
-                  "ADMIN_IGLESIA",
-                  "TESORERO"
-                ]
+                "enum": ["ADMIN_IGLESIA", "TESORERO"]
               }
             },
-            "required": [
-              "iglesiaId"
-            ]
+            "required": ["iglesiaId"]
           }
         ]
       },
@@ -10907,10 +10075,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "usuario",
-          "csrfToken"
-        ],
+        "required": ["usuario", "csrfToken"],
         "additionalProperties": false
       },
       "CatalogoItemLectura": {
@@ -10932,10 +10097,7 @@
             "pattern": "^[0-9]{3}$"
           }
         },
-        "required": [
-          "id",
-          "nombre"
-        ],
+        "required": ["id", "nombre"],
         "additionalProperties": false
       },
       "CatalogoFuente": {
@@ -10953,11 +10115,7 @@
             "pattern": "^[a-f0-9]{64}$"
           }
         },
-        "required": [
-          "version",
-          "consulta",
-          "sha256"
-        ],
+        "required": ["version", "consulta", "sha256"],
         "additionalProperties": false
       },
       "CatalogoPaginaLectura": {
@@ -10982,12 +10140,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "data",
-          "meta",
-          "fuentes",
-          "alcance"
-        ],
+        "required": ["data", "meta", "fuentes", "alcance"],
         "additionalProperties": false
       },
       "PatrimonioAlta": {
@@ -11004,18 +10157,12 @@
             "format": "uuid"
           },
           "anioExacto": {
-            "type": [
-              "integer",
-              "null"
-            ],
+            "type": ["integer", "null"],
             "minimum": 1,
             "maximum": 9999
           },
           "siglo": {
-            "type": [
-              "integer",
-              "null"
-            ],
+            "type": ["integer", "null"],
             "minimum": 1,
             "maximum": 100
           },
@@ -11052,9 +10199,7 @@
         "additionalProperties": false,
         "oneOf": [
           {
-            "required": [
-              "anioExacto"
-            ],
+            "required": ["anioExacto"],
             "properties": {
               "anioExacto": {
                 "type": "integer"
@@ -11065,9 +10210,7 @@
             }
           },
           {
-            "required": [
-              "siglo"
-            ],
+            "required": ["siglo"],
             "properties": {
               "anioExacto": {
                 "type": "null"
@@ -11093,18 +10236,12 @@
             "format": "uuid"
           },
           "anioExacto": {
-            "type": [
-              "integer",
-              "null"
-            ],
+            "type": ["integer", "null"],
             "minimum": 1,
             "maximum": 9999
           },
           "siglo": {
-            "type": [
-              "integer",
-              "null"
-            ],
+            "type": ["integer", "null"],
             "minimum": 1,
             "maximum": 100
           },
@@ -11135,9 +10272,7 @@
             "maximum": 2147483646
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "additionalProperties": false,
         "minProperties": 2
       },
@@ -11150,19 +10285,11 @@
             "maximum": 2147483646
           },
           "condicion": {
-            "enum": [
-              "VIGENTE",
-              "PERDIDO",
-              "PRESTADO",
-              "BAJA"
-            ],
+            "enum": ["VIGENTE", "PERDIDO", "PRESTADO", "BAJA"],
             "type": "string"
           }
         },
-        "required": [
-          "version",
-          "condicion"
-        ],
+        "required": ["version", "condicion"],
         "additionalProperties": false
       },
       "PatrimonioObjeto": {
@@ -11179,18 +10306,12 @@
             "format": "uuid"
           },
           "anioExacto": {
-            "type": [
-              "integer",
-              "null"
-            ],
+            "type": ["integer", "null"],
             "minimum": 1,
             "maximum": 9999
           },
           "siglo": {
-            "type": [
-              "integer",
-              "null"
-            ],
+            "type": ["integer", "null"],
             "minimum": 1,
             "maximum": 100
           },
@@ -11230,12 +10351,7 @@
           },
           "condicion": {
             "type": "string",
-            "enum": [
-              "VIGENTE",
-              "PERDIDO",
-              "PRESTADO",
-              "BAJA"
-            ]
+            "enum": ["VIGENTE", "PERDIDO", "PRESTADO", "BAJA"]
           }
         },
         "required": [
@@ -11262,10 +10378,7 @@
             "pattern": "^\\d+\\.\\d$"
           },
           "distincion": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "enum": [
               null,
               "Valor patrimonial",
@@ -11299,11 +10412,7 @@
                   "pattern": "^\\d+\\.\\d$"
                 }
               },
-              "required": [
-                "objetoId",
-                "antiguedad",
-                "puntos"
-              ],
+              "required": ["objetoId", "antiguedad", "puntos"],
               "additionalProperties": false
             }
           }
@@ -11334,10 +10443,7 @@
                 "pattern": "\\S"
               }
             },
-            "required": [
-              "id",
-              "nombre"
-            ],
+            "required": ["id", "nombre"],
             "additionalProperties": false
           },
           "data": {
@@ -11353,12 +10459,7 @@
             "$ref": "#/components/schemas/PatrimonioCalculo"
           }
         },
-        "required": [
-          "iglesia",
-          "data",
-          "meta",
-          "calculo"
-        ],
+        "required": ["iglesia", "data", "meta", "calculo"],
         "additionalProperties": false
       },
       "PatrimonioRanking": {
@@ -11409,10 +10510,7 @@
                   "pattern": "^\\d+\\.\\d$"
                 },
                 "distincion": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "enum": [
                     null,
                     "Valor patrimonial",
@@ -11443,10 +10541,7 @@
             "$ref": "#/components/schemas/Meta"
           }
         },
-        "required": [
-          "data",
-          "meta"
-        ],
+        "required": ["data", "meta"],
         "additionalProperties": false
       },
       "ServiciosConsulta": {
@@ -11463,10 +10558,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "id",
-              "nombre"
-            ],
+            "required": ["id", "nombre"],
             "additionalProperties": false
           },
           "data": {
@@ -11479,11 +10571,7 @@
             "$ref": "#/components/schemas/Meta"
           }
         },
-        "required": [
-          "iglesia",
-          "data",
-          "meta"
-        ],
+        "required": ["iglesia", "data", "meta"],
         "additionalProperties": false
       },
       "PlaticasConsulta": {
@@ -11500,10 +10588,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "id",
-              "nombre"
-            ],
+            "required": ["id", "nombre"],
             "additionalProperties": false
           },
           "data": {
@@ -11516,11 +10601,7 @@
             "$ref": "#/components/schemas/Meta"
           }
         },
-        "required": [
-          "iglesia",
-          "data",
-          "meta"
-        ],
+        "required": ["iglesia", "data", "meta"],
         "additionalProperties": false
       },
       "AgendaSacerdoteInput": {
@@ -11533,9 +10614,7 @@
             "maxLength": 200
           }
         },
-        "required": [
-          "nombre"
-        ]
+        "required": ["nombre"]
       },
       "AgendaVinculoInput": {
         "type": "object",
@@ -11546,9 +10625,7 @@
             "format": "uuid"
           }
         },
-        "required": [
-          "sacerdoteId"
-        ]
+        "required": ["sacerdoteId"]
       },
       "AgendaNombrePatchInput": {
         "type": "object",
@@ -11564,10 +10641,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "nombre",
-          "version"
-        ]
+        "required": ["nombre", "version"]
       },
       "AgendaSacerdote": {
         "type": "object",
@@ -11587,11 +10661,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "id",
-          "nombre",
-          "version"
-        ]
+        "required": ["id", "nombre", "version"]
       },
       "AgendaHorarioInput": {
         "type": "object",
@@ -11611,11 +10681,7 @@
             "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
           },
           "tipo": {
-            "enum": [
-              "DIARIA",
-              "DOMINICAL",
-              "ESPECIAL"
-            ]
+            "enum": ["DIARIA", "DOMINICAL", "ESPECIAL"]
           },
           "idioma": {
             "type": "string",
@@ -11669,11 +10735,7 @@
             "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
           },
           "tipo": {
-            "enum": [
-              "DIARIA",
-              "DOMINICAL",
-              "ESPECIAL"
-            ]
+            "enum": ["DIARIA", "DOMINICAL", "ESPECIAL"]
           },
           "idioma": {
             "type": "string",
@@ -11732,11 +10794,7 @@
             "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
           },
           "tipo": {
-            "enum": [
-              "DIARIA",
-              "DOMINICAL",
-              "ESPECIAL"
-            ]
+            "enum": ["DIARIA", "DOMINICAL", "ESPECIAL"]
           },
           "idioma": {
             "type": "string",
@@ -11821,12 +10879,7 @@
             "maxLength": 500
           }
         },
-        "required": [
-          "ocurrenciaId",
-          "oficianteId",
-          "fechaLocal",
-          "horaLocal"
-        ]
+        "required": ["ocurrenciaId", "oficianteId", "fechaLocal", "horaLocal"]
       },
       "AgendaCelebracion": {
         "type": "object",
@@ -11849,10 +10902,7 @@
             "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
           },
           "motivo": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "maxLength": 500
           },
           "id": {
@@ -11956,9 +11006,7 @@
                 "maxLength": 200
               }
             },
-            "required": [
-              "nombre"
-            ]
+            "required": ["nombre"]
           },
           "sacerdote": {
             "type": "object",
@@ -11970,20 +11018,14 @@
                 "maxLength": 200
               }
             },
-            "required": [
-              "nombre"
-            ]
+            "required": ["nombre"]
           },
           "horario": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
               "tipo": {
-                "enum": [
-                  "DIARIA",
-                  "DOMINICAL",
-                  "ESPECIAL"
-                ]
+                "enum": ["DIARIA", "DOMINICAL", "ESPECIAL"]
               },
               "idioma": {
                 "type": "string",
@@ -11997,11 +11039,7 @@
                 "default": 60
               }
             },
-            "required": [
-              "tipo",
-              "idioma",
-              "duracionMinutos"
-            ]
+            "required": ["tipo", "idioma", "duracionMinutos"]
           }
         },
         "required": [
@@ -12030,9 +11068,7 @@
             }
           }
         },
-        "required": [
-          "data"
-        ]
+        "required": ["data"]
       },
       "AgendaHorarioLista": {
         "type": "object",
@@ -12045,9 +11081,7 @@
             }
           }
         },
-        "required": [
-          "data"
-        ]
+        "required": ["data"]
       },
       "AgendaCelebracionLista": {
         "type": "object",
@@ -12060,9 +11094,7 @@
             }
           }
         },
-        "required": [
-          "data"
-        ]
+        "required": ["data"]
       },
       "AgendaOcurrenciaLista": {
         "type": "object",
@@ -12075,9 +11107,7 @@
             }
           }
         },
-        "required": [
-          "data"
-        ]
+        "required": ["data"]
       },
       "DiezmoAltaInput": {
         "type": "object",
@@ -12087,9 +11117,7 @@
             "pattern": "^(0|[1-9][0-9]{0,8})\\.[0-9]{2}(?![\\s\\S])"
           }
         },
-        "required": [
-          "importe"
-        ],
+        "required": ["importe"],
         "additionalProperties": false
       },
       "DiezmoCorreccionInput": {
@@ -12105,10 +11133,7 @@
             "maximum": 2147483646
           }
         },
-        "required": [
-          "importe",
-          "version"
-        ],
+        "required": ["importe", "version"],
         "additionalProperties": false
       },
       "DiezmoCaptura": {
@@ -12210,20 +11235,11 @@
             "format": "date"
           },
           "periodo": {
-            "enum": [
-              "DIA",
-              "SEMANA",
-              "MES"
-            ],
+            "enum": ["DIA", "SEMANA", "MES"],
             "default": "DIA"
           },
           "desglose": {
-            "enum": [
-              "NINGUNO",
-              "HORARIO",
-              "SACERDOTE",
-              "HORARIO_SACERDOTE"
-            ],
+            "enum": ["NINGUNO", "HORARIO", "SACERDOTE", "HORARIO_SACERDOTE"],
             "default": "NINGUNO"
           },
           "horarioId": {
@@ -12235,10 +11251,7 @@
             "format": "uuid"
           }
         },
-        "required": [
-          "desde",
-          "hasta"
-        ],
+        "required": ["desde", "hasta"],
         "additionalProperties": false
       },
       "DiezmoExtremo": {
@@ -12263,10 +11276,7 @@
             }
           }
         },
-        "required": [
-          "importeCentavos",
-          "celebraciones"
-        ],
+        "required": ["importeCentavos", "celebraciones"],
         "additionalProperties": false
       },
       "DiezmoPromedio": {
@@ -12281,10 +11291,7 @@
             "minimum": 1
           }
         },
-        "required": [
-          "numeradorCentavos",
-          "divisorMisas"
-        ],
+        "required": ["numeradorCentavos", "divisorMisas"],
         "additionalProperties": false
       },
       "DiezmoMisa": {
@@ -12353,9 +11360,7 @@
             }
           }
         },
-        "required": [
-          "data"
-        ],
+        "required": ["data"],
         "additionalProperties": false
       },
       "DiezmoResumen": {
@@ -12538,13 +11543,488 @@
             }
           }
         },
+        "required": ["consulta", "moneda", "resumen", "grupos", "misas"],
+        "additionalProperties": false
+      },
+      "EspacioPublico": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": ["CRIPTA", "NICHO", "COLUMBARIO", "OSARIO"]
+          }
+        },
+        "required": ["tipo"],
+        "additionalProperties": false
+      },
+      "EspacioGestion": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": ["CRIPTA", "NICHO", "COLUMBARIO", "OSARIO"]
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": ["tipo", "activo", "version"],
+        "additionalProperties": false
+      },
+      "EspacioGuardarInput": {
+        "type": "object",
+        "properties": {
+          "activo": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483646
+          }
+        },
+        "required": ["activo", "version"],
+        "additionalProperties": false
+      },
+      "SolicitudAltaInput": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": ["CRIPTA", "NICHO", "COLUMBARIO", "OSARIO"]
+          },
+          "nombre": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "contacto": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 200
+          },
+          "peticionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": ["tipo", "nombre", "contacto", "peticionId"],
+        "additionalProperties": false
+      },
+      "SolicitudRecibo": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "string",
+            "pattern": "^[A-F0-9]{24}$"
+          },
+          "clave": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          }
+        },
+        "required": ["folio", "clave"],
+        "additionalProperties": false
+      },
+      "SolicitudCotizacion": {
+        "type": "object",
+        "properties": {
+          "precio": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,8})[.][0-9]{2}$"
+          },
+          "moneda": {
+            "const": "MXN"
+          },
+          "condiciones": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "emitida": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vence": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["precio", "moneda", "condiciones", "emitida", "vence"],
+        "additionalProperties": false
+      },
+      "SolicitudSeguimiento": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "string",
+            "pattern": "^[A-F0-9]{24}$"
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": ["CRIPTA", "NICHO", "COLUMBARIO", "OSARIO"]
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "REGISTRADA",
+              "COTIZADA",
+              "SIN_LUGAR",
+              "ACEPTADA",
+              "RECHAZADA",
+              "VENCIDA",
+              "CANCELADA"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "creada": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "decisionEn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cotizacion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SolicitudCotizacion"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
         "required": [
-          "consulta",
-          "moneda",
-          "resumen",
-          "grupos",
-          "misas"
+          "folio",
+          "iglesiaId",
+          "tipo",
+          "estado",
+          "version",
+          "creada",
+          "decisionEn",
+          "cotizacion"
         ],
+        "additionalProperties": false
+      },
+      "SolicitudFila": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "string",
+            "pattern": "^[A-F0-9]{24}$"
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": ["CRIPTA", "NICHO", "COLUMBARIO", "OSARIO"]
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "REGISTRADA",
+              "COTIZADA",
+              "SIN_LUGAR",
+              "ACEPTADA",
+              "RECHAZADA",
+              "VENCIDA",
+              "CANCELADA"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "creada": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "decisionEn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cotizacion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SolicitudCotizacion"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "folio",
+          "iglesiaId",
+          "tipo",
+          "estado",
+          "version",
+          "creada",
+          "decisionEn",
+          "cotizacion",
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "SolicitudAuditoria": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "actor": {
+            "type": "string",
+            "enum": ["PERSONAL", "SOLICITANTE", "SISTEMA"]
+          },
+          "actorId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "instante": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "antes": {
+            "type": "object"
+          },
+          "despues": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "version",
+          "actor",
+          "actorId",
+          "instante",
+          "antes",
+          "despues"
+        ],
+        "additionalProperties": false
+      },
+      "SolicitudFicha": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "string",
+            "pattern": "^[A-F0-9]{24}$"
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": ["CRIPTA", "NICHO", "COLUMBARIO", "OSARIO"]
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "REGISTRADA",
+              "COTIZADA",
+              "SIN_LUGAR",
+              "ACEPTADA",
+              "RECHAZADA",
+              "VENCIDA",
+              "CANCELADA"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "creada": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "decisionEn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cotizacion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SolicitudCotizacion"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "contacto": {
+            "type": "string"
+          },
+          "historial": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SolicitudAuditoria"
+            }
+          }
+        },
+        "required": [
+          "folio",
+          "iglesiaId",
+          "tipo",
+          "estado",
+          "version",
+          "creada",
+          "decisionEn",
+          "cotizacion",
+          "id",
+          "nombre",
+          "contacto",
+          "historial"
+        ],
+        "additionalProperties": false
+      },
+      "SolicitudRevisionInput": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "resultado": {
+                "const": "SIN_LUGAR"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2147483646
+              }
+            },
+            "required": ["resultado", "version"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resultado": {
+                "const": "COTIZAR"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2147483646
+              },
+              "precio": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]{0,8})[.][0-9]{2}$"
+              },
+              "condiciones": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            },
+            "required": ["resultado", "version", "precio", "condiciones"],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "SolicitudDecisionInput": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          }
+        },
+        "required": ["version"],
+        "additionalProperties": false
+      },
+      "SolicitudLista": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SolicitudFila"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pagina": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": ["data", "total", "pagina"],
+        "additionalProperties": false
+      },
+      "SolicitudAccesoFormulario": {
+        "type": "object",
+        "properties": {
+          "csrf": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}[.][a-f0-9]{64}$"
+          },
+          "peticionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": ["csrf", "peticionId"],
         "additionalProperties": false
       }
     },

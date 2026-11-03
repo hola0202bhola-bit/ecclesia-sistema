@@ -1,3 +1,7 @@
+## RF25–31 — 2026-11-03
+
+Oferta funeraria por iglesia sin precios públicos, solicitud sin cuenta con folio/clave hash, seguimiento privado con límites persistentes y CSRF, revisión individual, precio exacto/condiciones y estados con versión/auditoría/vencimiento controlado. Se añade migración aditiva, seis vistas, navegación y octava suite PostgreSQL/HTTP. [Supuestos y pendientes ADR010](docs/adr/010.md).
+
 ## 0.8.0 — 2026-11-03
 
 RF22–24: diezmo único por misa celebrada, tesorero propio, correcciones con versión e historial atómico, reportes privados de centavos exactos por periodo/horario/padre real y vistas EJS. Migración aditiva, séptima suite PostgreSQL y controles contables en el arnés. PC-13/19 y límites: ADR009; Teams provisional sin implementar.

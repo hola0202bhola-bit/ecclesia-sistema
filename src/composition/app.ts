@@ -1,3 +1,15 @@
+import { ServicioSolicitudes } from "../modules/solicitudes/application/servicio.js";
+import { PrismaRepositorioSolicitudes } from "../modules/solicitudes/infrastructure/prisma-repositorio.js";
+import {
+  ClavesSolicitud,
+  proteccionAnonima,
+  claveLimite,
+} from "../modules/solicitudes/infrastructure/seguridad.js";
+import {
+  solicitudesRouter,
+  solicitudesWeb,
+} from "../modules/solicitudes/presentation/router.js";
+import { ErrorSolicitud } from "../modules/solicitudes/domain/solicitud.js";
 import express from "express";
 import type { ErrorRequestHandler } from "express";
 import { resolve } from "node:path";
@@ -56,6 +68,7 @@ export function createApp(
   db: PrismaClient,
   config: AccesoConfig,
   anioActual = new Date().getUTCFullYear(),
+  reloj: () => Date = () => new Date(),
 ) {
   const app = express();
   app.disable("x-powered-by");
@@ -63,6 +76,7 @@ export function createApp(
     res.set({
       "Cache-Control": "no-store",
       "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "same-origin",
       "Content-Security-Policy":
         "default-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'none'",
     });
@@ -92,6 +106,36 @@ export function createApp(
     anioActual,
   );
   app.use(identidadRouter(identidad, personal, acceso.origin));
+  const solicitudes = new ServicioSolicitudes(
+    new PrismaRepositorioSolicitudes(db, reloj),
+    new ClavesSolicitud(),
+  );
+  const anonimo = proteccionAnonima(acceso.origin, config.secret);
+  const limitar = async (req: express.Request, seguimiento: boolean) => {
+    // Express no confía en X-Forwarded-For: límite sobre la conexión real.
+    await solicitudes.limitar(
+      claveLimite(
+        config.secret,
+        (seguimiento ? "seguimiento:" : "alta:") + req.ip,
+      ),
+      seguimiento ? 60 : 10,
+      seguimiento ? 900000 : 3600000,
+    );
+    if (seguimiento) {
+      const folio = req.params.folio ?? req.body?.folio;
+      if (typeof folio === "string" && /^[A-F0-9]{24}$/.test(folio))
+        await solicitudes.limitar(
+          claveLimite(config.secret, "folio:" + folio),
+          20,
+          900000,
+        );
+    }
+  };
+  app.use(
+    "/api/v1",
+    solicitudesRouter(solicitudes, personal, anonimo, limitar),
+  );
+  app.use(solicitudesWeb(solicitudes, personal, anonimo, limitar));
   const diezmos = new ServicioDiezmos(new PrismaRepositorioDiezmos(db));
   app.use("/api/v1", diezmosRouter(diezmos, personal));
   app.use(diezmosWeb(diezmos, personal));
@@ -128,6 +172,8 @@ export function createApp(
       req.path.startsWith("/personal/oferta") ||
       req.path.startsWith("/personal/agenda") ||
       req.path.startsWith("/personal/diezmos") ||
+      req.path.startsWith("/personal/solicitudes") ||
+      req.path.startsWith("/solicitudes") ||
       req.path.startsWith("/ranking-patrimonial")
     ) {
       const status =
@@ -138,6 +184,7 @@ export function createApp(
               error instanceof ErrorPatrimonio ||
               error instanceof ErrorOferta ||
               error instanceof ErrorAgenda ||
+              error instanceof ErrorSolicitud ||
               error instanceof ErrorDiezmo
             ? error.status
             : httpStatus === 400 || httpStatus === 413
@@ -153,6 +200,7 @@ export function createApp(
                 error instanceof ErrorPatrimonio ||
                 error instanceof ErrorOferta ||
                 error instanceof ErrorAgenda ||
+                error instanceof ErrorSolicitud ||
                 error instanceof ErrorDiezmo
               ? error.message
               : status === 413
@@ -180,6 +228,7 @@ export function createApp(
       error instanceof ErrorPatrimonio ||
       error instanceof ErrorOferta ||
       error instanceof ErrorAgenda ||
+      error instanceof ErrorSolicitud ||
       error instanceof ErrorDiezmo
     ) {
       res

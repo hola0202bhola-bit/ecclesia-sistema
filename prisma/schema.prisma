@@ -76,6 +76,8 @@ model Iglesia {
   ocurrenciasMisa  OcurrenciaMisa[]
   celebraciones    CelebracionMisa[]
   diezmos          Diezmo[]
+  espacios         OfertaFuneraria[]
+  solicitudes      SolicitudEspacio[]
 
   @@index([estadoClave, municipioClave, localidadClave])
 }
@@ -99,6 +101,8 @@ model Usuario {
   cambiosOferta      CambioOferta[]
   cambiosAgenda      CambioAgenda[]
   correccionesDiezmo CorreccionDiezmo[]
+  cambiosSolicitud   CambioSolicitud[]
+  cambiosEspacio     CambioEspacio[]
   celebraciones      CelebracionMisa[]
 }
 
@@ -391,4 +395,108 @@ model CambioAgenda {
   despues   Json
 
   @@index([iglesiaId, recursoId, fecha])
+}
+
+enum TipoEspacio {
+  CRIPTA
+  NICHO
+  COLUMBARIO
+  OSARIO
+}
+
+enum EstadoSolicitud {
+  REGISTRADA
+  COTIZADA
+  SIN_LUGAR
+  ACEPTADA
+  RECHAZADA
+  VENCIDA
+  CANCELADA
+}
+
+enum ActorSolicitud {
+  PERSONAL
+  SOLICITANTE
+  SISTEMA
+}
+
+model OfertaFuneraria {
+  iglesiaId   String             @db.Uuid
+  tipo        TipoEspacio
+  iglesia     Iglesia            @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  activo      Boolean            @default(true)
+  version     Int                @default(1)
+  solicitudes SolicitudEspacio[]
+  cambios     CambioEspacio[]
+
+  @@id([iglesiaId, tipo])
+}
+
+model CambioEspacio {
+  id        String          @id @default(uuid()) @db.Uuid
+  iglesiaId String          @db.Uuid
+  tipo      TipoEspacio
+  oferta    OfertaFuneraria @relation(fields: [iglesiaId, tipo], references: [iglesiaId, tipo], onDelete: Restrict)
+  actorId   String          @db.Uuid
+  actor     Usuario         @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  instante  DateTime        @db.Timestamptz(3)
+  antes     Json
+  despues   Json
+  version   Int
+
+  @@unique([iglesiaId, tipo, version])
+  @@index([actorId])
+}
+
+model SolicitudEspacio {
+  id             String            @id @default(uuid()) @db.Uuid
+  iglesiaId      String            @db.Uuid
+  iglesia        Iglesia           @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  tipo           TipoEspacio
+  oferta         OfertaFuneraria   @relation(fields: [iglesiaId, tipo], references: [iglesiaId, tipo], onDelete: Restrict)
+  folio          String            @unique @db.VarChar(24)
+  claveHash      String            @db.VarChar(64)
+  peticionId     String            @unique @db.Uuid
+  nombre         String            @db.VarChar(120)
+  contacto       String            @db.VarChar(200)
+  estado         EstadoSolicitud   @default(REGISTRADA)
+  version        Int               @default(1)
+  creada         DateTime          @db.Timestamptz(3)
+  precioCentavos BigInt?
+  condiciones    String?           @db.VarChar(2000)
+  emitida        DateTime?         @db.Timestamptz(3)
+  vence          DateTime?         @db.Timestamptz(3)
+  decisionEn     DateTime?         @db.Timestamptz(3)
+  cambios        CambioSolicitud[]
+
+  @@unique([id, iglesiaId])
+  @@index([iglesiaId, creada, id])
+  @@index([iglesiaId, tipo])
+  @@index([estado, vence])
+}
+
+model CambioSolicitud {
+  id          String           @id @default(uuid()) @db.Uuid
+  solicitudId String           @db.Uuid
+  iglesiaId   String           @db.Uuid
+  solicitud   SolicitudEspacio @relation(fields: [solicitudId, iglesiaId], references: [id, iglesiaId], onDelete: Restrict)
+  actor       ActorSolicitud
+  actorId     String?          @db.Uuid
+  personal    Usuario?         @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  instante    DateTime         @db.Timestamptz(3)
+  antes       Json
+  despues     Json
+  version     Int
+
+  @@unique([solicitudId, version])
+  @@index([actorId])
+  @@index([iglesiaId])
+}
+
+model LimiteSolicitud {
+  clave    String   @id @db.VarChar(64)
+  cantidad Int
+  vence    DateTime @db.Timestamptz(3)
+
+  @@index([vence])
 }

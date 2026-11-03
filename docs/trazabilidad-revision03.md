@@ -1,3 +1,5 @@
+Incremento RF25–31, RN17–21, RNF03, CA14–15: [tabla fuente/implementación/prueba en ADR010](adr/010.md), P088–P090/P092–P093 originales preservados. Octava suite solicitudes PostgreSQL real, contrato HTTP, seguridad/aislamiento, reloj/concurrencia, migración aditiva y auditoría. PC14–19 no respondidas; campos, retención, canal y excepciones son supuestos técnicos. Los antecedentes de solicitudes pendientes siguientes quedan superados solo en el subalcance descrito.
+
 Actualización RF16–21: [ADR 008](adr/008.md) enlaza cada RF y P081–083/P092–093 con módulo agenda y tests/agenda.test.ts; el diseño futuro conservado abajo sigue como antecedente.
 
 # Trazabilidad del incremento mínimo
