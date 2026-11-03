@@ -75,6 +75,7 @@ model Iglesia {
   horariosMisa     HorarioMisa[]
   ocurrenciasMisa  OcurrenciaMisa[]
   celebraciones    CelebracionMisa[]
+  diezmos          Diezmo[]
 
   @@index([estadoClave, municipioClave, localidadClave])
 }
@@ -86,18 +87,19 @@ enum RolPersonal {
 }
 
 model Usuario {
-  id                String             @id @default(uuid()) @db.Uuid
-  identificador     String             @unique @db.VarChar(80)
-  passwordHash      String             @db.VarChar(60)
-  rol               RolPersonal
-  iglesiaId         String?            @db.Uuid
-  iglesia           Iglesia?           @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
-  activo            Boolean            @default(true)
-  sesiones          Sesion[]
-  cambiosPatrimonio CambioPatrimonio[]
-  cambiosOferta     CambioOferta[]
-  cambiosAgenda     CambioAgenda[]
-  celebraciones     CelebracionMisa[]
+  id                 String             @id @default(uuid()) @db.Uuid
+  identificador      String             @unique @db.VarChar(80)
+  passwordHash       String             @db.VarChar(60)
+  rol                RolPersonal
+  iglesiaId          String?            @db.Uuid
+  iglesia            Iglesia?           @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  activo             Boolean            @default(true)
+  sesiones           Sesion[]
+  cambiosPatrimonio  CambioPatrimonio[]
+  cambiosOferta      CambioOferta[]
+  cambiosAgenda      CambioAgenda[]
+  correccionesDiezmo CorreccionDiezmo[]
+  celebraciones      CelebracionMisa[]
 }
 
 enum CondicionPatrimonio {
@@ -339,9 +341,43 @@ model CelebracionMisa {
   actor        Usuario        @relation(fields: [actorId], references: [id], onDelete: Restrict)
   registradoEn DateTime       @default(now()) @db.Timestamptz(3)
   motivo       String?        @db.VarChar(500)
+  diezmo       Diezmo?
 
+  @@unique([iglesiaId, id])
+  @@index([iglesiaId, fechaLocal, id])
   @@index([iglesiaId, inicio])
   @@index([oficianteId, inicio, fin])
+}
+
+model Diezmo {
+  id              String             @id @default(uuid()) @db.Uuid
+  iglesiaId       String             @db.Uuid
+  iglesia         Iglesia            @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  celebracionId   String             @unique @db.Uuid
+  celebracion     CelebracionMisa    @relation(fields: [iglesiaId, celebracionId], references: [iglesiaId, id], onDelete: Restrict)
+  importeCentavos BigInt
+  moneda          String             @default("MXN") @db.VarChar(3)
+  version         Int                @default(1)
+  correcciones    CorreccionDiezmo[]
+
+  @@unique([iglesiaId, celebracionId])
+  @@unique([iglesiaId, id])
+}
+
+model CorreccionDiezmo {
+  id               String   @id @default(uuid()) @db.Uuid
+  iglesiaId        String   @db.Uuid
+  diezmoId         String   @db.Uuid
+  diezmo           Diezmo   @relation(fields: [iglesiaId, diezmoId], references: [iglesiaId, id], onDelete: Restrict)
+  actorId          String   @db.Uuid
+  actor            Usuario  @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  instante         DateTime @default(dbgenerated("clock_timestamp()")) @db.Timestamptz(3)
+  anteriorCentavos BigInt?
+  nuevoCentavos    BigInt
+  version          Int
+
+  @@unique([diezmoId, version])
+  @@index([iglesiaId, diezmoId, instante])
 }
 
 model CambioAgenda {

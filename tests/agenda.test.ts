@@ -805,7 +805,7 @@ describe("RF16–21 agenda real PostgreSQL", () => {
       await pg.query(`CREATE SCHEMA "${schema}"`);
       await pg.query(`SET LOCAL search_path TO "${schema}"`);
       for (const f of readdirSync("prisma/migrations")
-        .filter((x) => x.startsWith("2026") && x !== "202611030001_agenda")
+        .filter((x) => x.startsWith("2026") && x < "202611030001_agenda")
         .sort())
         await pg.query(
           readFileSync(`prisma/migrations/${f}/migration.sql`, "utf8"),
