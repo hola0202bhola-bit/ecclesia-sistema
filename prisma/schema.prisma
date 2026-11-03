@@ -49,28 +49,32 @@ model TipoIglesia {
 }
 
 model Iglesia {
-  id               String              @id @default(uuid()) @db.Uuid
-  nombre           String              @db.VarChar(200)
-  nombreBusqueda   String              @db.VarChar(200)
-  tipoId           String              @db.Uuid
-  tipo             TipoIglesia         @relation(fields: [tipoId], references: [id], onDelete: Restrict)
-  estadoClave      String              @db.VarChar(2)
-  municipioClave   String              @db.VarChar(3)
-  localidadClave   String              @db.VarChar(4)
-  localidad        Localidad           @relation(fields: [estadoClave, municipioClave, localidadClave], references: [estadoClave, municipioClave, localidadClave], onDelete: Restrict)
-  direccion        String              @db.VarChar(500)
+  id               String                @id @default(uuid()) @db.Uuid
+  nombre           String                @db.VarChar(200)
+  nombreBusqueda   String                @db.VarChar(200)
+  tipoId           String                @db.Uuid
+  tipo             TipoIglesia           @relation(fields: [tipoId], references: [id], onDelete: Restrict)
+  estadoClave      String                @db.VarChar(2)
+  municipioClave   String                @db.VarChar(3)
+  localidadClave   String                @db.VarChar(4)
+  localidad        Localidad             @relation(fields: [estadoClave, municipioClave, localidadClave], references: [estadoClave, municipioClave, localidadClave], onDelete: Restrict)
+  direccion        String                @db.VarChar(500)
   capacidad        Int?
   anioConstruccion Int?
-  contacto         String?             @db.VarChar(300)
+  contacto         String?               @db.VarChar(300)
   latitud          Float?
   longitud         Float?
-  zonaIana         String?             @db.VarChar(100)
+  zonaIana         String?               @db.VarChar(100)
   cerradaDesde     DateTime?
-  version          Int                 @default(1)
+  version          Int                   @default(1)
   usuarios         Usuario[]
   objetos          ObjetoPatrimonial[]
   servicios        ServicioOfrecido[]
   platicas         Platica[]
+  sacerdotes       AsignacionSacerdote[]
+  horariosMisa     HorarioMisa[]
+  ocurrenciasMisa  OcurrenciaMisa[]
+  celebraciones    CelebracionMisa[]
 
   @@index([estadoClave, municipioClave, localidadClave])
 }
@@ -92,6 +96,8 @@ model Usuario {
   sesiones          Sesion[]
   cambiosPatrimonio CambioPatrimonio[]
   cambiosOferta     CambioOferta[]
+  cambiosAgenda     CambioAgenda[]
+  celebraciones     CelebracionMisa[]
 }
 
 enum CondicionPatrimonio {
@@ -245,4 +251,108 @@ model CambioOferta {
 
   @@index([servicioId, fecha])
   @@index([platicaId, fecha])
+}
+
+model Sacerdote {
+  id           String                @id @default(uuid()) @db.Uuid
+  nombre       String                @db.VarChar(200)
+  version      Int                   @default(1)
+  asignaciones AsignacionSacerdote[]
+  horarios     HorarioMisa[]
+  ocurrencias  OcurrenciaMisa[]
+  previstas    CelebracionMisa[]     @relation("previsto")
+  oficiadas    CelebracionMisa[]     @relation("oficiante")
+}
+
+model AsignacionSacerdote {
+  iglesiaId   String    @db.Uuid
+  sacerdoteId String    @db.Uuid
+  iglesia     Iglesia   @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  sacerdote   Sacerdote @relation(fields: [sacerdoteId], references: [id], onDelete: Restrict)
+
+  @@id([iglesiaId, sacerdoteId])
+}
+
+enum TipoMisa {
+  DIARIA
+  DOMINICAL
+  ESPECIAL
+}
+
+model HorarioMisa {
+  id              String           @id @default(uuid()) @db.Uuid
+  iglesiaId       String           @db.Uuid
+  iglesia         Iglesia          @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  sacerdoteId     String           @db.Uuid
+  sacerdote       Sacerdote        @relation(fields: [sacerdoteId], references: [id], onDelete: Restrict)
+  diaSemana       Int
+  horaLocal       String           @db.VarChar(5)
+  tipo            TipoMisa
+  idioma          String           @db.VarChar(100)
+  duracionMinutos Int              @default(60)
+  desde           String           @db.VarChar(10)
+  hasta           String           @db.VarChar(10)
+  zonaIana        String           @db.VarChar(100)
+  activo          Boolean          @default(true)
+  version         Int              @default(1)
+  ocurrencias     OcurrenciaMisa[]
+
+  @@index([iglesiaId])
+}
+
+model OcurrenciaMisa {
+  id          String           @id @default(uuid()) @db.Uuid
+  horarioId   String           @db.Uuid
+  horario     HorarioMisa      @relation(fields: [horarioId], references: [id], onDelete: Restrict)
+  iglesiaId   String           @db.Uuid
+  iglesia     Iglesia          @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  sacerdoteId String           @db.Uuid
+  sacerdote   Sacerdote        @relation(fields: [sacerdoteId], references: [id], onDelete: Restrict)
+  fechaLocal  String           @db.VarChar(10)
+  horaLocal   String           @db.VarChar(5)
+  zonaIana    String           @db.VarChar(100)
+  inicio      DateTime         @db.Timestamptz(3)
+  fin         DateTime         @db.Timestamptz(3)
+  celebracion CelebracionMisa?
+
+  @@unique([horarioId, fechaLocal])
+  @@index([sacerdoteId, inicio, fin])
+  @@index([iglesiaId, fechaLocal])
+}
+
+model CelebracionMisa {
+  id           String         @id @default(uuid()) @db.Uuid
+  ocurrenciaId String         @unique @db.Uuid
+  ocurrencia   OcurrenciaMisa @relation(fields: [ocurrenciaId], references: [id], onDelete: Restrict)
+  iglesiaId    String         @db.Uuid
+  iglesia      Iglesia        @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
+  previstoId   String         @db.Uuid
+  previsto     Sacerdote      @relation("previsto", fields: [previstoId], references: [id], onDelete: Restrict)
+  oficianteId  String         @db.Uuid
+  oficiante    Sacerdote      @relation("oficiante", fields: [oficianteId], references: [id], onDelete: Restrict)
+  fechaLocal   String         @db.VarChar(10)
+  horaLocal    String         @db.VarChar(5)
+  zonaIana     String         @db.VarChar(100)
+  inicio       DateTime       @db.Timestamptz(3)
+  fin          DateTime       @db.Timestamptz(3)
+  actorId      String         @db.Uuid
+  actor        Usuario        @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  registradoEn DateTime       @default(now()) @db.Timestamptz(3)
+  motivo       String?        @db.VarChar(500)
+
+  @@index([iglesiaId, inicio])
+  @@index([oficianteId, inicio, fin])
+}
+
+model CambioAgenda {
+  id        String   @id @default(uuid()) @db.Uuid
+  iglesiaId String   @db.Uuid
+  recursoId String   @db.Uuid
+  actorId   String   @db.Uuid
+  actor     Usuario  @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  fecha     DateTime @default(now()) @db.Timestamptz(3)
+  antes     Json
+  despues   Json
+
+  @@index([iglesiaId, recursoId, fecha])
 }
