@@ -1,3 +1,5 @@
+- [008 — Sacerdotes y agenda de misas RF16–21](008.md): subalcance operativo, fuentes, supuestos técnicos y PC10–12 abiertas.
+
 Oferta de servicios/pláticas: [ADR 007](007.md), aplicado en el incremento autorizado RF13–15. PC-09 y PC-22 permanecen abiertas.
 
 # Decisiones vigentes

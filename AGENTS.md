@@ -1,3 +1,5 @@
+Incremento RF16–21 autorizado el 3 de noviembre de 2026: leer docs/adr/008.md. Preservar fuente P080–083/P092–093, permisos de administrador propio, identidad compartida protegida, vigencia acotada y mutex transaccional común. Sexta suite PostgreSQL y gate completo. Teams provisional no se implementa. Las restricciones de agenda pendiente siguientes son antecedentes superados solo para este subalcance.
+
 Incremento vigente servicios/pláticas RF13–15: leer docs/incremento-servicios.md y ADR007. Preservar P078–079, sesiones como número informativo, modalidades excluyentes, horarios locales, administrador propio y consultas públicas. Sin inscripción/reserva ni vínculo obligatorio inferido; PC-09/22 abiertas. Quinta suite PostgreSQL, auditoría/horarios atómicos y gate completo obligatorios. Las restricciones históricas de servicios pendientes quedan superadas en este subalcance autorizado.
 
 # Ecclesia — instrucciones vigentes de continuación

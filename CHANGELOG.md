@@ -1,3 +1,7 @@
+## 2026-11-03 — Sacerdotes y agenda RF16–21
+
+Identidad de sacerdote compartida entre iglesias, horarios con vigencia local, validación de traslapes por instantes y concurrencia, agenda semanal interna, consulta pública y hechos con sustitución trazable. Migración aditiva, Zod, EJS, sesiones/CSRF y auditoría. [Subalcance y pendientes PC10–12](docs/adr/008.md). Teams provisional no implementado.
+
 ## 0.7.0 — Servicios y pláticas, 2 de noviembre de 2026
 
 - Alta/edición EJS/API, consultas públicas desde ficha y tipos de P078–079.

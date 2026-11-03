@@ -1,3 +1,5 @@
+Actualización RF16–21: [ADR 008](adr/008.md) enlaza cada RF y P081–083/P092–093 con módulo agenda y tests/agenda.test.ts; el diseño futuro conservado abajo sigue como antecedente.
+
 # Trazabilidad del incremento mínimo
 
 Incremento Iglesias web/catálogos: P063–064 / RF01/03 → gestion.ts, formularios/listado EJS y servicio Iglesias; P092–093 → mismos permisos y ámbito. P063/P204 / RF05 → respuestas INEGI con manifest, importación transaccional y consulta paginada; P206 y localidades nacionales siguen parciales. tests/gestion-iglesias.test.ts comprueba HTTP+PostgreSQL, vistas, CSRF/XSS, concurrencia, fuentes y migración desde datos previos. P065 / RF04 mantiene bloqueo. La tabla histórica siguiente no sustituye [el estado vigente](estado-producto.md).

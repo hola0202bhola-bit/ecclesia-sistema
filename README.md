@@ -1,3 +1,5 @@
+Sacerdotes y misas RF16–21: Personal → **Gestionar sacerdotes y misas** → registrar/vincular padre → horario con vigencia → registrar celebración con oficiante real y motivo. Consulta sin cuenta: Iglesias → ficha → **Consultar misas**. Agenda del padre desde su enlace en gestión. Horarios hasta 366 días; edición de identidades compartidas y correcciones históricas pendientes. [Supuestos, API y trazabilidad](docs/adr/008.md). Los RF-01 a RF-10 de Teams siguen como ampliación provisional no confirmada, sin implementar.
+
 Servicios y pláticas RF13–15 disponibles: administrador propio → **Gestionar servicios** / **Gestionar pláticas** → registrar y editar. Consulta sin cuenta desde la ficha de iglesia. [Uso, alcance y límites](docs/incremento-servicios.md).
 
 # Proyecto Ecclesia — aplicación web

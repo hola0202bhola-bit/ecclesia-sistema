@@ -1,3 +1,5 @@
+Modelo aplicado RF16–21: Sacerdote, AsignacionSacerdote, HorarioMisa, OcurrenciaMisa, CelebracionMisa y CambioAgenda. Migración aditiva 202611030001_agenda; zona local e instantes conservados. [Semántica y límites actuales](adr/008.md). El diseño histórico siguiente no acredita funciones adicionales implementadas.
+
 Esquema físico de servicios/pláticas implementado en migración aditiva 202611020002_servicios; [ADR007](adr/007.md) y [alcance](incremento-servicios.md). Número de sesiones informativo, sin vínculo obligatorio a servicio. El modelo preliminar siguiente es antecedente, no afirmación de ausencia actual de migraciones.
 
 > Vista histórica conservada de revisión 01/02. Para estado vigente consultar decisiones-pc-revision03.md, consultas-docente-revision03.md, referencia-iglesias-revision03.md y trazabilidad-revision03.md. Las afirmaciones anteriores de ausencia total de producto/23 preguntas docentes no describen revisión 03.

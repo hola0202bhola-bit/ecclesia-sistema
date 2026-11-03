@@ -1,3 +1,7 @@
+## 2026-11-03 — Incremento autorizado RF16–21
+
+Codex inspeccionó fuentes, repositorios y contratos partiendo de main remoto 91964e5/3eeb0b4. Implementación incremental por capas, Prisma/PostgreSQL, EJS y controles de concurrencia. Pruebas nuevas detectaron una llamada Prisma incompatible con retorno void del bloqueo; corregida usando executeRaw. Resultados finales ejecutados en estado-producto.md; sin aceptación docente atribuida. Decisiones técnicas y límites: ADR 008.
+
 # Bitácora de trabajo asistido
 
 ## Servicios y pláticas RF13–15 — 2 de noviembre de 2026

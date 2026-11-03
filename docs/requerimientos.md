@@ -396,6 +396,8 @@ Los detalles en estas preguntas no se convierten por sí mismos en nuevas funcio
 
 ## 11 Matriz de trazabilidad
 
+Actualización del 3 de noviembre de 2026: las ubicaciones RF16–21 corresponden al subalcance implementado de ADR 008 y tests/agenda.test.ts; los objetivos PV siguen sujetos a sus límites y a aceptación humana. Las demás ubicaciones futuras se conservan como antecedente.
+
 La columna Código futuro es una **ubicación lógica propuesta**; `src/<área>/` y las carpetas documentales no suponen elección de framework, implementación ni existencia de archivos. El diseño posterior puede cambiar esas ubicaciones manteniendo los IDs. La columna Prueba prevista es el objetivo de verificación, no un resultado.
 
 | Requisito | Párrafo o sección del origen | Código futuro o artefacto | Prueba o revisión prevista |
@@ -415,12 +417,12 @@ La columna Código futuro es una **ubicación lógica propuesta**; `src/<área>/
 | RF-13 | P078, P093 | src/servicios/ (futuro) | PV-RF-13: Crear y consultar cada modalidad de costo y los datos del servicio; CA-09 |
 | RF-14 | P079, P093 | src/platicas/ (futuro) | PV-RF-14: Alta y consulta de plática prebautismal con todos los campos; CA-09 |
 | RF-15 | P061, P078–P079, P092 | src/consulta-publica/servicios/ (futuro) | PV-RF-15: Consultar oferta y pláticas de una iglesia sin autenticar; CA-09 |
-| RF-16 | P082, P093 | src/sacerdotes/asignaciones/ (futuro) | PV-RF-16: Padre compartido en varias iglesias sin duplicar su identidad |
-| RF-17 | P081–P083, P093 | src/misas/horarios/ (futuro) | PV-RF-17: Horario recurrente con idioma y duración predeterminada o explícita; CA-10 |
-| RF-18 | P082–P083, P093 | src/misas/conflictos/ (futuro) | PV-RF-18: Conflicto entre iglesias y zonas distintas, incluso al editar; CA-10 |
-| RF-19 | P081–P082, P092 | src/misas/consultas/ (futuro) | PV-RF-19: Horario público con padre y agenda semanal consistente |
-| RF-20 | P083, P093 | src/celebraciones/ (futuro) | PV-RF-20: Registrar un hecho sin confundirlo con la programación; CA-11 |
-| RF-21 | P083, P093 | src/celebraciones/sustituciones/ (futuro) | PV-RF-21: Sustitución con autor y motivo consultables; CA-11 |
+| RF-16 | P082, P093 | src/modules/agenda; ADR 008 | PV-RF-16: Padre compartido en varias iglesias sin duplicar su identidad |
+| RF-17 | P081–P083, P093 | src/modules/agenda; ADR 008 | PV-RF-17: Horario recurrente con idioma y duración predeterminada o explícita; CA-10 |
+| RF-18 | P082–P083, P093 | src/modules/agenda/domain e infrastructure; ADR 008 | PV-RF-18: Conflicto entre iglesias y zonas distintas, incluso al editar; CA-10 |
+| RF-19 | P081–P082, P092 | src/modules/agenda/presentation; ADR 008 | PV-RF-19: Horario público con padre y agenda semanal consistente |
+| RF-20 | P083, P093 | src/modules/agenda; ADR 008 | PV-RF-20: Registrar un hecho sin confundirlo con la programación; CA-11 |
+| RF-21 | P083, P093 | src/modules/agenda; ADR 008, alta del hecho con sustitución | PV-RF-21: Sustitución con autor y motivo consultables; CA-11 |
 | RF-22 | P085, P093 | src/diezmos/registro/ (futuro) | PV-RF-22: Celebración válida, intento duplicado y misa no celebrada; CA-12 |
 | RF-23 | P085 | src/diezmos/correcciones/ (futuro) | PV-RF-23: Dos correcciones sucesivas con historial completo; CA-12 |
 | RF-24 | P086, P093 | src/diezmos/reportes/ (futuro) | PV-RF-24: Conjunto de montos conocidos y cada dimensión solicitada; CA-13 |

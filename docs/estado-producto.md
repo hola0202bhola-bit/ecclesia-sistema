@@ -1,3 +1,11 @@
+## Sacerdotes y agenda de misas — 3 de noviembre de 2026
+
+Subalcance vertical RF16–21 operativo: sacerdotes y asignaciones compartidas, horarios semanales con vigencia de hasta 366 días, zona IANA y duración, conflictos por instantes, agenda semanal interna, consulta pública y celebraciones con sustitución trazable. [ADR 008: fuentes, navegación, API, supuestos y pendientes](adr/008.md). Solo administrador propio, sin privilegios nuevos. PC-10/11/12 abiertas; sin edición de identidad compartida, retiro de asignaciones, correcciones históricas ni misas no programadas. Teams RF-01 a RF-10 permanece ampliación PROVISIONAL no confirmada, sin implementar ni equiparar sacerdote y pastor.
+
+Validación integral ejecutada desde arnés: `npm run check -- ../proyecto-ecclesia`, salida 0. **86/86 pruebas del arnés y 293/293 del producto**, ninguna omitida: se conservan las 264 anteriores y se añaden 29 de agenda. PostgreSQL 18.6 real aislado, seis migraciones, doble seed, actualización desde esquema previo, traslapes entre iglesias/zonas/DST, concurrencia 201/409 y 200/409, sustitución con autor/fecha/motivo, rollback, CSRF/Origin y EJS escapado. Arquitectura 37/37 fuentes sin violaciones; 36 fuentes instrumentadas, líneas **99.26%**, sentencias 98.94%, funciones 100%, ramas 92.58%. El servidor compilado pasó smoke HTTP de misas y de los módulos anteriores; gestión de agenda anónima 401. El ejemplo exacto 35.5 sigue pasando.
+
+El gate del índice completó 22 escenarios con índice y archivos conservados: aceptó el producto válido y rechazó suites/migraciones/vistas ausentes, tipos/migración rotos, fórmula patrimonial y aportación alteradas, traslapes desactivados solo en el índice y prueba fallida pese a script que retorna cero. Reportes locales reproducibles excluidos de Git: evidence/vitest.json, evidence/database.json y coverage/coverage-summary.json. PostgreSQL temporal detenido; sin base externa utilizada. No se acredita revisión humana/docente, navegador manual, móvil físico, carga ni despliegue.
+
 # Estado de la aplicación y siguiente incremento
 
 ## Servicios y pláticas — incremento del 2 de noviembre de 2026
@@ -39,7 +47,7 @@ Inspección inicial real: sistema `acc6cd353512ddfdb0e330083f83f4843e990e0b`, ar
 | RF06: autenticación, usuarios y aislamiento; P022/P092–093/P130 | Solo JWT externo; sin cuentas/login | Login/logout, sesiones persistidas, perfil, lista paginada y alta por Coordinación; UI de personal y usuarios. Edición/desactivación/recuperación y roles múltiples pendientes |
 | RF07–12: patrimonio, índice y ranking; P067–076 | Contratos/ADR y fórmula escrita | Incremento vertical operativo según sección vigente; configuración/activación RF11 y políticas residuales pendientes |
 | RF13–15: servicios y pláticas; P078–079 | Diseño previo | Alta/edición EJS/API y consulta pública operativas; [alcance y límites](incremento-servicios.md) |
-| RF16–21: padres, horarios y celebraciones; P081–083 | Solo diseño | Pendiente; requiere iglesias/zona e identidad |
+| RF16–21: padres, horarios y celebraciones; P081–083 | Diseño previo | Subalcance vertical operativo; ADR 008 y tests/agenda.test.ts; PC10–12 residuales abiertas |
 | RF22–24: diezmos y reportes; P085–086 | Solo diseño | Pendiente; depende de celebraciones e identidad |
 | RF25–31: espacios, solicitudes y cotizaciones; P088–090 | Solo diseño | Pendiente; depende de iglesias e identidad para personal; visitante sin cuenta |
 
