@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.1",
   "info": {
-    "title": "Ecclesia API: Iglesias, Identidad, catálogos y patrimonio",
-    "version": "0.6.0",
+    "title": "Ecclesia API: identidad, iglesias, patrimonio, servicios, agenda y diezmos",
+    "version": "0.8.0",
     "description": "Operaciones IMPLEMENTADO ejecutables; DISEÑO_NO_IMPLEMENTADO conserva alcance futuro. Ver docs/estado-producto.md."
   },
   "servers": [
@@ -3789,6 +3789,483 @@
             }
           }
         }
+      }
+    },
+    "/iglesias/{iglesiaId}/celebraciones/{celebracionId}/diezmo": {
+      "post": {
+        "operationId": "diezmos_registrar",
+        "summary": "Registrar único diezmo de misa celebrada",
+        "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
+        "tags": [
+          "diezmos"
+        ],
+        "x-requirements": [
+          "RF-22"
+        ],
+        "x-pending": [
+          "PC-13"
+        ],
+        "x-roles": [
+          "TESORERO"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "celebracionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resultado real; privado con Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiezmoCaptura"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiezmoAltaInput"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO"
+      },
+      "get": {
+        "operationId": "diezmos_consultar",
+        "summary": "Consultar captura propia",
+        "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
+        "tags": [
+          "diezmos"
+        ],
+        "x-requirements": [
+          "RF-22"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "TESORERO"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "celebracionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado real; privado con Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiezmoCaptura"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO"
+      },
+      "put": {
+        "operationId": "diezmos_corregir",
+        "summary": "Corregir diezmo atómicamente con historial",
+        "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
+        "tags": [
+          "diezmos"
+        ],
+        "x-requirements": [
+          "RF-23"
+        ],
+        "x-pending": [
+          "PC-13"
+        ],
+        "x-roles": [
+          "TESORERO"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "celebracionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado real; privado con Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiezmoCaptura"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiezmoCorreccionInput"
+              }
+            }
+          }
+        },
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/{iglesiaId}/celebraciones/{celebracionId}/diezmo/correcciones": {
+      "get": {
+        "operationId": "diezmos_historial",
+        "summary": "Consultar auditoría de correcciones",
+        "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
+        "tags": [
+          "diezmos"
+        ],
+        "x-requirements": [
+          "RF-23"
+        ],
+        "x-pending": [
+          "PC-19"
+        ],
+        "x-roles": [
+          "TESORERO"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "celebracionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado real; privado con Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiezmoHistorial"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO"
+      }
+    },
+    "/iglesias/{iglesiaId}/reportes/diezmos": {
+      "get": {
+        "operationId": "diezmos_reporte",
+        "summary": "Consultar reportes privados de iglesia",
+        "description": "RF22–24 operativo, ADR009: solo tesorero propio registra/corrige; personal propio reporta. MXN provisional, centavos enteros, versión y auditoría atómicas. Fechas civiles de celebración inclusivas (máximo 366 días/10000 misas, 422 si excede); semanas lunes-domingo, extremos con todos los empates, promedio como fracción exacta sobre capturas, cero incluido y pendientes separados. Sin ajustes negativos ni cancelaciones; PC-13/19 abiertas. Sin paginación de reportes/historial en este subalcance local. Parámetros no definidos del reporte se rechazan.",
+        "tags": [
+          "diezmos"
+        ],
+        "x-requirements": [
+          "RF-24"
+        ],
+        "x-pending": [
+          "PC-13",
+          "PC-19"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA",
+          "TESORERO"
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "periodo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "DIA",
+                "SEMANA",
+                "MES"
+              ],
+              "default": "DIA"
+            }
+          },
+          {
+            "name": "desglose",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "NINGUNO",
+                "HORARIO",
+                "SACERDOTE",
+                "HORARIO_SACERDOTE"
+              ],
+              "default": "NINGUNO"
+            }
+          },
+          {
+            "name": "horarioId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "sacerdoteId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado real; privado con Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiezmoReporte"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          }
+        },
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO"
       }
     }
   },
@@ -8573,6 +9050,474 @@
         "required": [
           "data"
         ]
+      },
+      "DiezmoAltaInput": {
+        "type": "object",
+        "properties": {
+          "importe": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,8})\\.[0-9]{2}(?![\\s\\S])"
+          }
+        },
+        "required": [
+          "importe"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoCorreccionInput": {
+        "type": "object",
+        "properties": {
+          "importe": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,8})\\.[0-9]{2}(?![\\s\\S])"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          }
+        },
+        "required": [
+          "importe",
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoCaptura": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "celebracionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "importe": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,8})\\.[0-9]{2}(?![\\s\\S])"
+          },
+          "importeCentavos": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "moneda": {
+            "const": "MXN"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "id",
+          "iglesiaId",
+          "celebracionId",
+          "importe",
+          "importeCentavos",
+          "moneda",
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoCambio": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "instante": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "anteriorCentavos": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "nuevoCentavos": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "id",
+          "actorId",
+          "instante",
+          "anteriorCentavos",
+          "nuevoCentavos",
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoConsulta": {
+        "type": "object",
+        "properties": {
+          "desde": {
+            "type": "string",
+            "format": "date"
+          },
+          "hasta": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodo": {
+            "enum": [
+              "DIA",
+              "SEMANA",
+              "MES"
+            ],
+            "default": "DIA"
+          },
+          "desglose": {
+            "enum": [
+              "NINGUNO",
+              "HORARIO",
+              "SACERDOTE",
+              "HORARIO_SACERDOTE"
+            ],
+            "default": "NINGUNO"
+          },
+          "horarioId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sacerdoteId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "desde",
+          "hasta"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoExtremo": {
+        "type": "object",
+        "properties": {
+          "importeCentavos": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "celebraciones": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "required": [
+          "importeCentavos",
+          "celebraciones"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoPromedio": {
+        "type": "object",
+        "properties": {
+          "numeradorCentavos": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "divisorMisas": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "numeradorCentavos",
+          "divisorMisas"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoMisa": {
+        "type": "object",
+        "properties": {
+          "celebracionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fechaLocal": {
+            "type": "string",
+            "format": "date"
+          },
+          "horaLocal": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "zonaIana": {
+            "type": "string"
+          },
+          "horarioId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "horario": {
+            "type": "string"
+          },
+          "sacerdoteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sacerdote": {
+            "type": "string"
+          },
+          "diezmo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DiezmoCaptura"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "celebracionId",
+          "fechaLocal",
+          "horaLocal",
+          "zonaIana",
+          "horarioId",
+          "horario",
+          "sacerdoteId",
+          "sacerdote",
+          "diezmo"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoHistorial": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiezmoCambio"
+            }
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoResumen": {
+        "type": "object",
+        "properties": {
+          "celebradas": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "registradas": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pendientes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "totalCentavos": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "total": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{2}$"
+          },
+          "promedio": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DiezmoPromedio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "maximo": {
+            "$ref": "#/components/schemas/DiezmoExtremo"
+          },
+          "minimo": {
+            "$ref": "#/components/schemas/DiezmoExtremo"
+          }
+        },
+        "required": [
+          "celebradas",
+          "registradas",
+          "pendientes",
+          "totalCentavos",
+          "total",
+          "promedio",
+          "maximo",
+          "minimo"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoGrupo": {
+        "type": "object",
+        "properties": {
+          "periodo": {
+            "type": "string"
+          },
+          "horarioId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sacerdoteId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "horario": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sacerdote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "celebradas": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "registradas": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pendientes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "totalCentavos": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "total": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{2}$"
+          },
+          "promedio": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DiezmoPromedio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "maximo": {
+            "$ref": "#/components/schemas/DiezmoExtremo"
+          },
+          "minimo": {
+            "$ref": "#/components/schemas/DiezmoExtremo"
+          }
+        },
+        "required": [
+          "periodo",
+          "horarioId",
+          "sacerdoteId",
+          "horario",
+          "sacerdote",
+          "celebradas",
+          "registradas",
+          "pendientes",
+          "totalCentavos",
+          "total",
+          "promedio",
+          "maximo",
+          "minimo"
+        ],
+        "additionalProperties": false
+      },
+      "DiezmoReporte": {
+        "type": "object",
+        "properties": {
+          "consulta": {
+            "$ref": "#/components/schemas/DiezmoConsulta"
+          },
+          "moneda": {
+            "const": "MXN"
+          },
+          "resumen": {
+            "$ref": "#/components/schemas/DiezmoResumen"
+          },
+          "grupos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiezmoGrupo"
+            }
+          },
+          "misas": {
+            "type": "array",
+            "maxItems": 10000,
+            "items": {
+              "$ref": "#/components/schemas/DiezmoMisa"
+            }
+          }
+        },
+        "required": [
+          "consulta",
+          "moneda",
+          "resumen",
+          "grupos",
+          "misas"
+        ],
+        "additionalProperties": false
       }
     },
     "securitySchemes": {

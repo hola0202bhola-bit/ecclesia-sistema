@@ -1,3 +1,5 @@
+RF22–24 operativo según [ADR009](adr/009.md): las cinco operaciones registrar/consultar/corregir/historial/reporte conservan sus rutas y permisos. El contrato ejecutable usa cadenas de importe/centavos, versión y promedio racional. Consulta del reporte: periodo DIA/SEMANA/MES, desglose NINGUNO/HORARIO/SACERDOTE/HORARIO_SACERDOTE, desde/hasta y filtros de UUID opcionales; límite 366 días/10000 misas sin truncamiento. Sin paginación de reporte/historial en este subalcance; extremos incluidos con todos sus empates. La ruta separada de extremos paginados y los antiguos DTO de diseño siguen propuestos, no son aliases ejecutables.
+
 API ejecutable RF16–21: rutas /iglesias/{iglesiaId}/misas y /iglesias/{iglesiaId}/agenda documentadas en OpenAPI y subconjunto; administrador propio y consulta pública explícitos. [Uso y límites](adr/008.md). Las rutas antiguas propuestas de agenda no se habilitan como alias.
 
 RF13–15 implementados en el subalcance informativo: [guía vigente](incremento-servicios.md), ADR007 y DTO ejecutables en OpenAPI. Las descripciones de propuesta que siguen se conservan como antecedentes; PC-09/22 permanecen abiertas.

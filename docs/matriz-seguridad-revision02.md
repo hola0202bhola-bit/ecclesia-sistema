@@ -1,3 +1,5 @@
+RF22–24 implementados sin cambiar la política de roles previa: TESORERO propio en captura/corrección/consulta/historial; ADMIN_IGLESIA y TESORERO propios en reportes. Coordinación denegada. La matriz siguiente conserva las rutas; disponibilidad y DTO reales en OpenAPI/subconjunto y [ADR009](adr/009.md).
+
 # Matriz explícita de rutas — revisión 02
 
 Fecha: 2026-11-01. Línea base del contrato recibido, sin ampliar permisos ni cerrar PC-19. El comprobador compara método, ruta, operationId, roles y cada alternativa de autenticación contra `arnes-codex/stacks/express/ecclesia-security-policy.json`. Las alternativas OpenAPI son OR: una alternativa vacía expondría una ruta. Esta matriz no prueba autorización ni ámbito en un servidor.

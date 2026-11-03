@@ -1,3 +1,5 @@
+Estado de implementación RF22–24, 3 de noviembre: [ADR009](adr/009.md). El modelo lógico histórico de Diezmo/Correccion sigue como antecedente; la persistencia vigente usa Diezmo.importeCentavos BIGINT y CorreccionDiezmo con anterior/nuevo BIGINT, actor FK, instante timestamptz y versión. UNIQUE de celebración y FK compuestas de iglesia/hecho/auditoría. MXN provisional y reglas/reportes exactos acotados, sin dar por cerrada PC-13.
+
 Modelo aplicado RF16–21: Sacerdote, AsignacionSacerdote, HorarioMisa, OcurrenciaMisa, CelebracionMisa y CambioAgenda. Migración aditiva 202611030001_agenda; zona local e instantes conservados. [Semántica y límites actuales](adr/008.md). El diseño histórico siguiente no acredita funciones adicionales implementadas.
 
 Esquema físico de servicios/pláticas implementado en migración aditiva 202611020002_servicios; [ADR007](adr/007.md) y [alcance](incremento-servicios.md). Número de sesiones informativo, sin vínculo obligatorio a servicio. El modelo preliminar siguiente es antecedente, no afirmación de ausencia actual de migraciones.

@@ -11,7 +11,7 @@ export class ErrorDiezmo extends Error {
 }
 // El texto decimal nunca pasa por Number: cada operación monetaria usa bigint.
 export function centavos(importe: string): bigint {
-  if (!/^(0|[1-9]\d{0,8})\.\d{2}$/.test(importe))
+  if (!/^(0|[1-9]\d{0,8})\.\d{2}(?![\s\S])/.test(importe))
     throw new ErrorDiezmo(
       422,
       "IMPORTE_INVALIDO",

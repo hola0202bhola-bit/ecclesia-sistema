@@ -1,3 +1,9 @@
+## Diezmos y reportes RF22–24 — 3 de noviembre de 2026
+
+Captura única de un diezmo por misa realmente celebrada, corrección con versión e historial transaccional y reportes privados exactos por día/semana/mes, horario y sacerdote real. Tesorero propio captura/corrige; administrador y tesorero propios reportan. Sin permisos de Coordinación ni donaciones genéricas. [Guía breve de navegador, API, fuente, trazabilidad y supuestos](adr/009.md). MXN provisional; cero distinto de pendiente, promedio racional sin redondear, todos los empates y fechas locales conservadas. Límite 366 días y 10000 misas por consulta, sin totales truncados. Cancelaciones, ajustes negativos, exportación, extremos paginados, política definitiva PC-13/19 y aceptación docente/humana pendientes. Teams RF-01–10 provisional no implementado.
+
+Prueba de producto ejecutada: 315/315, conservando las 293 anteriores y 22 nuevas. PostgreSQL 18.6 aislado, siete migraciones, doble seed, actualización desde esquema anterior y smoke financiero compilado. Gate integral y snapshot del índice se registrarán tras su ejecución final. Sin recorrido manual de navegador, móvil físico, carga ni despliegue.
+
 ## Sacerdotes y agenda de misas — 3 de noviembre de 2026
 
 Subalcance vertical RF16–21 operativo: sacerdotes y asignaciones compartidas, horarios semanales con vigencia de hasta 366 días, zona IANA y duración, conflictos por instantes, agenda semanal interna, consulta pública y celebraciones con sustitución trazable. [ADR 008: fuentes, navegación, API, supuestos y pendientes](adr/008.md). Solo administrador propio, sin privilegios nuevos. PC-10/11/12 abiertas; sin edición de identidad compartida, retiro de asignaciones, correcciones históricas ni misas no programadas. Teams RF-01 a RF-10 permanece ampliación PROVISIONAL no confirmada, sin implementar ni equiparar sacerdote y pastor.
@@ -48,7 +54,7 @@ Inspección inicial real: sistema `acc6cd353512ddfdb0e330083f83f4843e990e0b`, ar
 | RF07–12: patrimonio, índice y ranking; P067–076 | Contratos/ADR y fórmula escrita | Incremento vertical operativo según sección vigente; configuración/activación RF11 y políticas residuales pendientes |
 | RF13–15: servicios y pláticas; P078–079 | Diseño previo | Alta/edición EJS/API y consulta pública operativas; [alcance y límites](incremento-servicios.md) |
 | RF16–21: padres, horarios y celebraciones; P081–083 | Diseño previo | Subalcance vertical operativo; ADR 008 y tests/agenda.test.ts; PC10–12 residuales abiertas |
-| RF22–24: diezmos y reportes; P085–086 | Solo diseño | Pendiente; depende de celebraciones e identidad |
+| RF22–24: diezmos y reportes; P085–086 | Baseline: diseño | Incremento vertical operativo, con PC-13/19 y límites explícitos en [ADR009](adr/009.md) |
 | RF25–31: espacios, solicitudes y cotizaciones; P088–090 | Solo diseño | Pendiente; depende de iglesias e identidad para personal; visitante sin cuenta |
 
 Orden por dependencias: identidad → iglesias/catálogos → patrimonio e índice → servicios/pláticas y agenda → diezmos; espacios/solicitudes es otra rama a partir de iglesias e identidad. MVP factible inmediato: consulta pública + acceso del personal + gestión básica de iglesias y cuentas; la base de acceso y la gestión EJS/API de iglesias ya están disponibles. Un MVP del negocio más amplio requiere además oferta/horarios y ficha integrada; no se presenta el primer incremento como sistema terminado. P095 y extras del curso siguen separados de lo obligatorio.

@@ -45,6 +45,13 @@ import {
   agendaWeb,
 } from "../modules/agenda/presentation/router.js";
 import { ErrorAgenda } from "../modules/agenda/domain/agenda.js";
+import { ServicioDiezmos } from "../modules/diezmos/application/servicio.js";
+import { PrismaRepositorioDiezmos } from "../modules/diezmos/infrastructure/prisma-repositorio.js";
+import {
+  diezmosRouter,
+  diezmosWeb,
+} from "../modules/diezmos/presentation/router.js";
+import { ErrorDiezmo } from "../modules/diezmos/domain/diezmo.js";
 export function createApp(
   db: PrismaClient,
   config: AccesoConfig,
@@ -85,6 +92,9 @@ export function createApp(
     anioActual,
   );
   app.use(identidadRouter(identidad, personal, acceso.origin));
+  const diezmos = new ServicioDiezmos(new PrismaRepositorioDiezmos(db));
+  app.use("/api/v1", diezmosRouter(diezmos, personal));
+  app.use(diezmosWeb(diezmos, personal));
   const agenda = new ServicioAgenda(new PrismaRepositorioAgenda(db));
   app.use("/api/v1", agendaRouter(agenda, personal));
   app.use(agendaWeb(agenda, personal));
@@ -117,6 +127,7 @@ export function createApp(
       req.path.startsWith("/personal/patrimonio") ||
       req.path.startsWith("/personal/oferta") ||
       req.path.startsWith("/personal/agenda") ||
+      req.path.startsWith("/personal/diezmos") ||
       req.path.startsWith("/ranking-patrimonial")
     ) {
       const status =
@@ -126,7 +137,8 @@ export function createApp(
               error instanceof ErrorIdentidad ||
               error instanceof ErrorPatrimonio ||
               error instanceof ErrorOferta ||
-              error instanceof ErrorAgenda
+              error instanceof ErrorAgenda ||
+              error instanceof ErrorDiezmo
             ? error.status
             : httpStatus === 400 || httpStatus === 413
               ? httpStatus
@@ -140,7 +152,8 @@ export function createApp(
                 error instanceof ErrorIdentidad ||
                 error instanceof ErrorPatrimonio ||
                 error instanceof ErrorOferta ||
-                error instanceof ErrorAgenda
+                error instanceof ErrorAgenda ||
+                error instanceof ErrorDiezmo
               ? error.message
               : status === 413
                 ? "Entrada demasiado grande"
@@ -166,7 +179,8 @@ export function createApp(
       error instanceof ErrorIdentidad ||
       error instanceof ErrorPatrimonio ||
       error instanceof ErrorOferta ||
-      error instanceof ErrorAgenda
+      error instanceof ErrorAgenda ||
+      error instanceof ErrorDiezmo
     ) {
       res
         .status(error.status)

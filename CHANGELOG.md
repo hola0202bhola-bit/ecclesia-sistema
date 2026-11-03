@@ -1,3 +1,7 @@
+## 0.8.0 — 2026-11-03
+
+RF22–24: diezmo único por misa celebrada, tesorero propio, correcciones con versión e historial atómico, reportes privados de centavos exactos por periodo/horario/padre real y vistas EJS. Migración aditiva, séptima suite PostgreSQL y controles contables en el arnés. PC-13/19 y límites: ADR009; Teams provisional sin implementar.
+
 ## 2026-11-03 — Sacerdotes y agenda RF16–21
 
 Identidad de sacerdote compartida entre iglesias, horarios con vigencia local, validación de traslapes por instantes y concurrencia, agenda semanal interna, consulta pública y hechos con sustitución trazable. Migración aditiva, Zod, EJS, sesiones/CSRF y auditoría. [Subalcance y pendientes PC10–12](docs/adr/008.md). Teams provisional no implementado.

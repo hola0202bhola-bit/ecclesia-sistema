@@ -1,3 +1,5 @@
+Incremento RF22–24: `src/modules/diezmos/{domain,application,presentation,infrastructure}`, composición y EJS. Dominio bigint puro; infraestructura PostgreSQL/Prisma, FK compuestas, bloqueo de Iglesia y auditoría con versión en una transacción. Lectura consistente RepeatableRead del reporte/ficha, sin dependencia hacia módulos vecinos. [ADR009](adr/009.md) documenta el subalcance y supersede únicamente los antecedentes de diezmos como diseño futuro.
+
 Agenda RF16–21: src/modules/agenda por cuatro capas y composición, sin imports entre módulos. Horarios locales con vigencia materializada como instantes, reservas y hechos separados, FK/CHECK y auditoría transaccional. [ADR 008](adr/008.md) define subalcance y PC pendientes; las ausencias históricas de agenda siguientes no describen este incremento.
 
 Incremento servicios/pláticas: módulo por capas en `src/modules/servicios`; horarios y auditoría transaccionales, consultas paginadas y EJS con las sesiones existentes. [ADR 007](adr/007.md) y [guía](incremento-servicios.md). Las ausencias de este módulo mencionadas en antecedentes quedan superadas para RF13–15 informativos.
