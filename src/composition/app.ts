@@ -38,6 +38,13 @@ import {
   ofertaWeb,
 } from "../modules/servicios/presentation/router.js";
 import { ErrorOferta } from "../modules/servicios/domain/oferta.js";
+import { ServicioAgenda } from "../modules/agenda/application/servicio.js";
+import { PrismaRepositorioAgenda } from "../modules/agenda/infrastructure/prisma-repositorio.js";
+import {
+  agendaRouter,
+  agendaWeb,
+} from "../modules/agenda/presentation/router.js";
+import { ErrorAgenda } from "../modules/agenda/domain/agenda.js";
 export function createApp(
   db: PrismaClient,
   config: AccesoConfig,
@@ -78,6 +85,9 @@ export function createApp(
     anioActual,
   );
   app.use(identidadRouter(identidad, personal, acceso.origin));
+  const agenda = new ServicioAgenda(new PrismaRepositorioAgenda(db));
+  app.use("/api/v1", agendaRouter(agenda, personal));
+  app.use(agendaWeb(agenda, personal));
   const oferta = new ServicioOferta(new PrismaRepositorioOferta(db));
   app.use("/api/v1", ofertaRouter(oferta, personal));
   app.use(ofertaWeb(oferta, personal));
@@ -106,6 +116,7 @@ export function createApp(
       req.path.startsWith("/iglesias") ||
       req.path.startsWith("/personal/patrimonio") ||
       req.path.startsWith("/personal/oferta") ||
+      req.path.startsWith("/personal/agenda") ||
       req.path.startsWith("/ranking-patrimonial")
     ) {
       const status =
@@ -114,7 +125,8 @@ export function createApp(
           : error instanceof ErrorIglesias ||
               error instanceof ErrorIdentidad ||
               error instanceof ErrorPatrimonio ||
-              error instanceof ErrorOferta
+              error instanceof ErrorOferta ||
+              error instanceof ErrorAgenda
             ? error.status
             : httpStatus === 400 || httpStatus === 413
               ? httpStatus
@@ -127,7 +139,8 @@ export function createApp(
             : error instanceof ErrorIglesias ||
                 error instanceof ErrorIdentidad ||
                 error instanceof ErrorPatrimonio ||
-                error instanceof ErrorOferta
+                error instanceof ErrorOferta ||
+                error instanceof ErrorAgenda
               ? error.message
               : status === 413
                 ? "Entrada demasiado grande"
@@ -152,7 +165,8 @@ export function createApp(
       error instanceof ErrorIglesias ||
       error instanceof ErrorIdentidad ||
       error instanceof ErrorPatrimonio ||
-      error instanceof ErrorOferta
+      error instanceof ErrorOferta ||
+      error instanceof ErrorAgenda
     ) {
       res
         .status(error.status)

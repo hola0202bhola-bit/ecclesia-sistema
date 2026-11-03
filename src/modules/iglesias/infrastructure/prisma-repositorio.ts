@@ -87,6 +87,20 @@ export class PrismaRepositorioIglesias implements RepositorioIglesias {
   async editar(id: string, version: number, datos: Partial<DatosIglesia>) {
     try {
       return await this.db.$transaction(async (tx) => {
+        if (datos.zonaIana !== undefined) {
+          await tx.$queryRaw`SELECT id FROM "Iglesia" WHERE id=${id}::uuid FOR UPDATE`;
+          const antes = await tx.iglesia.findUnique({ where: { id } });
+          if (
+            antes &&
+            antes.zonaIana !== datos.zonaIana &&
+            (await tx.horarioMisa.count({ where: { iglesiaId: id } }))
+          )
+            throw new ErrorIglesias(
+              409,
+              "ZONA_CON_AGENDA",
+              "La iglesia tiene horarios de misa; el cambio de zona requiere reprogramación explícita pendiente PC-11",
+            );
+        }
         const updated = await tx.iglesia.updateMany({
           where: { id, version, cerradaDesde: null },
           data: {

@@ -6013,6 +6013,1316 @@
           }
         }
       }
+    },
+    "/iglesias/{iglesiaId}/misas": {
+      "get": {
+        "operationId": "agendaV1_semanaPublica",
+        "summary": "semanaPublica",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-17",
+          "RF-19"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "PUBLICO"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaOcurrenciaLista"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/agenda/sacerdotes": {
+      "get": {
+        "operationId": "agendaV1_listarPadres",
+        "summary": "listarPadres",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-16"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaSacerdoteLista"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "agendaV1_registrarPadre",
+        "summary": "registrarPadre",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-16"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaSacerdote"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgendaSacerdoteInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/agenda/asignaciones": {
+      "post": {
+        "operationId": "agendaV1_vincularPadre",
+        "summary": "vincularPadre",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-16"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaSacerdote"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgendaVinculoInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/agenda/sacerdotes/{id}": {
+      "patch": {
+        "operationId": "agendaV1_nombrePadre",
+        "summary": "nombrePadre",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-16"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaSacerdote"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgendaNombrePatchInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/agenda/horarios": {
+      "get": {
+        "operationId": "agendaV1_listarHorarios",
+        "summary": "listarHorarios",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-17"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaHorarioLista"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "agendaV1_registrarHorario",
+        "summary": "registrarHorario",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-17",
+          "RF-18"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaHorario"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgendaHorarioInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/agenda/horarios/{id}": {
+      "put": {
+        "operationId": "agendaV1_editarHorario",
+        "summary": "editarHorario",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-17",
+          "RF-18"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaHorario"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgendaHorarioEdicion"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/agenda/sacerdotes/{id}/semana": {
+      "get": {
+        "operationId": "agendaV1_agendaPadre",
+        "summary": "agendaPadre",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-19"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaOcurrenciaLista"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iglesias/{iglesiaId}/agenda/celebraciones": {
+      "get": {
+        "operationId": "agendaV1_listarHechos",
+        "summary": "listarHechos",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-20",
+          "RF-21"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaCelebracionLista"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "agendaV1_registrarHecho",
+        "summary": "registrarHecho",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "tags": [
+          "agenda"
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "x-requirements": [
+          "RF-20",
+          "RF-21"
+        ],
+        "x-pending": [
+          "PC-10",
+          "PC-11",
+          "PC-12"
+        ],
+        "x-roles": [
+          "ADMIN_IGLESIA"
+        ],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "iglesiaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaCelebracion"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgendaCelebracionInput"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -10240,6 +11550,562 @@
           "meta"
         ],
         "additionalProperties": false
+      },
+      "AgendaSacerdoteInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "nombre"
+        ]
+      },
+      "AgendaVinculoInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sacerdoteId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "sacerdoteId"
+        ]
+      },
+      "AgendaNombrePatchInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "nombre",
+          "version"
+        ]
+      },
+      "AgendaSacerdote": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombre": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "id",
+          "nombre",
+          "version"
+        ]
+      },
+      "AgendaHorarioInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sacerdoteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "diaSemana": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "horaLocal": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "tipo": {
+            "enum": [
+              "DIARIA",
+              "DOMINICAL",
+              "ESPECIAL"
+            ]
+          },
+          "idioma": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "duracionMinutos": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 720,
+            "default": 60
+          },
+          "desde": {
+            "type": "string",
+            "format": "date"
+          },
+          "hasta": {
+            "type": "string",
+            "format": "date"
+          },
+          "activo": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "sacerdoteId",
+          "diaSemana",
+          "horaLocal",
+          "tipo",
+          "idioma",
+          "desde",
+          "hasta"
+        ]
+      },
+      "AgendaHorarioEdicion": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sacerdoteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "diaSemana": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "horaLocal": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "tipo": {
+            "enum": [
+              "DIARIA",
+              "DOMINICAL",
+              "ESPECIAL"
+            ]
+          },
+          "idioma": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "duracionMinutos": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 720,
+            "default": 60
+          },
+          "desde": {
+            "type": "string",
+            "format": "date"
+          },
+          "hasta": {
+            "type": "string",
+            "format": "date"
+          },
+          "activo": {
+            "type": "boolean",
+            "default": true
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "sacerdoteId",
+          "diaSemana",
+          "horaLocal",
+          "tipo",
+          "idioma",
+          "desde",
+          "hasta",
+          "version"
+        ]
+      },
+      "AgendaHorario": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sacerdoteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "diaSemana": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "horaLocal": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "tipo": {
+            "enum": [
+              "DIARIA",
+              "DOMINICAL",
+              "ESPECIAL"
+            ]
+          },
+          "idioma": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "duracionMinutos": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 720,
+            "default": 60
+          },
+          "desde": {
+            "type": "string",
+            "format": "date"
+          },
+          "hasta": {
+            "type": "string",
+            "format": "date"
+          },
+          "activo": {
+            "type": "boolean",
+            "default": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "zonaIana": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "sacerdoteId",
+          "diaSemana",
+          "horaLocal",
+          "tipo",
+          "idioma",
+          "duracionMinutos",
+          "desde",
+          "hasta",
+          "activo",
+          "id",
+          "iglesiaId",
+          "zonaIana",
+          "version"
+        ]
+      },
+      "AgendaCelebracionInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ocurrenciaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "oficianteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fechaLocal": {
+            "type": "string",
+            "format": "date"
+          },
+          "horaLocal": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "motivo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "ocurrenciaId",
+          "oficianteId",
+          "fechaLocal",
+          "horaLocal"
+        ]
+      },
+      "AgendaCelebracion": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ocurrenciaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "oficianteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fechaLocal": {
+            "type": "string",
+            "format": "date"
+          },
+          "horaLocal": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "motivo": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 500
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "previstoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "zonaIana": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "inicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "registradoEn": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "ocurrenciaId",
+          "oficianteId",
+          "fechaLocal",
+          "horaLocal",
+          "motivo",
+          "id",
+          "iglesiaId",
+          "previstoId",
+          "zonaIana",
+          "inicio",
+          "fin",
+          "actorId",
+          "registradoEn"
+        ]
+      },
+      "AgendaOcurrencia": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "horarioId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "iglesiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sacerdoteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fechaLocal": {
+            "type": "string",
+            "format": "date"
+          },
+          "horaLocal": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "zonaIana": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "inicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "iglesia": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "nombre": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            },
+            "required": [
+              "nombre"
+            ]
+          },
+          "sacerdote": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "nombre": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            },
+            "required": [
+              "nombre"
+            ]
+          },
+          "horario": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "tipo": {
+                "enum": [
+                  "DIARIA",
+                  "DOMINICAL",
+                  "ESPECIAL"
+                ]
+              },
+              "idioma": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "duracionMinutos": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 720,
+                "default": 60
+              }
+            },
+            "required": [
+              "tipo",
+              "idioma",
+              "duracionMinutos"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "horarioId",
+          "iglesiaId",
+          "sacerdoteId",
+          "fechaLocal",
+          "horaLocal",
+          "zonaIana",
+          "inicio",
+          "fin",
+          "iglesia",
+          "sacerdote",
+          "horario"
+        ]
+      },
+      "AgendaSacerdoteLista": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgendaSacerdote"
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "AgendaHorarioLista": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgendaHorario"
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "AgendaCelebracionLista": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgendaCelebracion"
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "AgendaOcurrenciaLista": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgendaOcurrencia"
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
       }
     },
     "securitySchemes": {
