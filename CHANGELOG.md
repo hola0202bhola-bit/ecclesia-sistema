@@ -1,3 +1,7 @@
+## CT20 y ficha integrada — 2026-11-03
+
+Comando db:demo con PostgreSQL local propio, carga sintética reproducible/atómica/idempotente, credenciales generadas y fuentes INEGI verificadas para ocho municipios/tres estados. Mínimos completos del flujo implementado, prueba de relaciones y aislamiento en una segunda base efímera; migración CargaDemo aditiva. Ficha web compone resúmenes públicos de los módulos existentes y conserva enlaces completos. [Uso](docs/demo-ct20.md), [brechas RF pendientes](docs/brechas-obligatorias.md), [validación real](docs/estado-producto.md).
+
 ## RF25–31 — 2026-11-03
 
 Oferta funeraria por iglesia sin precios públicos, solicitud sin cuenta con folio/clave hash, seguimiento privado con límites persistentes y CSRF, revisión individual, precio exacto/condiciones y estados con versión/auditoría/vencimiento controlado. Se añade migración aditiva, seis vistas, navegación y octava suite PostgreSQL/HTTP. [Supuestos y pendientes ADR010](docs/adr/010.md).

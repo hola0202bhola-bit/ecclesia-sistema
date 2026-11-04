@@ -1,3 +1,7 @@
+# CT20 y RF02 — composición e importación local
+
+CT20 vive en prisma/demo y scripts/demo.mjs, fuera del servidor y sin ruta HTTP de carga. Es un importador de fixtures con destino exclusivo local, transacción única y marcador CargaDemo, separado del seed mínimo. La ficha EJS recibe una función de composición inyectada: composition consulta únicamente las proyecciones públicas de Iglesias, Patrimonio, Oferta, Agenda y Solicitudes. Iglesias no importa los otros módulos ni accede a Prisma desde presentación. No se modifican privilegios ni se crea un agregador de datos privados. [Uso y límites](demo-ct20.md).
+
 RF25–31: src/modules/solicitudes/{domain,application,presentation,infrastructure}, composición y seis vistas EJS. Dominio puro: estados/tiempo/dinero; reloj/criptografía inyectados por infraestructura/composición. Prisma usa bloqueos de iglesia, versión y auditoría transaccional; rate limit persistente HMAC. Sin dependencias hacia módulos vecinos. [ADR010](adr/010.md) define supuestos y límites; sustituye los antecedentes de seguimiento no implementado solo en este subalcance.
 
 Incremento RF22–24: `src/modules/diezmos/{domain,application,presentation,infrastructure}`, composición y EJS. Dominio bigint puro; infraestructura PostgreSQL/Prisma, FK compuestas, bloqueo de Iglesia y auditoría con versión en una transacción. Lectura consistente RepeatableRead del reporte/ficha, sin dependencia hacia módulos vecinos. [ADR009](adr/009.md) documenta el subalcance y supersede únicamente los antecedentes de diezmos como diseño futuro.
