@@ -1,6 +1,8 @@
-<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><%= id ? 'Editar' : 'Registrar' %> iglesia · Ecclesia</title>
-<style>body{font:18px system-ui;max-width:55rem;margin:auto;padding:1.5rem;color:#18352c;background:#f7f5ef}a{color:#136650}label{display:block;margin:1rem 0}input,select,textarea,button{font:inherit;padding:.5rem;max-width:100%;box-sizing:border-box}input,select,textarea{display:block;width:100%}.errores{border:2px solid #a22;padding:1rem}small{display:block}fieldset{margin:1.5rem 0}</style>
-<main><a href="/personal/iglesias">Volver a gestión</a><h1><%= id ? 'Editar' : 'Registrar' %> iglesia</h1>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><%= id ? 'Editar' : 'Registrar' %> iglesia · Ecclesia</title>
+<link rel="stylesheet" href="/assets/ecclesia.css">
+</head><body>
+<%- include("partials/header") %>
+<main id="contenido" class="page page-iglesia-formulario"><a href="/personal/iglesias">Volver a gestión</a><h1><%= id ? 'Editar' : 'Registrar' %> iglesia</h1>
 <% if (guardado) { %><p role="status">Iglesia guardada. Se muestran los datos actuales.</p><% } %>
 <% if (errores.length) { %><div class="errores" role="alert"><h2>Revise el formulario</h2><ul><% for (const error of errores) { %><li><%= error %></li><% } %></ul><p>Se conservaron sus datos.</p><% if (id) { %><p>Si otra persona guardó cambios, <a href="/personal/iglesias/<%= id %>/editar">cargue la versión actual</a> y compare antes de reenviar. Esta acción descarta los cambios sin guardar.</p><% } %></div><% } %>
 <% if (id && !errores.length) { %><p>Datos actuales · versión <%= valores.version %>. <a href="/iglesias/<%= id %>">Ver ficha pública</a></p><% } %>
@@ -17,4 +19,5 @@
 <label>Contacto<input name="contacto" maxlength="300" value="<%= valores.contacto ?? '' %>"></label>
 <label>Zona horaria IANA<input name="zonaIana" maxlength="100" placeholder="America/Mexico_City" value="<%= valores.zonaIana ?? '' %>"></label>
 </fieldset><button>Guardar iglesia</button></form><p>El cierre y la reapertura siguen pendientes de definición.</p>
-<p><a href="https://www.inegi.org.mx/servicios/catalogounico.html">Fuente geográfica: servicio oficial del INEGI</a>. Los seis tipos de iglesia proceden del caso original (P063).</p><% for (const version of catalogos.versiones) { %><small>Catálogo: <%= version.version %> · consultado <%= version.consulta %></small><% } %></main></html>
+<p><a href="https://www.inegi.org.mx/servicios/catalogounico.html">Fuente geográfica: servicio oficial del INEGI</a>. Los seis tipos de iglesia proceden del caso original (P063).</p><% for (const version of catalogos.versiones) { %><small>Catálogo: <%= version.version %> · consultado <%= version.consulta %></small><% } %></main>
+<%- include("partials/footer") %>

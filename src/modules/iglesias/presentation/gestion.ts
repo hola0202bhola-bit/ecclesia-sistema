@@ -5,6 +5,7 @@ import { ErrorIglesias } from "../domain/iglesia.js";
 import type { ServicioIglesias } from "../application/servicio.js";
 import type { ServicioCatalogos } from "../application/catalogos.js";
 import {
+  cierreInput,
   crearInput,
   editarInput,
   filtrosInput,
@@ -114,5 +115,52 @@ export function gestionRouter(
   router.post("/:id/editar", (req: Personal, res) =>
     guardar(req, res, idInput.parse(req.params.id)),
   );
+  router.get("/:id/historial", async (req: Personal, res) => {
+    res.render("iglesia-historial", {
+      ...(await servicio.privada(idInput.parse(req.params.id), req.principal)),
+      csrf: req.sesion?.csrf,
+      errores: [],
+      valores: null,
+    });
+  });
+  for (const comando of ["cerrar", "reabrir"])
+    router.post(`/:id/${comando}`, async (req: Personal, res) => {
+      const id = idInput.parse(req.params.id);
+      await servicio.privada(id, req.principal);
+      try {
+        const { _csrf, ...body } = req.body;
+        void _csrf;
+        const { version, motivo } = cierreInput.parse({
+          ...body,
+          version:
+            typeof body.version === "string" && /^\d+$/.test(body.version)
+              ? Number(body.version)
+              : body.version,
+        });
+        await servicio.cambiarCierre(
+          id,
+          version,
+          comando === "cerrar",
+          motivo,
+          req.principal,
+        );
+        res.redirect(303, `/personal/iglesias/${id}/historial`);
+      } catch (error) {
+        if (!(error instanceof ZodError || error instanceof ErrorIglesias))
+          throw error;
+        res
+          .status(error instanceof ZodError ? 422 : error.status)
+          .render("iglesia-historial", {
+            ...(await servicio.privada(id, req.principal)),
+            csrf: req.sesion?.csrf,
+            errores: [
+              error instanceof ZodError
+                ? "Indique una versión válida y un motivo de 5 a 500 caracteres."
+                : error.message,
+            ],
+            valores: req.body,
+          });
+      }
+    });
   return router;
 }

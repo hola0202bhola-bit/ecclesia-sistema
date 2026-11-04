@@ -1,3 +1,9 @@
+## Alcance provisional autorizado — RF04 / RF11, 3 de noviembre de 2026
+
+PC04: tomando la interpretación del alumno como supuesto y no como respuesta docente, cierran/reabren Coordinación y ADMIN_IGLESIA únicamente propio. TESORERO y administradores ajenos no obtienen ese permiso. Se requiere motivo de 5–500 caracteres y versión vigente; bloqueo de fila, incremento y CambioCierre atómicos. Dos cambios concurrentes no ganan ambos; fallo de auditoría revierte. Cerrada se excluye de lista, ficha, oferta, misas, espacios y ranking públicos; permanece en la gestión privada y su ficha básica/historial, sin borrar patrimonio/agenda/finanzas/solicitudes. Durante cierre no se editan datos básicos ni se habilitan escrituras de los módulos; la consulta privada ampliada de todos esos módulos durante cierre queda fuera de este incremento. Reabrir restaura la visibilidad de lo conservado, sin desplazar vigencias de agenda/cotización. No se otorga Coordinación acceso a solicitudes privadas.
+
+PC08: versiones de parámetros inmutables y activación inmediata en consultas actuales; no hay vigencia futura ni resultados históricos retroactivos almacenados. Ver ADR005. PC04/08 continúan abiertos a validación del docente, aun cuando el subalcance funcional está implementado y probado.
+
 # Reclasificación de las 23 PC — revisión 03
 
 1 de noviembre de 2026, America/Mexico_City. Fuente: PC originales y consultas revisión02, P063–P095/P127–P157 del caso y reclasificación recuperada del chat «Ayuda actividad programación». El alumno autorizó esta revisión y confirmó expresamente el stack y Codex en el chat actual. No se recibieron respuestas docentes. Una decisión técnica no es una respuesta del cliente.

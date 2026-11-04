@@ -1,3 +1,13 @@
+## Incremento final UI / RF04 / RF11
+
+| Requisito / fuente | Implementación actual | Verificación |
+| --- | --- | --- |
+| RNF01/09, P092 | CSS/SVG locales, parciales EJS, todas las vistas y navegación; tarjetas, filtros, tablas y formularios adaptables | ui-cierre-criterios, smoke CSS/CSP y recorrido de navegador registrado en estado-producto |
+| RF04/RN03, P065/P092/P093 | Servicio/repositorio Iglesias, gestión/historial privados, versión/bloqueo/auditoría | Permisos, exclusión pública, concurrencia, rollback, escape y preservación CT20 |
+| RF11/CA08, P075/P092 | Capas criterios de Patrimonio, ConfiguracionIndice, versiones inmutables, activación/historial y lecturas snapshot | 20→25, 35.5, permisos, concurrencia, rollback, formularios y contrato |
+
+PC04/08 provisionales. RF05 nacional pendiente; no se incorporan Teams ni permisos adicionales de solicitudes.
+
 CT20/CT03 y RF02: [fuentes P199–225, mínimos, relaciones y pruebas reales](demo-ct20.md), más [mapa priorizado de brechas obligatorias](brechas-obligatorias.md). Migración CargaDemo y tests/demo.test.ts añaden distribución/relaciones, seguridad, no sobrescritura y compatibilidad con los ocho esquemas previos. La ficha web integra proyecciones públicas con límites explícitos; API básica y RF04/05/11 siguen con las brechas indicadas. No se declaran PC ni flujo aprobados por el docente.
 
 Incremento RF25–31, RN17–21, RNF03, CA14–15: [tabla fuente/implementación/prueba en ADR010](adr/010.md), P088–P090/P092–P093 originales preservados. Octava suite solicitudes PostgreSQL real, contrato HTTP, seguridad/aislamiento, reloj/concurrencia, migración aditiva y auditoría. PC14–19 no respondidas; campos, retención, canal y excepciones son supuestos técnicos. Los antecedentes de solicitudes pendientes siguientes quedan superados solo en el subalcance descrito.

@@ -110,3 +110,8 @@ export const formularioInput = z
       localidadClave: ubicacion.slice(5),
     };
   });
+
+export const cierreInput = z.strictObject({
+  version: z.number().int().min(1).max(2147483646),
+  motivo: texto(500).min(5),
+});

@@ -1,3 +1,10 @@
+## Incremento final — UI / RF04 / RF11
+
+- Sistema visual local compartido, directorio, navegación, panel y formularios; responsive y tablas desplazables, foco/etiquetas/semántica.
+- Cierre/reapertura propios con historial, control de concurrencia y preservación; gestión privada de cerradas.
+- Criterios inmutables configurables por Coordinación, activación atómica y lectura por cálculo/ranking. Nueva migración aditiva y suite real; criterios caso-v1 y 35.5 conservados.
+- RF05 nacional, validación de PC04/08 y Teams adicional siguen pendientes/excluidos.
+
 ## CT20 y ficha integrada — 2026-11-03
 
 Comando db:demo con PostgreSQL local propio, carga sintética reproducible/atómica/idempotente, credenciales generadas y fuentes INEGI verificadas para ocho municipios/tres estados. Mínimos completos del flujo implementado, prueba de relaciones y aislamiento en una segunda base efímera; migración CargaDemo aditiva. Ficha web compone resúmenes públicos de los módulos existentes y conserva enlaces completos. [Uso](docs/demo-ct20.md), [brechas RF pendientes](docs/brechas-obligatorias.md), [validación real](docs/estado-producto.md).

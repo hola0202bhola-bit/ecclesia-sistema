@@ -1,6 +1,8 @@
-<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Oferta · Ecclesia</title>
-<style>body{font:18px system-ui;max-width:48rem;margin:auto;padding:1rem;color:#18352c;background:#f7f5ef}a{color:#136650}label{display:block;margin:1rem 0}input,select,textarea,button{display:block;font:inherit;padding:.6rem;max-width:100%;box-sizing:border-box}textarea{width:100%;min-height:6rem}fieldset{margin:1rem 0;border:1px solid #8a9c91}button{background:#18563f;color:white;border:0;border-radius:.3rem}.error{color:#8b1a16}small{display:block}</style>
-<main><a href="/personal/oferta/<%= iglesia.id %>/<%= clase %>">Volver al listado</a><h1><%= recursoId ? 'Editar' : 'Registrar' %> <%= clase === 'servicios' ? 'servicio' : 'plática' %></h1><p><%= iglesia.nombre %></p>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Oferta · Ecclesia</title>
+<link rel="stylesheet" href="/assets/ecclesia.css">
+</head><body>
+<%- include("partials/header") %>
+<main id="contenido" class="page page-oferta-formulario"><a href="/personal/oferta/<%= iglesia.id %>/<%= clase %>">Volver al listado</a><h1><%= recursoId ? 'Editar' : 'Registrar' %> <%= clase === 'servicios' ? 'servicio' : 'plática' %></h1><p><%= iglesia.nombre %></p>
 <% if (errores.length) { %><div role="alert" class="error"><h2>Revise los datos</h2><ul><% for (const error of errores) { %><li><%= error %></li><% } %></ul></div><% } %>
 <% if (recursoId) { %><p><a href="/personal/oferta/<%= iglesia.id %>/<%= clase %>/<%= recursoId %>/editar" target="_blank" rel="noopener">Abrir versión actual para comparar</a>. Esta página conserva sus datos.</p><% } %>
 <form method="post" action="/personal/oferta/<%= iglesia.id %>/<%= clase %>/<%= recursoId ? `${recursoId}/editar` : 'nuevo' %>"><input type="hidden" name="_csrf" value="<%= csrf %>"><% if (recursoId) { %><input type="hidden" name="version" value="<%= valores.version %>"><% } %>
@@ -21,4 +23,5 @@
 <% } %>
 <label>Moneda <input name="moneda" minlength="3" maxlength="3" pattern="[A-Z]{3}" required placeholder="Por ejemplo: MXN" value="<%= valores.moneda ?? '' %>"><small>Escriba el código de tres letras de la moneda informada por su iglesia.</small></label>
 <fieldset><legend>Días y horarios locales</legend><p>Indique al menos un horario. Use horas de 24 horas; separe varias horas del mismo día con comas, por ejemplo: 09:00, 17:30. Deje vacíos los días sin actividad.</p>
-<% for (let i = 1; i <= 7; i++) { %><label><%= dias[i - 1] %><input name="horario<%= i %>" maxlength="700" placeholder="09:00, 17:30" value="<%= valores[`horario${i}`] ?? (Array.isArray(valores.horarios) ? valores.horarios.filter(h => h.diaSemana === i).map(h => h.horaLocal).join(', ') : '') %>"></label><% } %></fieldset><button>Guardar <%= clase === 'servicios' ? 'servicio' : 'plática' %></button></form></main></html>
+<% for (let i = 1; i <= 7; i++) { %><label><%= dias[i - 1] %><input name="horario<%= i %>" maxlength="700" placeholder="09:00, 17:30" value="<%= valores[`horario${i}`] ?? (Array.isArray(valores.horarios) ? valores.horarios.filter(h => h.diaSemana === i).map(h => h.horaLocal).join(', ') : '') %>"></label><% } %></fieldset><button>Guardar <%= clase === 'servicios' ? 'servicio' : 'plática' %></button></form></main>
+<%- include("partials/footer") %>

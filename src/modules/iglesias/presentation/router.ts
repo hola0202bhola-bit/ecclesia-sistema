@@ -4,6 +4,7 @@ import type { ServicioIglesias } from "../application/servicio.js";
 import type { Principal, Iglesia } from "../domain/iglesia.js";
 import type { ServicioCatalogos } from "../application/catalogos.js";
 import {
+  cierreInput,
   crearInput,
   editarInput,
   filtrosInput,
@@ -40,10 +41,22 @@ export function iglesiasRouter(
     );
   });
   for (const comando of ["cerrar", "reabrir"])
-    router.post(`/:id/${comando}`, personal, (req: RequestPersonal) => {
-      idInput.parse(req.params.id);
-      servicio.cambiarCierre(req.principal);
-    });
+    router.post(
+      `/:id/${comando}`,
+      personal,
+      async (req: RequestPersonal, res) => {
+        const { version, motivo } = cierreInput.parse(req.body);
+        res.json(
+          await servicio.cambiarCierre(
+            idInput.parse(req.params.id),
+            version,
+            comando === "cerrar",
+            motivo,
+            req.principal,
+          ),
+        );
+      },
+    );
   return router;
 }
 export function webRouter(
@@ -58,7 +71,7 @@ export function webRouter(
     const query = Object.fromEntries(
       Object.entries(req.query).filter(([, v]) => v !== ""),
     );
-    const filtros = query.estadoClave ? filtrosInput.parse(query) : null;
+    const filtros = filtrosInput.parse({ estadoClave: "21", ...query });
     const resultado = filtros ? await servicio.listar(filtros) : null;
     res.render("iglesias", {
       resultado,

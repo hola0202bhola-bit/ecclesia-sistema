@@ -1,3 +1,15 @@
+## Interfaz renovada, cierre e índice configurable
+
+Último incremento para la entrega del 4 de noviembre: diseño institucional compartido en todas las vistas, directorio con tarjetas, navegación, ficha por secciones, panel por módulos, formularios, estados de error, tablas desplazables y adaptación móvil. CSS e ilustración locales, sin CDN; CSP limita estilos al propio servidor. Al abrir la demo se muestran las iglesias de Puebla; cambia el estado para explorar Tlaxcala o Veracruz.
+
+Desde esta carpeta, con Node 24 y dependencias instaladas: **`npm run db:demo`**. Abre la dirección que imprime la terminal. Las credenciales están exclusivamente en `.demo/accesos-locales.json`. Una demo existente conserva sus datos y aplica la décima migración; las nueve anteriores no cambian. Para actualizar un clon: `git pull --ff-only`, `npm ci` y `npm run db:demo`.
+
+- **RF04:** Personal → Gestionar iglesias → Estado e historial. Coordinación o administrador propio cierra/reabre con motivo y versión; cerradas visibles solo en esa gestión privada, sin edición ni consulta pública/ranking. Conserva todos los módulos y su historia. Autoridad PC04 provisional, sin atribuir aprobación docente.
+- **RF11:** Coordinación → Criterios del índice. Copiar una versión, ajustar tramos/factores/bono/distinciones, guardar y revisar antes de activar. Cada versión se conserva; la activación tiene control de concurrencia y auditoría. Afecta inmediatamente todas las consultas actuales, sin guardar resultados históricos ni programar activaciones futuras. PC08 provisional. El criterio original permanece disponible y reproduce **35.5**.
+- **RF05 nacional sigue pendiente:** localidades parciales; CT20 usa ocho oficiales verificadas. Teams RF01–10 continúa excluido.
+
+Los resultados del gate y recorrido visual de este incremento se registran en [estado del producto](docs/estado-producto.md). Los apartados siguientes conservan los resultados y límites de incrementos anteriores; las referencias antiguas a RF04/RF11 bloqueados describen esos estados previos.
+
 CT20 — 3 de noviembre de 2026: desde este directorio ejecutar **`npm run db:demo`** después de `npm ci`. Crea su propio PostgreSQL local persistente, aplica migraciones, carga los mínimos de demostración y abre un servidor local. **Ignora DATABASE_URL y no toca la base del usuario**; no ejecutar el seed mínimo sobre la demo. Las contraseñas y los comprobantes se generan exclusivamente en `.demo/accesos-locales.json`, excluido de Git. Detener con `salir` + Enter o Ctrl+C; repetir conserva datos y credenciales. [Comandos, datos, procedencia INEGI y límites](docs/demo-ct20.md).
 
 La ficha web ahora muestra resúmenes públicos de patrimonio/índice, servicios, pláticas, próximas misas con sacerdote y espacios funerarios, además de enlaces al detalle. [Mapa priorizado de brechas obligatorias](docs/brechas-obligatorias.md): RF04 cierre/reapertura, administración/actualización nacional RF05 y configuración/activación RF11 siguen pendientes. Teams RF01–10 provisional queda excluido; no se declara cierre integral ni aprobación docente.

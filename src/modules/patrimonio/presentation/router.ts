@@ -94,6 +94,10 @@ export function patrimonioRouter(
 export function patrimonioWeb(
   servicio: ServicioPatrimonio,
   personal: RequestHandler,
+  opciones: (f: {
+    estadoClave?: string;
+    municipioClave?: string;
+  }) => Promise<unknown>,
 ) {
   const router = Router();
   router.get("/ranking-patrimonial", async (req, res) => {
@@ -104,6 +108,7 @@ export function patrimonioWeb(
     const filtros = filtrosInput.parse(query);
     res.render("ranking-patrimonial", {
       resultado: await servicio.ranking(filtros),
+      catalogos: await opciones(filtros),
       filtros,
       tipos: tiposObjeto,
     });

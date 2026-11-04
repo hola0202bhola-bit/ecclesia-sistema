@@ -36,10 +36,30 @@ export interface Filtros {
 }
 export type { Principal } from "../../../shared/domain/personal.js";
 export interface RepositorioIglesias {
-  listar(filtros: Filtros): Promise<{
+  listar(
+    filtros: Filtros,
+    incluirCerradas?: boolean,
+  ): Promise<{
     data: Iglesia[];
     meta: { page: number; pageSize: number; total: number };
   }>;
+  cambiarCierre(
+    id: string,
+    version: number,
+    cerrar: boolean,
+    motivo: string,
+    actorId: string,
+  ): Promise<Iglesia>;
+  historial(id: string): Promise<
+    {
+      fecha: Date;
+      motivo: string;
+      actorId: string;
+      antes: Date | null;
+      despues: Date | null;
+      version: number;
+    }[]
+  >;
   obtener(id: string): Promise<Iglesia | null>;
   crear(datos: DatosIglesia): Promise<Iglesia>;
   editar(

@@ -1,8 +1,11 @@
-<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gestionar iglesias · Ecclesia</title>
-<style>body{font:18px system-ui;max-width:60rem;margin:auto;padding:1.5rem;color:#18352c;background:#f7f5ef}a{color:#136650}input,select,button{font:inherit;padding:.5rem;max-width:100%}li{margin:1rem 0}small{display:block}</style>
-<main><a href="/personal">Panel del personal</a><h1>Gestionar iglesias</h1>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gestionar iglesias · Ecclesia</title>
+<link rel="stylesheet" href="/assets/ecclesia.css">
+</head><body>
+<%- include("partials/header") %>
+<main id="contenido" class="page page-gestion-iglesias"><a href="/personal">Panel del personal</a><h1>Gestionar iglesias</h1>
 <% if (usuario.rol === 'COORDINACION') { %><p><a href="/personal/iglesias/nueva">Registrar iglesia</a></p><form><label>Estado <select name="estadoClave"><% for (const estado of catalogos.estados) { %><option value="<%= estado.clave %>" <%= filtros.estadoClave === estado.clave ? 'selected' : '' %>><%= estado.nombre %></option><% } %></select></label><button>Consultar</button></form><% } else { %><p>Puede editar únicamente su iglesia asignada.</p><% } %>
-<p><%= resultado.meta.total %> iglesias · página <%= resultado.meta.page %></p><ul><% for (const iglesia of resultado.data) { %><li><strong><%= iglesia.nombre %></strong><small><%= iglesia.direccion %> · versión <%= iglesia.version %></small><a href="/personal/iglesias/<%= iglesia.id %>/editar">Editar</a> · <a href="/iglesias/<%= iglesia.id %>">Ficha pública</a></li><% } %></ul>
+<p><%= resultado.meta.total %> iglesias · página <%= resultado.meta.page %></p><ul class="management-list"><% for (const iglesia of resultado.data) { %><li><strong><%= iglesia.nombre %></strong><small><%= iglesia.direccion %> · versión <%= iglesia.version %></small><span class="badge <%= iglesia.cerradaDesde?'closed':'' %>"><%= iglesia.cerradaDesde?'Cerrada':'Abierta' %></span> · <a href="/personal/iglesias/<%= iglesia.id %>/historial">Estado e historial</a><% if(!iglesia.cerradaDesde){ %> · <a href="/personal/iglesias/<%= iglesia.id %>/editar">Editar</a> · <a href="/iglesias/<%= iglesia.id %>">Ficha pública</a><% } %></li><% } %></ul>
 <% if (resultado.meta.page > 1) { %><a href="<%= queryPagina(resultado.meta.page - 1) %>">Anterior</a><% } %>
 <% if (resultado.meta.page * resultado.meta.pageSize < resultado.meta.total) { %><a href="<%= queryPagina(resultado.meta.page + 1) %>">Siguiente</a><% } %>
-<p>Las iglesias cerradas no se muestran. Su gestión sigue bloqueada.</p></main></html>
+<p>Las iglesias cerradas se conservan en esta consulta privada. Use Estado e historial para cerrarlas o reabrirlas.</p></main>
+<%- include("partials/footer") %>

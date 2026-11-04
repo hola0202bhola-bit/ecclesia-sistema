@@ -36,9 +36,9 @@ function fallo(error: unknown): never {
 }
 export class PrismaRepositorioIglesias implements RepositorioIglesias {
   constructor(private readonly db: PrismaClient) {}
-  async listar(f: Filtros) {
+  async listar(f: Filtros, incluirCerradas = false) {
     const where: Prisma.IglesiaWhereInput = {
-      cerradaDesde: null,
+      cerradaDesde: incluirCerradas ? undefined : null,
       estadoClave: f.estadoClave,
       municipioClave: f.municipioClave,
       localidadClave: f.localidadClave,
@@ -68,6 +68,56 @@ export class PrismaRepositorioIglesias implements RepositorioIglesias {
       data: rows.map(publica),
       meta: { page: f.page, pageSize: f.pageSize, total },
     };
+  }
+  historial(iglesiaId: string) {
+    return this.db.cambioCierre.findMany({
+      where: { iglesiaId },
+      orderBy: { version: "desc" },
+    });
+  }
+  cambiarCierre(
+    id: string,
+    version: number,
+    cerrar: boolean,
+    motivo: string,
+    actorId: string,
+  ) {
+    return this.db.$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT id FROM "Iglesia" WHERE id=${id}::uuid FOR UPDATE`;
+      const antes = await tx.iglesia.findUnique({ where: { id } });
+      if (!antes)
+        throw new ErrorIglesias(404, "NO_ENCONTRADA", "Iglesia no encontrada");
+      if (antes.version !== version)
+        throw new ErrorIglesias(
+          409,
+          "VERSION_OBSOLETA",
+          "La iglesia cambió; vuelva a consultarla",
+        );
+      if (Boolean(antes.cerradaDesde) === cerrar)
+        throw new ErrorIglesias(
+          409,
+          "ESTADO_ACTUAL",
+          "La iglesia ya tiene ese estado",
+        );
+      const despues = await tx.iglesia.update({
+        where: { id, version },
+        data: {
+          cerradaDesde: cerrar ? new Date() : null,
+          version: { increment: 1 },
+        },
+      });
+      await tx.cambioCierre.create({
+        data: {
+          iglesiaId: id,
+          actorId,
+          motivo,
+          antes: antes.cerradaDesde,
+          despues: despues.cerradaDesde,
+          version: despues.version,
+        },
+      });
+      return publica(despues);
+    });
   }
   async obtener(id: string) {
     const row = await this.db.iglesia.findUnique({ where: { id } });

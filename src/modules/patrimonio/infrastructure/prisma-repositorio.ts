@@ -12,10 +12,11 @@ import {
 export class PrismaRepositorioPatrimonio implements RepositorioPatrimonio {
   constructor(private readonly db: PrismaClient) {}
   private async criterios(tx: Prisma.TransactionClient): Promise<Criterios> {
-    const fila = await tx.criterioPatrimonio.findUniqueOrThrow({
-      where: { id: "caso-v1" },
+    const estado = await tx.configuracionIndice.findUniqueOrThrow({
+      where: { id: "global" },
+      include: { criterio: true },
     });
-    return fila.parametros as unknown as Criterios;
+    return estado.criterio.parametros as unknown as Criterios;
   }
   leer(iglesiaId: string) {
     return this.db.$transaction(

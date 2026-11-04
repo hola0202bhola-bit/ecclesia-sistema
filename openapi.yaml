@@ -1142,7 +1142,7 @@
       "post": {
         "operationId": "iglesias_cerrar",
         "summary": "Cerrar sin borrar historial",
-        "description": "Ruta autenticada de bloqueo: 501 PC04_PENDIENTE; no ejecuta cambios ni atribuye permiso de cierre/reapertura. Roles del diseño general siguen propuestos.",
+        "description": "RF04 provisional PC04: Coordinación o ADMIN_IGLESIA propio. Versión y motivo obligatorios, bloqueo de fila e historial atómicos. Cierre conserva datos y excluye toda consulta pública/ranking; edición bloqueada hasta reapertura. Consulta privada e historial disponibles por web.",
         "tags": ["iglesias"],
         "x-requirements": ["RF-04"],
         "x-pending": ["PC-04"],
@@ -1192,16 +1192,6 @@
           },
           "500": {
             "$ref": "#/components/responses/E500"
-          },
-          "501": {
-            "description": "Política de cierre/reapertura pendiente del cliente",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -1214,19 +1204,19 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MotivoInput"
+                "$ref": "#/components/schemas/CierreIglesiaInput"
               }
             }
           }
         },
-        "x-implementation": "BLOQUEADA_PC04"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/iglesias/{iglesiaId}/reabrir": {
       "post": {
         "operationId": "iglesias_reabrir",
         "summary": "Reabrir sin borrar historial",
-        "description": "Ruta autenticada de bloqueo: 501 PC04_PENDIENTE; no ejecuta cambios ni atribuye permiso de cierre/reapertura. Roles del diseño general siguen propuestos.",
+        "description": "RF04 provisional PC04: Coordinación o ADMIN_IGLESIA propio. Versión y motivo obligatorios, bloqueo de fila e historial atómicos. Cierre conserva datos y excluye toda consulta pública/ranking; edición bloqueada hasta reapertura. Consulta privada e historial disponibles por web.",
         "tags": ["iglesias"],
         "x-requirements": ["RF-04"],
         "x-pending": ["PC-04"],
@@ -1276,16 +1266,6 @@
           },
           "500": {
             "$ref": "#/components/responses/E500"
-          },
-          "501": {
-            "description": "Política de cierre/reapertura pendiente del cliente",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -1298,19 +1278,19 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MotivoInput"
+                "$ref": "#/components/schemas/CierreIglesiaInput"
               }
             }
           }
         },
-        "x-implementation": "BLOQUEADA_PC04"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/ranking-patrimonial": {
       "get": {
         "operationId": "patrimonio_ranking",
         "summary": "Ranking por ámbito geográfico",
-        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios activos versionados (caso-v1 inicial). Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. RF11 configura versiones inmutables y activa inmediatamente; política temporal PC08 provisional. No modifica iglesias cerradas ni publica auditoría.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-09", "RF-10"],
         "x-pending": ["PC-05", "PC-07", "PC-08"],
@@ -1429,7 +1409,7 @@
       "get": {
         "operationId": "patrimonio_buscar",
         "summary": "Buscar por tipo de objeto y antigüedad",
-        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios activos versionados (caso-v1 inicial). Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. RF11 configura versiones inmutables y activa inmediatamente; política temporal PC08 provisional. No modifica iglesias cerradas ni publica auditoría.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-12"],
         "x-pending": ["PC-05", "PC-06"],
@@ -1548,7 +1528,7 @@
       "get": {
         "operationId": "patrimonio_objetos",
         "summary": "Consultar objetos publicables",
-        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios activos versionados (caso-v1 inicial). Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. RF11 configura versiones inmutables y activa inmediatamente; política temporal PC08 provisional. No modifica iglesias cerradas ni publica auditoría.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-02", "RF-07"],
         "x-pending": ["PC-06"],
@@ -1627,7 +1607,7 @@
       "post": {
         "operationId": "patrimonio_altaObjeto",
         "summary": "Registrar objeto",
-        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios activos versionados (caso-v1 inicial). Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. RF11 configura versiones inmutables y activa inmediatamente; política temporal PC08 provisional. No modifica iglesias cerradas ni publica auditoría.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-07"],
         "x-pending": ["PC-02", "PC-05"],
@@ -1701,7 +1681,7 @@
       "patch": {
         "operationId": "patrimonio_editarObjeto",
         "summary": "Mantener objeto",
-        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios activos versionados (caso-v1 inicial). Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. RF11 configura versiones inmutables y activa inmediatamente; política temporal PC08 provisional. No modifica iglesias cerradas ni publica auditoría.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-07"],
         "x-pending": ["PC-02", "PC-05"],
@@ -1784,7 +1764,7 @@
       "put": {
         "operationId": "patrimonio_condicion",
         "summary": "Cambiar condición sin borrar objeto",
-        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios caso-v1 persistidos. Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. Ajuste/activación de criterios RF11 pendiente PC08. No modifica iglesias cerradas ni publica auditoría.",
+        "description": "Incremento patrimonio: P067–076/P093. Corte anual UTC inyectado y criterios activos versionados (caso-v1 inicial). Consulta pública solo vigente; ranking incluye cero registrado y desempata por nombre/ID provisionalmente. PATCH parcial requiere versión; para cambiar fecha se envía null en el campo anterior. Estado: solo VIGENTE a PERDIDO/PRESTADO/BAJA; reactivación pendiente PC06. Datos de captura mínimos provisionales PC02/05. RF11 configura versiones inmutables y activa inmediatamente; política temporal PC08 provisional. No modifica iglesias cerradas ni publica auditoría.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-08"],
         "x-pending": ["PC-06"],
@@ -1867,54 +1847,19 @@
       "get": {
         "operationId": "patrimonio_criterios",
         "summary": "Listar versiones de criterios",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-08. ",
+        "description": "RF11: solo Coordinación. Versiones inmutables y auditoría transaccional. Activación inmediata para consultas actuales, sin reescribir objetos ni criterios pasados; sin programación futura ni histórico de resultados. PC08 provisional. Devuelve todas las versiones y hasta 100 cambios recientes; no acepta paginación.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-11"],
         "x-pending": ["PC-08"],
         "x-roles": ["COORDINACION"],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 20
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Resultado propuesto. Listados con paginación; datos privados con Cache-Control: no-store.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Criterio"
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/Meta"
-                    }
-                  },
-                  "required": ["data", "meta"],
-                  "additionalProperties": false
+                  "$ref": "#/components/schemas/CriteriosEstado"
                 }
               }
             }
@@ -1949,12 +1894,12 @@
             "PersonalJWT": []
           }
         ],
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       },
       "post": {
         "operationId": "patrimonio_crearCriterio",
         "summary": "Preparar versión de criterios",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-05, PC-08. ",
+        "description": "RF11: solo Coordinación. Versiones inmutables y auditoría transaccional. Activación inmediata para consultas actuales, sin reescribir objetos ni criterios pasados; sin programación futura ni histórico de resultados. PC08 provisional. Devuelve todas las versiones y hasta 100 cambios recientes; no acepta paginación.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-11"],
         "x-pending": ["PC-05", "PC-08"],
@@ -1966,7 +1911,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Criterio"
+                  "$ref": "#/components/schemas/CriterioVersion"
                 }
               }
             }
@@ -2006,19 +1951,19 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriterioCreateInput"
+                "$ref": "#/components/schemas/CriterioVersionAlta"
               }
             }
           }
         },
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/criterios-patrimoniales/{criterioId}": {
       "put": {
         "operationId": "patrimonio_editarCriterio",
         "summary": "Editar borrador de criterios",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-08.  Concurrencia propuesta: enviar version recibida de la lectura; actualización obsoleta => 409, sin cambio ni auditoría parcial. No implementado.",
+        "description": "Diseño no implementado. Las versiones se conservan inmutables; para ajustar una, crear otra usando sus parámetros y activarla. PC08 provisional.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-11"],
         "x-pending": ["PC-08"],
@@ -2092,7 +2037,7 @@
       "post": {
         "operationId": "patrimonio_activar",
         "summary": "Activar criterios sin reprogramar",
-        "description": "Se propone esta operación; no está implementada. Autorizar rol y ámbito en el servidor; un rol no habilita otras iglesias. No cerrar ni implementar decisiones pendientes: PC-08. ",
+        "description": "RF11: solo Coordinación. Versiones inmutables y auditoría transaccional. Activación inmediata para consultas actuales, sin reescribir objetos ni criterios pasados; sin programación futura ni histórico de resultados. PC08 provisional. Devuelve todas las versiones y hasta 100 cambios recientes; no acepta paginación.",
         "tags": ["patrimonio"],
         "x-requirements": ["RF-11"],
         "x-pending": ["PC-08"],
@@ -2104,7 +2049,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid"
+              "minLength": 1,
+              "maxLength": 100
             }
           }
         ],
@@ -2114,7 +2060,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Criterio"
+                  "$ref": "#/components/schemas/CriterioActivo"
                 }
               }
             }
@@ -2154,12 +2100,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VersionInput"
+                "$ref": "#/components/schemas/CriterioActivarInput"
               }
             }
           }
         },
-        "x-implementation": "DISEÑO_NO_IMPLEMENTADO"
+        "x-implementation": "IMPLEMENTADO"
       }
     },
     "/iglesias/{iglesiaId}/servicios": {
@@ -12025,6 +11971,456 @@
           }
         },
         "required": ["csrf", "peticionId"],
+        "additionalProperties": false
+      },
+      "CierreIglesiaInput": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "motivo": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 500,
+            "pattern": ".*\\S.*"
+          }
+        },
+        "required": ["version", "motivo"],
+        "additionalProperties": false
+      },
+      "CriterioParametros": {
+        "type": "object",
+        "properties": {
+          "tramos": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 12,
+            "items": {
+              "type": "object",
+              "properties": {
+                "desde": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9999
+                },
+                "puntos": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000
+                }
+              },
+              "required": ["desde", "puntos"],
+              "additionalProperties": false
+            }
+          },
+          "factoresDecimas": {
+            "type": "object",
+            "properties": {
+              "30000000-0000-4000-8000-000000000001": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000002": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000003": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000004": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000005": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000006": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000007": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000008": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000009": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000010": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000011": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "30000000-0000-4000-8000-000000000012": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              }
+            },
+            "required": [
+              "30000000-0000-4000-8000-000000000001",
+              "30000000-0000-4000-8000-000000000002",
+              "30000000-0000-4000-8000-000000000003",
+              "30000000-0000-4000-8000-000000000004",
+              "30000000-0000-4000-8000-000000000005",
+              "30000000-0000-4000-8000-000000000006",
+              "30000000-0000-4000-8000-000000000007",
+              "30000000-0000-4000-8000-000000000008",
+              "30000000-0000-4000-8000-000000000009",
+              "30000000-0000-4000-8000-000000000010",
+              "30000000-0000-4000-8000-000000000011",
+              "30000000-0000-4000-8000-000000000012"
+            ],
+            "additionalProperties": false
+          },
+          "bonoInahDecimas": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "distinciones": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "properties": {
+                "desdeDecimas": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000
+                },
+                "nombre": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": ".*\\S.*"
+                }
+              },
+              "required": ["desdeDecimas", "nombre"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "tramos",
+          "factoresDecimas",
+          "bonoInahDecimas",
+          "distinciones"
+        ],
+        "additionalProperties": false
+      },
+      "CriterioVersionAlta": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": ".*\\S.*"
+          },
+          "parametros": {
+            "$ref": "#/components/schemas/CriterioParametros"
+          },
+          "motivo": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 500,
+            "pattern": ".*\\S.*"
+          }
+        },
+        "required": ["nombre", "parametros", "motivo"],
+        "additionalProperties": false
+      },
+      "CriterioActivarInput": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483646
+          },
+          "motivo": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 500,
+            "pattern": ".*\\S.*"
+          }
+        },
+        "required": ["version", "motivo"],
+        "additionalProperties": false
+      },
+      "CriterioActivo": {
+        "type": "object",
+        "properties": {
+          "criterioId": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          }
+        },
+        "required": ["criterioId", "version"],
+        "additionalProperties": false
+      },
+      "CriterioVersion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": ".*\\S.*"
+          },
+          "creadoEn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parametros": {
+            "type": "object",
+            "properties": {
+              "tramos": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 12,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "desde": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9999
+                    },
+                    "puntos": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000
+                    }
+                  },
+                  "required": ["desde", "puntos"],
+                  "additionalProperties": false
+                }
+              },
+              "factoresDecimas": {
+                "type": "object",
+                "properties": {
+                  "30000000-0000-4000-8000-000000000001": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000002": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000003": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000004": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000005": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000006": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000007": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000008": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000009": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000010": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000011": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "30000000-0000-4000-8000-000000000012": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  }
+                },
+                "required": [
+                  "30000000-0000-4000-8000-000000000001",
+                  "30000000-0000-4000-8000-000000000002",
+                  "30000000-0000-4000-8000-000000000003",
+                  "30000000-0000-4000-8000-000000000004",
+                  "30000000-0000-4000-8000-000000000005",
+                  "30000000-0000-4000-8000-000000000006",
+                  "30000000-0000-4000-8000-000000000007",
+                  "30000000-0000-4000-8000-000000000008",
+                  "30000000-0000-4000-8000-000000000009",
+                  "30000000-0000-4000-8000-000000000010",
+                  "30000000-0000-4000-8000-000000000011",
+                  "30000000-0000-4000-8000-000000000012"
+                ],
+                "additionalProperties": false
+              },
+              "bonoInahDecimas": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10000
+              },
+              "distinciones": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 8,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "desdeDecimas": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000000
+                    },
+                    "nombre": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": ".*\\S.*"
+                    }
+                  },
+                  "required": ["desdeDecimas", "nombre"],
+                  "additionalProperties": false
+                }
+              },
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "tramos",
+              "factoresDecimas",
+              "bonoInahDecimas",
+              "distinciones",
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": ["id", "nombre", "creadoEn", "parametros"],
+        "additionalProperties": false
+      },
+      "CriterioHistorial": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "criterioId": {
+            "type": "string"
+          },
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tipo": {
+            "enum": ["CREACION", "ACTIVACION"]
+          },
+          "motivo": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 500,
+            "pattern": ".*\\S.*"
+          },
+          "anterior": {
+            "type": ["string", "null"]
+          },
+          "version": {
+            "type": ["integer", "null"]
+          }
+        },
+        "required": [
+          "id",
+          "criterioId",
+          "actorId",
+          "fecha",
+          "tipo",
+          "motivo",
+          "anterior",
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "CriteriosEstado": {
+        "type": "object",
+        "properties": {
+          "versiones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CriterioVersion"
+            }
+          },
+          "activo": {
+            "$ref": "#/components/schemas/CriterioActivo"
+          },
+          "historial": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/CriterioHistorial"
+            }
+          }
+        },
+        "required": ["versiones", "activo", "historial"],
         "additionalProperties": false
       }
     },

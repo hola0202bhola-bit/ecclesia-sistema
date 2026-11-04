@@ -397,7 +397,7 @@ describe("gestión EJS con sesión real y PostgreSQL", () => {
     await db.sesion.deleteMany();
     expect((await guardar(s)).status).toBe(401);
   });
-  it("no habilita gestión de cerradas, cierre ni reapertura", async () => {
+  it("cerrada bloquea edición y exige versión y motivo para reapertura", async () => {
     const s = await sesion();
     await db.iglesia.update({
       where: { id: own },
@@ -409,8 +409,8 @@ describe("gestión EJS con sesión real y PostgreSQL", () => {
           .get(`/personal/iglesias/${own}/editar`)
           .set("Cookie", s.cookie)
       ).status,
-    ).toBe(501);
-    expect((await guardar(s, { ...form, version: "1" }, own)).status).toBe(501);
+    ).toBe(409);
+    expect((await guardar(s, { ...form, version: "1" }, own)).status).toBe(409);
     expect(
       (
         await request(app)
@@ -420,7 +420,7 @@ describe("gestión EJS con sesión real y PostgreSQL", () => {
           .type("form")
           .send({ _csrf: s.csrf })
       ).status,
-    ).toBe(501);
+    ).toBe(422);
     expect((await request(app).get("/iglesias/" + own)).status).toBe(404);
   });
   it("UUID inválido y recurso ausente producen errores web comprensibles", async () => {

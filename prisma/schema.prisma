@@ -85,6 +85,7 @@ model Iglesia {
   diezmos          Diezmo[]
   espacios         OfertaFuneraria[]
   solicitudes      SolicitudEspacio[]
+  cambiosCierre CambioCierre[]
 
   @@index([estadoClave, municipioClave, localidadClave])
 }
@@ -105,6 +106,8 @@ model Usuario {
   activo             Boolean            @default(true)
   sesiones           Sesion[]
   cambiosPatrimonio  CambioPatrimonio[]
+  cambiosCierre CambioCierre[]
+  cambiosCriterio CambioCriterio[]
   cambiosOferta      CambioOferta[]
   cambiosAgenda      CambioAgenda[]
   correccionesDiezmo CorreccionDiezmo[]
@@ -129,6 +132,11 @@ model TipoObjeto {
 model CriterioPatrimonio {
   id         String @id
   parametros Json
+  nombre String @default("Criterios del caso original") @db.VarChar(120)
+  creadoEn DateTime @default(now()) @db.Timestamptz(3)
+  configuraciones ConfiguracionIndice[]
+  cambios CambioCriterio[] @relation("CriterioDestino")
+  anteriores CambioCriterio[] @relation("CriterioAnterior")
 }
 
 model ObjetoPatrimonial {
@@ -506,4 +514,38 @@ model LimiteSolicitud {
   vence    DateTime @db.Timestamptz(3)
 
   @@index([vence])
+}
+
+model CambioCierre {
+ id String @id @default(uuid()) @db.Uuid
+ iglesiaId String @db.Uuid
+ iglesia Iglesia @relation(fields:[iglesiaId], references:[id], onDelete:Restrict)
+ actorId String @db.Uuid
+ actor Usuario @relation(fields:[actorId], references:[id], onDelete:Restrict)
+ fecha DateTime @default(now()) @db.Timestamptz(3)
+ motivo String @db.VarChar(500)
+ antes DateTime?
+ despues DateTime?
+ version Int
+ @@unique([iglesiaId,version])
+}
+model ConfiguracionIndice {
+ id String @id
+ criterioId String
+ criterio CriterioPatrimonio @relation(fields:[criterioId],references:[id],onDelete:Restrict)
+ version Int @default(1)
+}
+model CambioCriterio {
+ id String @id @default(uuid()) @db.Uuid
+ criterioId String
+ criterio CriterioPatrimonio @relation("CriterioDestino",fields:[criterioId],references:[id],onDelete:Restrict)
+ actorId String @db.Uuid
+ actor Usuario @relation(fields:[actorId],references:[id],onDelete:Restrict)
+ fecha DateTime @default(now()) @db.Timestamptz(3)
+ tipo String
+ motivo String @db.VarChar(500)
+ anterior String?
+ previo CriterioPatrimonio? @relation("CriterioAnterior",fields:[anterior],references:[id],onDelete:Restrict)
+ version Int?
+ @@index([fecha])
 }

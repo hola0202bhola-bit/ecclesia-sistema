@@ -346,7 +346,7 @@ describe("escritura mínima y persistencia", () => {
       where: { id: own },
       data: { cerradaDesde: new Date() },
     });
-    expect((await patch(own, { version: 1, nombre: "X" })).status).toBe(501);
+    expect((await patch(own, { version: 1, nombre: "X" })).status).toBe(409);
   });
   it.each([
     {},
@@ -475,7 +475,7 @@ describe("credenciales y permisos limitados por caso", () => {
       ).status,
     ).toBe(401);
   });
-  it("cierre y reapertura bloqueados incluso con credencial; sin credencial 401", async () => {
+  it("cierre y reapertura requieren entrada completa; sin credencial 401", async () => {
     for (const command of ["cerrar", "reabrir"]) {
       expect(
         (await request(app).post(`${base}/${own}/${command}`)).status,
@@ -483,8 +483,8 @@ describe("credenciales y permisos limitados por caso", () => {
       const r = await request(app)
         .post(`${base}/${own}/${command}`)
         .set("Authorization", coord());
-      expect(r.status).toBe(501);
-      expect(r.body.code).toBe("PC04_PENDIENTE");
+      expect(r.status).toBe(422);
+      expect(r.body.code).toBe("ENTRADA_INVALIDA");
     }
     expect(
       (await db.iglesia.findUniqueOrThrow({ where: { id: own } })).cerradaDesde,

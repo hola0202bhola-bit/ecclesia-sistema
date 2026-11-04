@@ -1,3 +1,6 @@
+import { ServicioCriterios } from "../modules/patrimonio/application/criterios.js";
+import { PrismaRepositorioCriterios } from "../modules/patrimonio/infrastructure/criterios.js";
+import { criteriosRouter } from "../modules/patrimonio/presentation/criterios.js";
 import { ServicioSolicitudes } from "../modules/solicitudes/application/servicio.js";
 import { PrismaRepositorioSolicitudes } from "../modules/solicitudes/infrastructure/prisma-repositorio.js";
 import {
@@ -81,10 +84,21 @@ export function createApp(
       "X-Content-Type-Options": "nosniff",
       "Referrer-Policy": "same-origin",
       "Content-Security-Policy":
-        "default-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'none'",
+        "default-src 'self'; style-src 'self'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
     });
     next();
   });
+  app.use((req, res, next) => {
+    res.locals.activePath = req.path;
+    res.locals.personalLink = req.headers.cookie?.includes("ecclesia_session=")
+      ? "/personal"
+      : "/personal/login";
+    next();
+  });
+  app.use(
+    "/assets",
+    express.static(resolve("public"), { index: false, dotfiles: "deny" }),
+  );
   app.use(express.json({ limit: "16kb" }));
   app.use(express.urlencoded({ extended: false, limit: "16kb" }));
   app.set("view engine", "ejs");
@@ -109,6 +123,12 @@ export function createApp(
     anioActual,
   );
   app.use(identidadRouter(identidad, personal, acceso.origin));
+  app.use(
+    criteriosRouter(
+      new ServicioCriterios(new PrismaRepositorioCriterios(db)),
+      personal,
+    ),
+  );
   const solicitudes = new ServicioSolicitudes(
     new PrismaRepositorioSolicitudes(db, reloj),
     new ClavesSolicitud(),
@@ -149,7 +169,11 @@ export function createApp(
   app.use("/api/v1", ofertaRouter(oferta, personal));
   app.use(ofertaWeb(oferta, personal));
   app.use("/api/v1", patrimonioRouter(patrimonio, personal));
-  app.use(patrimonioWeb(patrimonio, personal));
+  app.use(
+    patrimonioWeb(patrimonio, personal, (filtros) =>
+      catalogos.consultar(filtros),
+    ),
+  );
   app.use("/api/v1/catalogos", catalogosRouter(catalogos));
   app.use("/personal/iglesias", gestionRouter(servicio, catalogos, personal));
   app.use("/api/v1/iglesias", iglesiasRouter(servicio, personal));
@@ -210,6 +234,7 @@ export function createApp(
         ? Number(error.status)
         : 500;
     if (
+      req.path.startsWith("/personal") ||
       req.path.startsWith("/personal/iglesias") ||
       req.path.startsWith("/iglesias") ||
       req.path.startsWith("/personal/patrimonio") ||

@@ -1,6 +1,8 @@
-<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><%= clase === 'servicios' ? 'Servicios' : 'Pláticas' %> · Ecclesia</title>
-<style>body{font:18px system-ui;max-width:58rem;margin:auto;padding:1rem;color:#18352c;background:#f7f5ef}a{color:#136650}article{background:white;border:1px solid #cad7cf;border-radius:.6rem;padding:1.2rem;margin:1rem 0}dt{font-weight:bold;margin-top:.6rem}dd{margin:0;white-space:pre-wrap}nav{display:flex;gap:1rem;flex-wrap:wrap}h2{margin-top:0}</style>
-<main><nav><a href="/iglesias/<%= resultado.iglesia.id %>">Ver iglesia</a><a href="/iglesias/<%= resultado.iglesia.id %>/<%= clase === 'servicios' ? 'platicas' : 'servicios' %>"><%= clase === 'servicios' ? 'Consultar pláticas' : 'Consultar servicios' %></a><% if (privado) { %><a href="/personal">Panel del personal</a><% } %></nav>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><%= clase === 'servicios' ? 'Servicios' : 'Pláticas' %> · Ecclesia</title>
+<link rel="stylesheet" href="/assets/ecclesia.css">
+</head><body>
+<%- include("partials/header") %>
+<main id="contenido" class="page page-oferta"><nav><a href="/iglesias/<%= resultado.iglesia.id %>">Ver iglesia</a><a href="/iglesias/<%= resultado.iglesia.id %>/<%= clase === 'servicios' ? 'platicas' : 'servicios' %>"><%= clase === 'servicios' ? 'Consultar pláticas' : 'Consultar servicios' %></a><% if (privado) { %><a href="/personal">Panel del personal</a><% } %></nav>
 <h1><%= clase === 'servicios' ? 'Servicios' : 'Pláticas' %></h1><p><%= resultado.iglesia.nombre %></p>
 <% if (privado) { %><p><a href="/personal/oferta/<%= resultado.iglesia.id %>/<%= clase %>/nuevo"><%= clase === 'servicios' ? 'Registrar servicio' : 'Registrar plática' %></a></p><% } %>
 <p><%= resultado.meta.total %> registros · página <%= resultado.meta.page %></p>
@@ -10,4 +12,5 @@
 <% } else { %><dt>Número de sesiones</dt><dd><%= item.sesiones %></dd><dt>Costo</dt><dd><%= item.importe === '0.00' ? 'Gratuito' : `${item.importe} ${item.moneda}` %></dd><dt>Cupo informado</dt><dd><%= item.cupo %> personas</dd><dt>Lugar</dt><dd><%= item.lugar %></dd><dt>Imparte</dt><dd><%= item.impartidor %></dd><% } %>
 <dt>Días y horarios locales</dt><dd><% for (const h of item.horarios) { %><span><%= dias[h.diaSemana - 1] %> · <%= h.horaLocal %></span><br><% } %></dd></dl>
 <% if (privado) { %><p><a href="/personal/oferta/<%= resultado.iglesia.id %>/<%= clase %>/<%= item.id %>/editar">Editar</a></p><% } %></article><% } %>
-<nav><% if (resultado.meta.page > 1) { %><a href="?page=<%= resultado.meta.page - 1 %>&pageSize=<%= resultado.meta.pageSize %>">Anterior</a><% } %><% if (resultado.meta.page * resultado.meta.pageSize < resultado.meta.total) { %><a href="?page=<%= resultado.meta.page + 1 %>&pageSize=<%= resultado.meta.pageSize %>">Siguiente</a><% } %></nav><p>Los horarios y costos son los informados por esta iglesia. Para confirmar fechas y disponibilidad, consulte su contacto en la ficha.</p></main></html>
+<nav><% if (resultado.meta.page > 1) { %><a href="?page=<%= resultado.meta.page - 1 %>&pageSize=<%= resultado.meta.pageSize %>">Anterior</a><% } %><% if (resultado.meta.page * resultado.meta.pageSize < resultado.meta.total) { %><a href="?page=<%= resultado.meta.page + 1 %>&pageSize=<%= resultado.meta.pageSize %>">Siguiente</a><% } %></nav><p>Los horarios y costos son los informados por esta iglesia. Para confirmar fechas y disponibilidad, consulte su contacto en la ficha.</p></main>
+<%- include("partials/footer") %>
