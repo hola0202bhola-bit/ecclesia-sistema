@@ -505,7 +505,7 @@ describe("CT20 PostgreSQL real, carga de demostración aislada", () => {
       const migraciones = readdirSync("prisma/migrations")
         .filter((f) => /^\d/.test(f))
         .sort();
-      expect(migraciones).toHaveLength(10);
+      expect(migraciones).toHaveLength(11);
       for (const m of migraciones.slice(0, 8))
         await c.query(
           readFileSync(`prisma/migrations/${m}/migration.sql`, "utf8"),

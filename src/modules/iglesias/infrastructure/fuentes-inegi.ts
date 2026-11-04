@@ -129,6 +129,15 @@ export async function importarFuentes(
 ) {
   await db.$transaction(
     async (tx) => {
+      const importada = await tx.catalogoVersion.findUnique({
+        where: { version: source.manifest.version },
+      });
+      if (importada) {
+        if (importada.sha256 !== source.sha256)
+          throw new Error("Versión INEGI ya usada con otro manifest");
+        // Repetir el seed no deshace actualizaciones oficiales revisadas después.
+        return;
+      }
       for (const estado of source.estados)
         await tx.estado.upsert({
           where: { clave: estado.cvegeo },

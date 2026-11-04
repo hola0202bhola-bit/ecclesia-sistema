@@ -4975,6 +4975,397 @@
         },
         "x-implementation": "IMPLEMENTADO"
       }
+    },
+    "/catalogos/importaciones-localidades": {
+      "get": {
+        "operationId": "inegi_importaciones",
+        "summary": "Últimas 20 consultas de localidades",
+        "description": "RF05 geográfico parcial: solo Coordinación. Consulta por municipio desde URL oficial fija o snapshot Puebla 21114 verificado. Máximo 5000 filas/8 MiB/15s. Fechas de consulta no son fecha de corte. Conserva ausencias, claves, originales y auditoría. Confirmación rechaza vista previa obsoleta; reversión en orden inverso bloqueada si las altas tienen iglesias o cambió el catálogo. PC01/22 siguen pendientes. Listado limitado a 20 consultas, diferencias detalladas por id; originales solo por ruta específica.",
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
+        "x-pending": ["PC-01", "PC-22"],
+        "x-roles": ["COORDINACION"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "200": {
+            "description": "Resultado real con Cache-Control no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportacionesLocalidades"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          },
+          "502": {
+            "description": "Fuente oficial no verificable; catálogo sin cambios"
+          }
+        }
+      },
+      "post": {
+        "operationId": "inegi_previa",
+        "summary": "Consultar INEGI y preparar diferencias sin modificar localidades",
+        "description": "RF05 geográfico parcial: solo Coordinación. Consulta por municipio desde URL oficial fija o snapshot Puebla 21114 verificado. Máximo 5000 filas/8 MiB/15s. Fechas de consulta no son fecha de corte. Conserva ausencias, claves, originales y auditoría. Confirmación rechaza vista previa obsoleta; reversión en orden inverso bloqueada si las altas tienen iglesias o cambió el catálogo. PC01/22 siguen pendientes. Listado limitado a 20 consultas, diferencias detalladas por id; originales solo por ruta específica.",
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
+        "x-pending": ["PC-01", "PC-22"],
+        "x-roles": ["COORDINACION"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "201": {
+            "description": "Resultado real con Cache-Control no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportacionLocalidades"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          },
+          "502": {
+            "description": "Fuente oficial no verificable; catálogo sin cambios"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocalidadesPreviaInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalogos/importaciones-localidades/{importacionId}": {
+      "get": {
+        "operationId": "inegi_detalle",
+        "summary": "Revisar procedencia, diferencias e historial",
+        "description": "RF05 geográfico parcial: solo Coordinación. Consulta por municipio desde URL oficial fija o snapshot Puebla 21114 verificado. Máximo 5000 filas/8 MiB/15s. Fechas de consulta no son fecha de corte. Conserva ausencias, claves, originales y auditoría. Confirmación rechaza vista previa obsoleta; reversión en orden inverso bloqueada si las altas tienen iglesias o cambió el catálogo. PC01/22 siguen pendientes. Listado limitado a 20 consultas, diferencias detalladas por id; originales solo por ruta específica.",
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
+        "x-pending": ["PC-01", "PC-22"],
+        "x-roles": ["COORDINACION"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "200": {
+            "description": "Resultado real con Cache-Control no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportacionLocalidades"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          },
+          "502": {
+            "description": "Fuente oficial no verificable; catálogo sin cambios"
+          }
+        },
+        "parameters": [
+          {
+            "name": "importacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/catalogos/importaciones-localidades/{importacionId}/original": {
+      "get": {
+        "operationId": "inegi_original",
+        "summary": "Respuesta original conservada y verificada por SHA-256",
+        "description": "RF05 geográfico parcial: solo Coordinación. Consulta por municipio desde URL oficial fija o snapshot Puebla 21114 verificado. Máximo 5000 filas/8 MiB/15s. Fechas de consulta no son fecha de corte. Conserva ausencias, claves, originales y auditoría. Confirmación rechaza vista previa obsoleta; reversión en orden inverso bloqueada si las altas tienen iglesias o cambió el catálogo. PC01/22 siguen pendientes. Listado limitado a 20 consultas, diferencias detalladas por id; originales solo por ruta específica.",
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
+        "x-pending": ["PC-01", "PC-22"],
+        "x-roles": ["COORDINACION"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "200": {
+            "description": "Resultado real con Cache-Control no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Objeto JSON original INEGI, bytes conservados"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          },
+          "502": {
+            "description": "Fuente oficial no verificable; catálogo sin cambios"
+          }
+        },
+        "parameters": [
+          {
+            "name": "importacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/catalogos/importaciones-localidades/{importacionId}/aplicar": {
+      "post": {
+        "operationId": "inegi_aplicar",
+        "summary": "Aplicar vista previa consistente e idempotente",
+        "description": "RF05 geográfico parcial: solo Coordinación. Consulta por municipio desde URL oficial fija o snapshot Puebla 21114 verificado. Máximo 5000 filas/8 MiB/15s. Fechas de consulta no son fecha de corte. Conserva ausencias, claves, originales y auditoría. Confirmación rechaza vista previa obsoleta; reversión en orden inverso bloqueada si las altas tienen iglesias o cambió el catálogo. PC01/22 siguen pendientes. Listado limitado a 20 consultas, diferencias detalladas por id; originales solo por ruta específica.",
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
+        "x-pending": ["PC-01", "PC-22"],
+        "x-roles": ["COORDINACION"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "200": {
+            "description": "Resultado real con Cache-Control no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportacionLocalidades"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          },
+          "502": {
+            "description": "Fuente oficial no verificable; catálogo sin cambios"
+          }
+        },
+        "parameters": [
+          {
+            "name": "importacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocalidadesMotivoInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalogos/importaciones-localidades/{importacionId}/revertir": {
+      "post": {
+        "operationId": "inegi_revertir",
+        "summary": "Revertir sin destruir referencias históricas",
+        "description": "RF05 geográfico parcial: solo Coordinación. Consulta por municipio desde URL oficial fija o snapshot Puebla 21114 verificado. Máximo 5000 filas/8 MiB/15s. Fechas de consulta no son fecha de corte. Conserva ausencias, claves, originales y auditoría. Confirmación rechaza vista previa obsoleta; reversión en orden inverso bloqueada si las altas tienen iglesias o cambió el catálogo. PC01/22 siguen pendientes. Listado limitado a 20 consultas, diferencias detalladas por id; originales solo por ruta específica.",
+        "tags": ["catalogos"],
+        "x-requirements": ["RF-05"],
+        "x-pending": ["PC-01", "PC-22"],
+        "x-roles": ["COORDINACION"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "200": {
+            "description": "Resultado real con Cache-Control no-store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportacionLocalidades"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "500": {
+            "$ref": "#/components/responses/E500"
+          },
+          "502": {
+            "description": "Fuente oficial no verificable; catálogo sin cambios"
+          }
+        },
+        "parameters": [
+          {
+            "name": "importacionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocalidadesMotivoInput"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -10595,6 +10986,307 @@
           }
         },
         "required": ["versiones", "activo", "historial"],
+        "additionalProperties": false
+      },
+      "LocalidadesPreviaInput": {
+        "type": "object",
+        "properties": {
+          "estadoClave": {
+            "type": "string",
+            "pattern": "^(0[1-9]|[12][0-9]|3[0-2])$"
+          },
+          "municipioClave": {
+            "type": "string",
+            "pattern": "^(?!000)[0-9]{3}$"
+          },
+          "origen": {
+            "type": "string",
+            "enum": ["INEGI", "SNAPSHOT"]
+          }
+        },
+        "required": ["estadoClave", "municipioClave", "origen"],
+        "additionalProperties": false
+      },
+      "LocalidadesMotivoInput": {
+        "type": "object",
+        "properties": {
+          "motivo": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 500,
+            "pattern": ".*\\S.*"
+          }
+        },
+        "required": ["motivo"],
+        "additionalProperties": false
+      },
+      "LocalidadImportada": {
+        "type": "object",
+        "properties": {
+          "clave": {
+            "type": "string"
+          },
+          "estadoClave": {
+            "type": "string"
+          },
+          "municipioClave": {
+            "type": "string"
+          },
+          "localidadClave": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "fuente": {
+            "type": "string"
+          },
+          "consulta": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "clave",
+          "estadoClave",
+          "municipioClave",
+          "localidadClave",
+          "nombre",
+          "fuente",
+          "consulta"
+        ],
+        "additionalProperties": false
+      },
+      "DiferenciasLocalidades": {
+        "type": "object",
+        "properties": {
+          "altas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LocalidadImportada"
+            }
+          },
+          "cambios": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "antes": {
+                  "$ref": "#/components/schemas/LocalidadImportada"
+                },
+                "despues": {
+                  "$ref": "#/components/schemas/LocalidadImportada"
+                }
+              },
+              "required": ["antes", "despues"],
+              "additionalProperties": false
+            }
+          },
+          "sinCambio": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "ausentesConservadas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LocalidadImportada"
+            }
+          }
+        },
+        "required": ["altas", "cambios", "sinCambio", "ausentesConservadas"],
+        "additionalProperties": false
+      },
+      "ImportacionLocalidades": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "estadoClave": {
+            "type": "string"
+          },
+          "municipioClave": {
+            "type": "string"
+          },
+          "origen": {
+            "type": "string",
+            "enum": ["INEGI", "SNAPSHOT"]
+          },
+          "estado": {
+            "type": "string",
+            "enum": ["PREVIA", "APLICADA", "REVERTIDA"]
+          },
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "aplicadoPor": {
+            "type": ["string", "null"],
+            "format": "uuid"
+          },
+          "revertidaPor": {
+            "type": ["string", "null"],
+            "format": "uuid"
+          },
+          "fuente": {
+            "type": "string",
+            "format": "uri"
+          },
+          "consulta": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "diferencias": {
+            "$ref": "#/components/schemas/DiferenciasLocalidades"
+          },
+          "creadoEn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "aplicadaEn": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "revertidaEn": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "revision": {
+            "type": ["integer", "null"],
+            "minimum": 1
+          },
+          "motivo": {
+            "type": ["string", "null"]
+          },
+          "motivoReversion": {
+            "type": ["string", "null"]
+          },
+          "metadatos": {
+            "type": "string"
+          },
+          "periodos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "estado",
+          "estadoClave",
+          "municipioClave",
+          "origen",
+          "fuente",
+          "consulta",
+          "sha256",
+          "diferencias",
+          "actorId",
+          "creadoEn"
+        ],
+        "additionalProperties": false
+      },
+      "ImportacionesLocalidades": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/ImportacionLocalidadesResumen"
+            }
+          },
+          "limite": {
+            "type": "integer",
+            "const": 20
+          }
+        },
+        "required": ["data", "limite"],
+        "additionalProperties": false
+      },
+      "ImportacionLocalidadesResumen": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "estadoClave": {
+            "type": "string"
+          },
+          "municipioClave": {
+            "type": "string"
+          },
+          "origen": {
+            "type": "string",
+            "enum": ["INEGI", "SNAPSHOT"]
+          },
+          "estado": {
+            "type": "string",
+            "enum": ["PREVIA", "APLICADA", "REVERTIDA"]
+          },
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "aplicadoPor": {
+            "type": ["string", "null"],
+            "format": "uuid"
+          },
+          "revertidaPor": {
+            "type": ["string", "null"],
+            "format": "uuid"
+          },
+          "fuente": {
+            "type": "string",
+            "format": "uri"
+          },
+          "consulta": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "creadoEn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "aplicadaEn": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "revertidaEn": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "revision": {
+            "type": ["integer", "null"],
+            "minimum": 1
+          },
+          "motivo": {
+            "type": ["string", "null"]
+          },
+          "motivoReversion": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": [
+          "id",
+          "estado",
+          "estadoClave",
+          "municipioClave",
+          "origen",
+          "fuente",
+          "consulta",
+          "sha256",
+          "actorId",
+          "creadoEn"
+        ],
         "additionalProperties": false
       }
     },

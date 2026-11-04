@@ -1,94 +1,73 @@
-## Interfaz renovada, cierre e índice configurable
+# Ecclesia — entrega del 4 de noviembre de 2026
 
-Último incremento para la entrega del 4 de noviembre: diseño institucional compartido en todas las vistas, directorio con tarjetas, navegación, ficha por secciones, panel por módulos, formularios, estados de error, tablas desplazables y adaptación móvil. CSS e ilustración locales, sin CDN; CSP limita estilos al propio servidor. Al abrir la demo se muestran las iglesias de Puebla; cambia el estado para explorar Tlaxcala o Veracruz.
+Aplicación Express/TypeScript/PostgreSQL/Prisma/EJS. La interfaz aprobada se conserva. RF04 cierre/reapertura y RF11 criterios versionados/auditados siguen disponibles; el criterio original reproduce **35.5**. Teams RF01–10 adicional continúa excluido. Las decisiones de negocio PC pendientes y la aceptación docente no se presentan como resueltas.
 
-Desde esta carpeta, con Node 24 y dependencias instaladas: **`npm run db:demo`**. Abre la dirección que imprime la terminal. Las credenciales están exclusivamente en `.demo/accesos-locales.json`. Una demo existente conserva sus datos y aplica la décima migración; las nueve anteriores no cambian. Para actualizar un clon: `git pull --ff-only`, `npm ci` y `npm run db:demo`.
+**RF05 geográfico tiene un avance verificable, no cobertura nacional completa:** Coordinación puede consultar/importar localidades de un municipio del snapshot cargado, revisar diferencias, confirmar y revertir con controles. Se conservan 32 estados/2478 municipios y sus fuentes originales. Seed mínimo: una localidad; demo CT20: ocho. La copia oficial nueva de Puebla contiene 144 localidades y se aplica **solo después de confirmarla**. Otros municipios requieren conexión a INEGI y padres ya cargados; no se afirma que su catálogo nacional esté actualizado.
 
-- **RF04:** Personal → Gestionar iglesias → Estado e historial. Coordinación o administrador propio cierra/reabre con motivo y versión; cerradas visibles solo en esa gestión privada, sin edición ni consulta pública/ranking. Conserva todos los módulos y su historia. Autoridad PC04 provisional, sin atribuir aprobación docente.
-- **RF11:** Coordinación → Criterios del índice. Copiar una versión, ajustar tramos/factores/bono/distinciones, guardar y revisar antes de activar. Cada versión se conserva; la activación tiene control de concurrencia y auditoría. Afecta inmediatamente todas las consultas actuales, sin guardar resultados históricos ni programar activaciones futuras. PC08 provisional. El criterio original permanece disponible y reproduce **35.5**.
-- **RF05 nacional sigue pendiente:** localidades parciales; CT20 usa ocho oficiales verificadas. Teams RF01–10 continúa excluido.
+## Instalar y demostrar sin usar una base propia
 
-Los resultados del gate y recorrido visual de este incremento se registran en [estado del producto](docs/estado-producto.md). Los apartados siguientes conservan los resultados y límites de incrementos anteriores; las referencias antiguas a RF04/RF11 bloqueados describen esos estados previos.
-
-CT20 — 3 de noviembre de 2026: desde este directorio ejecutar **`npm run db:demo`** después de `npm ci`. Crea su propio PostgreSQL local persistente, aplica migraciones, carga los mínimos de demostración y abre un servidor local. **Ignora DATABASE_URL y no toca la base del usuario**; no ejecutar el seed mínimo sobre la demo. Las contraseñas y los comprobantes se generan exclusivamente en `.demo/accesos-locales.json`, excluido de Git. Detener con `salir` + Enter o Ctrl+C; repetir conserva datos y credenciales. [Comandos, datos, procedencia INEGI y límites](docs/demo-ct20.md).
-
-La ficha web ahora muestra resúmenes públicos de patrimonio/índice, servicios, pláticas, próximas misas con sacerdote y espacios funerarios, además de enlaces al detalle. [Mapa priorizado de brechas obligatorias](docs/brechas-obligatorias.md): RF04 cierre/reapertura, administración/actualización nacional RF05 y configuración/activación RF11 siguen pendientes. Teams RF01–10 provisional queda excluido; no se declara cierre integral ni aprobación docente.
-
-Validación final CT20: **359/359 pruebas del producto y 94/94 del arnés**, sin omitidas; conserva las 343/93 anteriores. **44 escenarios del índice**, PostgreSQL 18.6 real en dos bases efímeras, nueve migraciones, doble seed mínimo y smoke compilado de CT20 y módulos anteriores. Fórmula **35.5** intacta; líneas 98.89%. [Resultados, diagnósticos y límites](docs/estado-producto.md).
-
-Antecedente RF25–31 del 3 de noviembre de 2026: gate completo aprobado, **343/343 pruebas del producto y 93/93 del arnés**, sin omitidas en el producto válido. PostgreSQL 18.6 real, ocho migraciones, doble seed, smoke HTTP compilado y recorrido IAB con datos ficticios. 36 escenarios de índice con preservación en todos los casos; fórmula 35.5 intacta. Cobertura de líneas 98.89%. [Resultados y límites](docs/estado-producto.md).
-
-Espacios y solicitudes RF25–31: **Personal → Gestionar espacios y solicitudes** (administrador propio). Visitante: **Iglesias → ficha → Consultar espacios funerarios / solicitar**, luego **Seguimiento de solicitud** con folio y clave del comprobante. Oferta sin precios; cotización individual privada, aceptación/rechazo y cancelación no aceptada, vencimiento de 15 días. Actualizar con generate, db:migrate y build. Sin inventario, asignación, pago, correo o recuperación de clave. [Guía, API, trazabilidad y supuestos técnicos PC14–19 pendientes](docs/adr/010.md). Usar datos ficticios; retención/derechos siguen pendientes.
-
-Validación RF22–24 del 3 de noviembre de 2026: gate integral aprobado, **315/315 pruebas de producto y 89/89 de arnés**, PostgreSQL real y siete migraciones. Índice funcional verificado de forma independiente; 27 escenarios de aceptación/rechazo con preservación del índice y archivos. Cobertura de líneas 99.28%. [Resultados y límites](docs/estado-producto.md).
-
-Diezmos y reportes RF22–24: **Personal → Diezmos y reportes**. Tesorero propio captura un importe por misa celebrada y lo corrige con versión/historial; administrador y tesorero consultan reportes privados por día/semana/mes, horario y sacerdote real. Elegir fechas que incluyan hechos ya finalizados. MXN provisional, centavos enteros exactos, cero distinto de pendiente y promedio como fracción sin redondear. Actualizar con `npm run generate`, `npm run db:migrate` y `npm run build`. [Guía de navegador, API, fuentes, supuestos y límites](docs/adr/009.md). PC-13/19 abiertas; Teams provisional separado.
-
-Sacerdotes y misas RF16–21: Personal → **Gestionar sacerdotes y misas** → registrar/vincular padre → horario con vigencia → registrar celebración con oficiante real y motivo. Consulta sin cuenta: Iglesias → ficha → **Consultar misas**. Agenda del padre desde su enlace en gestión. Horarios hasta 366 días; edición de identidades compartidas y correcciones históricas pendientes. [Supuestos, API y trazabilidad](docs/adr/008.md). Los RF-01 a RF-10 de Teams siguen como ampliación provisional no confirmada, sin implementar.
-
-Servicios y pláticas RF13–15 disponibles: administrador propio → **Gestionar servicios** / **Gestionar pláticas** → registrar y editar. Consulta sin cuenta desde la ficha de iglesia. [Uso, alcance y límites](docs/incremento-servicios.md).
-
-# Proyecto Ecclesia — aplicación web
-
-Patrimonio disponible: administrador de su iglesia → **Gestionar patrimonio** → registrar/editar piezas y cambiar vigencia sin borrar. Consulta pública desde la ficha → **Consultar patrimonio e índice**, y [ranking local](http://127.0.0.1:3000/ranking-patrimonial). Cálculo exacto del caso y ejemplo 35.5, ranking geográfico y búsqueda por tipo/antigüedad. [Guía breve, ejemplo y límites](docs/incremento-patrimonio.md). Ajuste/activación de criterios y reactivación pendientes; no se declara completo RF07–12.
-
-Express/TypeScript + PostgreSQL/Prisma + EJS. IA principal: Codex, elegida por el alumno. Se priorizan dos entregas: este repositorio y [el arnés](https://github.com/hola0202bhola-bit/ecclesia-arnes-codex). No se exige cierre formal de Fase 0 para continuar desarrollo.
-
-Disponible: consulta pública con selectores y filtros; listado, alta y edición EJS de iglesias; API, personal, usuarios por Coordinación y sesiones revocables. [Estado y límites](docs/estado-producto.md). Seed: una iglesia ficticia, seis tipos de P063, 32 estados y 2,478 municipios del snapshot oficial INEGI. Localidades: solo 211140001, Heroica Puebla de Zaragoza. No es el catálogo nacional completo ni el sistema terminado.
-
-## Instalar, validar y arrancar
-
-Node 24 y npm. Para ejecutar la app hace falta una base PostgreSQL propia vacía. Para las pruebas no: el arnés crea PostgreSQL aislado y nunca usa su DATABASE_URL externa. Clonar como hermanos con estos nombres:
+Requisitos: Node 24/npm, red para la primera instalación de paquetes/motores. Clonar como carpetas hermanas:
 
 ```powershell
 git clone https://github.com/hola0202bhola-bit/ecclesia-sistema.git proyecto-ecclesia
 git clone https://github.com/hola0202bhola-bit/ecclesia-arnes-codex.git arnes-codex
 cd proyecto-ecclesia
 npm ci
-npm run generate
 cd ../arnes-codex
 npm ci
-npm run check -- ../proyecto-ecclesia
 cd ../proyecto-ecclesia
-Copy-Item .env.example .env
+npm run db:demo
 ```
 
-Editar **solo el .env local**: DATABASE_URL de la base propia, JWT_SECRET aleatorio de al menos 32 bytes, PORT y APP_ORIGIN exacto (por defecto `http://127.0.0.1:3000`). No compartir credenciales ni versionar ese archivo. Después:
+Abrir el enlace que imprime la terminal. El comando genera Prisma, aplica once migraciones, carga CT20 y compila. **Ignora DATABASE_URL/.env del usuario** y utiliza exclusivamente su propio PostgreSQL local en .demo. No ejecutar db:seed sobre la demo. Accesos y comprobantes aleatorios: solo .demo/accesos-locales.json, excluido de Git. Detener con salir + Enter o Ctrl+C. Repetir conserva datos, credenciales y ediciones. Una demo existente aplica la migración nueva sin reemplazar sus ocho localidades ni sus 40 iglesias. [Datos y límites CT20](docs/demo-ct20.md).
+
+Para actualizar un clon: git pull --ff-only, npm ci y npm run db:demo. Actualizar también el arnés antes de validar.
+
+## Comprobar ambos repositorios
+
+Desde arnes-codex:
 
 ```powershell
-npm run db:migrate
-npm run db:seed
-npm run build
-npm run db:coordinacion
-npm start
+npm run check -- ../proyecto-ecclesia
 ```
 
-`db:coordinacion` compila y pide identificador y contraseña oculta/confirmación en una terminal interactiva; solo crea la primera Coordinación si no existe ninguna cuenta. No hay contraseña predeterminada ni bootstrap HTTP. Si ya hay cuentas se rechaza sin reemplazarlas. Para crear más, entrar como Coordinación en [acceso local](http://127.0.0.1:3000/personal/login) → Gestionar usuarios. Contraseña mínima 15 caracteres y máxima 72 bytes UTF-8; un rol por cuenta, iglesia obligatoria para administrador/tesorero y vacía para Coordinación. [Supuestos técnicos y límites](docs/adr/006.md).
+El gate fija compilación estricta, arquitectura, formato/lint, contratos, pruebas con PostgreSQL efímero, cobertura, regresiones del índice Git y smoke HTTP compilado. Nunca utiliza una base ajena. [Resultado realmente ejecutado y límites](docs/estado-producto.md). No desactivar TLS ni omitir checks para publicar.
 
-Si ya hay cuentas, omitir `db:coordinacion`. Para actualizar: `git pull --ff-only`, `npm ci`, `npm run generate`, `npm run db:migrate`, `npm run db:seed`, `npm run build` y `npm start`. Conservar base y .env existentes.
+## RF05: recorrido seguro para Coordinación
 
-En el navegador: [acceso del personal](http://127.0.0.1:3000/personal/login) → **Gestionar iglesias** → **Registrar iglesia** (Coordinación) o **Editar**. Administrador solo edita la asignada; tesorero no obtiene gestión. Tipo y ubicación se seleccionan por nombre; el alta solo ofrece localidades verificadas cargadas. Errores conservan campos; una edición obsoleta responde 409 sin sobrescribir y permite cargar la versión actual para comparar. Campos opcionales vacíos conservan datos previos al editar; borrado pendiente de política. Cierre/reapertura bloqueados.
+Personal → **Administrar localidades INEGI**. Cargar el estado, elegir municipio y fuente: servicio oficial en línea o copia verificada Puebla 21114 del 4 de noviembre. Preparar vista previa no modifica localidades. Revisar URL, consulta, SHA-256, metadatos/periodos, original conservado, altas, cambios de nombre y ausencias conservadas; indicar motivo y confirmar. Las nuevas localidades aparecen en el selector de registro de iglesias.
 
-Fuentes: [servicio oficial INEGI](https://www.inegi.org.mx/servicios/catalogounico.html), respuestas originales, URL, fecha y hashes en `prisma/fuentes/manifest.json`. Consulta del 1 de noviembre de 2026, metadatos estadísticos Censo 2020; no se afirma vigencia territorial nacional actualizada. `db:seed` valida hashes, conteos, claves y jerarquía antes de importar en una transacción; conserva versión/manifest en CatalogoVersion. Repetir no duplica; cambiar contenido bajo una versión ya importada se rechaza con rollback. Nuevas fuentes/versiones requieren revisión del snapshot. No hay descarga remota al arrancar ni edición web de catálogos.
+El servidor construye una URL fija de gaia.inegi.org.mx; no recibe URLs ni filas editables del navegador. Rechaza redirecciones, errores remotos, duplicados, conteos/jerarquías incompatibles, estatus no activo y respuestas excesivas. Límites por consulta: 5000 registros, 8 MiB y 15 segundos. Fecha de consulta **no es fecha de corte**: esta respuesta informa Censo 2020 y periodos 2015-06-01/2017-02-28. [Documentación oficial INEGI](https://www.inegi.org.mx/servicios/catalogounico.html); original/manifest/hash en prisma/fuentes/rf05. No se descarga al arrancar.
 
-Consulta sin cuenta en [iglesias](http://127.0.0.1:3000/iglesias), estado 21. La web usa cookie HttpOnly y formularios con protección CSRF. El servidor sigue enlazado a 127.0.0.1. Para HTTPS configurar APP_ORIGIN correcto; eso activa Secure en cookie. Despliegue público y prueba móvil/carga no están realizados. El objetivo de arranque menor a 10 minutos depende de disponer de Node, red y PostgreSQL; no se afirma haberlo medido.
+Si la red utiliza certificados confiables de Windows que Node no carga por defecto, iniciar en una terminal con `NODE_USE_SYSTEM_CA=1` (PowerShell: `$env:NODE_USE_SYSTEM_CA='1'`, después `npm run db:demo`). La consulta compilada se comprobó con el almacén del sistema; no desactivar TLS ni aceptar certificados desconocidos. La copia Puebla funciona sin conexión al proveedor.
 
-| API /api/v1 | Uso |
-| --- | --- |
-| POST /auth/login | JSON identificador/password; devuelve bearer 1h, usuario y csrfToken; no crea cookie |
-| GET /auth/me | Perfil actual y sesión válida |
-| POST /auth/logout | Revoca el bearer usado; 204 |
-| GET /usuarios?page=1&pageSize=20 | Coordinación; paginado, sin contraseñas/hash |
-| POST /usuarios | Coordinación; identificador, password, rol e iglesiaId según rol |
-| GET /iglesias?estadoClave=21 y GET /iglesias/:id | Consulta pública |
-| GET /catalogos/estados, /catalogos/municipios?estadoClave=21, /catalogos/localidades?estadoClave=21&municipioClave=114 y /catalogos/tipos-iglesia | Consulta pública paginada (page/pageSize), versión y alcance parcial |
-| POST /iglesias y PATCH /iglesias/:id | Bearer de cuenta real; Coordinación o administrador propio para edición; version requerida |
+La confirmación compara el catálogo con la vista previa bajo bloqueo/transacción. Si cambió responde 409 y exige consultar de nuevo. Repetir una confirmación aplicada no duplica. Conserva claves, iglesias y localidades ausentes; no transforma equivalencias/bajas ni inventa municipios. Cambios de nombre conservan valores previos y originales. Revertir exige orden inverso y catálogo intacto: restaura nombres/procedencia y retira altas sin uso. **Si una localidad nueva tiene iglesias, incluso cerradas, bloquea toda la reversión**, sin borrar historia ni reasignar iglesias. UI y API exigen COORDINACION; cookies con Origin/CSRF, EJS escapado y CSP local existentes.
 
-También se puede usar `Authorization: Bearer ...` en Postman para gestión de iglesias; los esquemas completos están en [OpenAPI](openapi.yaml), con disponibilidad por operación, y [subconjunto implementado](docs/api-referencia-revision03.json). El perfil histórico de JWT externo se conserva solo para regresión explícita; el servidor normal exige sesión persistida. `npm test` ejecuta todo el pipeline de producto; el gate completo se ejecuta desde el arnés como arriba.
+El historial lista las últimas 20 consultas; los detalles/originales anteriores siguen accesibles por su id. PC01 (versión/acuerdo de actualización), PC22 (otros catálogos), equivalencias/bajas y cobertura nacional quedan abiertos. La migración añade FK Localidad→Municipio: si una instalación anterior contiene huérfanos, falla sin inventar padres; revisar sus claves contra fuentes oficiales antes de reintentar. Las diez migraciones anteriores permanecen intactas.
 
-## Estado y evidencia
+| API /api/v1/catalogos/importaciones-localidades | Uso (solo Coordinación)                                                         |
+| ----------------------------------------------- | ------------------------------------------------------------------------------- |
+| GET /                                           | Últimas 20 consultas, sin original                                              |
+| POST /                                          | JSON estadoClave, municipioClave, origen INEGI o SNAPSHOT; prepara vista previa |
+| GET /:id y GET /:id/original                    | Procedencia/diferencias e historial; JSON original separado                     |
+| POST /:id/aplicar y POST /:id/revertir          | JSON motivo de 5–500 caracteres; sesión/bearer real                             |
 
-[Matriz y dependencias](docs/estado-producto.md), [evidencia del incremento previo de identidad](docs/evidencia-identidad.md), [arquitectura](docs/ARCHITECTURE.md), [ADR 006](docs/adr/006.md). Quedan ampliaciones de patrimonio/índice, políticas residuales de servicios/pláticas, agenda, diezmos, solicitudes, catálogo nacional y ampliaciones de identidad. No se inventan respuestas docentes ni se presenta la autorización como revisión humana del código.
+Contrato completo y resto de API: [OpenAPI](openapi.yaml) y [subconjunto implementado](docs/api-referencia-revision03.json). [Brechas vigentes](docs/brechas-obligatorias.md).
+
+## Guion breve para la demostración
+
+1. Mostrar directorio Puebla/Tlaxcala/Veracruz y ficha: ubicación, patrimonio, servicios/pláticas, próximas misas y espacios. Los datos son ficticios.
+2. Abrir patrimonio y ranking; explicar que caso-v1 conserva la fórmula exacta 35.5 y que se excluyen iglesias cerradas.
+3. Entrar como Coordinación de la demo → localidades → Puebla 21114 → copia verificada → revisar 143 altas/1 sin cambio → confirmar con motivo → comprobar selector. Revertir antes de registrar iglesias en esas altas si se desea regresar al fixture original.
+4. Gestión de iglesias → estado e historial: cerrar/reabrir con motivo y versión, comprobar exclusión pública y conservación privada. Criterios: revisar versiones sin cambiar el criterio si no hace falta.
+5. Con administrador/tesorero de la iglesia indicada en accesos-locales.json, revisar agenda, diezmos y reportes del periodo de referencia. Usar un comprobante sintético para seguimiento privado de solicitud.
+6. Mostrar el gate y explicar honestamente localidades nacionales/PC y límites de despliegue pendientes. Detener la demo con salir.
+
+## Instalación con PostgreSQL propio (alternativa explícita)
+
+Para una base vacía propia: npm ci, npm run generate, copiar .env.example a .env y configurar DATABASE_URL/JWT_SECRET aleatorio de al menos 32 bytes/APP_ORIGIN. Ejecutar npm run db:migrate, npm run db:seed, npm run build, npm run db:coordinacion (solo primera cuenta, sin claves por defecto), npm start. No usar estos comandos sobre la demo. El servidor enlaza 127.0.0.1; HTTPS, carga nacional y móvil físico no se acreditan. [Identidad y permisos](docs/adr/006.md).
+
+Los apartados históricos siguientes describen revisiones anteriores; para el estado actual prevalecen este inicio, estado-producto y brechas-obligatorias.
 
 ## Antecedente íntegro: README de R1/R2/R3
 
@@ -108,18 +87,18 @@ Requiere Node 24 y npm. Clonar como directorios hermanos `proyecto-ecclesia` y `
 
 Desde proyecto-ecclesia:
 
-~~~text
+```text
 npm ci
 npm run generate
 npm run build
-~~~
+```
 
 Desde arnes-codex:
 
-~~~text
+```text
 npm ci
 npm run check -- ../proyecto-ecclesia
-~~~
+```
 
 El check ejecuta arnés, contrato, inventario completo de fuentes/arquitectura y pipeline real de producto con BD aislada. npm test en proyecto ejecuta las pruebas/BD desde el arnés hermano, tras generar el cliente. No requiere configurar DATABASE_URL para pruebas. Los secretos efímeros no se imprimen ni se guardan en evidencias. Los logs de pruebas contienen solo datos ficticios y puertos locales.
 
@@ -127,13 +106,13 @@ El check ejecuta arnés, contrato, inventario completo de fuentes/arquitectura y
 
 Crear una BD vacía propia para la referencia en PostgreSQL. Copiar .env.example a .env y completar allí credenciales y secreto JWT aleatorio de al menos 32 bytes. No compartirlos ni versionarlos. DATABASE_URL del ejemplo es un marcador, no una credencial útil.
 
-~~~text
+```text
 npm run generate
 npm run db:migrate
 npm run db:seed
 npm run build
 npm start
-~~~
+```
 
 Abrir http://127.0.0.1:3000/iglesias y consultar estado 21. API: /api/v1/iglesias?estadoClave=21. Datos ficticios: una iglesia, una localidad oficial y seis tipos. No es el seed final de 40 iglesias/catálogos nacionales. No hay login ni cuentas iniciales; escrituras requieren principal firmado de emisor externo confiable. Para demostrar permisos usar pruebas, no inventar usuarios de producción.
 

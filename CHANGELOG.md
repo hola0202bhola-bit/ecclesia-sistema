@@ -1,3 +1,7 @@
+## 4 de noviembre de 2026 — RF05 geográfico seguro
+
+Importación oficial por municipio exclusiva de Coordinación, vista previa de diferencias, confirmación idempotente por huella y auditoría/original SHA-256. Reversión sin referencias destruidas, ausencias conservadas y seed que no deshace versiones ya cargadas. FK Localidad→Municipio en undécima migración aditiva; copia original Puebla 144 localidades, sin afirmar cobertura nacional. API/EJS coherentes con seguridad existente, UI aprobada conservada. README concentra comandos y guion; regresiones producto/arnés ampliadas. Ver estado-producto para resultados finales.
+
 ## Incremento final — UI / RF04 / RF11
 
 - Sistema visual local compartido, directorio, navegación, panel y formularios; responsive y tablas desplazables, foco/etiquetas/semántica.

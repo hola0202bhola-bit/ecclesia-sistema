@@ -2,6 +2,39 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model ImportacionLocalidades {
+  id String @id @default(uuid()) @db.Uuid
+  estadoClave String @db.VarChar(2)
+  municipioClave String @db.VarChar(3)
+  municipio Municipio @relation(fields: [estadoClave, municipioClave], references: [estadoClave, codigo], onDelete: Restrict)
+  origen String
+  estado String @default("PREVIA")
+  actorId String @db.Uuid
+  autor Usuario @relation("ImportacionAutor", fields: [actorId], references: [id], onDelete: Restrict)
+  aplicadoPor String? @db.Uuid
+  aplicador Usuario? @relation("ImportacionAplicador", fields: [aplicadoPor], references: [id], onDelete: Restrict)
+  revertidaPor String? @db.Uuid
+  reversor Usuario? @relation("ImportacionReversor", fields: [revertidaPor], references: [id], onDelete: Restrict)
+  fuente String
+  consulta String
+  sha256 String @db.VarChar(64)
+  original String
+  antes Json
+  diferencias Json
+  huellaAntes String @db.VarChar(64)
+  huellaDespues String? @db.VarChar(64)
+  revision Int?
+  creadoEn DateTime @default(now()) @db.Timestamptz(3)
+  aplicadaEn DateTime? @db.Timestamptz(3)
+  revertidaEn DateTime? @db.Timestamptz(3)
+  motivo String? @db.VarChar(500)
+  motivoReversion String? @db.VarChar(500)
+  @@unique([estadoClave, municipioClave, revision])
+  @@index([actorId])
+  @@index([aplicadoPor])
+  @@index([revertidaPor])
+}
+
 datasource db {
   provider = "postgresql"
 }
@@ -25,6 +58,8 @@ model Municipio {
   codigo      String @db.VarChar(3)
   nombre      String
   estado      Estado @relation(fields: [estadoClave], references: [clave], onDelete: Restrict)
+  localidades Localidad[]
+  importaciones ImportacionLocalidades[]
 
   @@unique([estadoClave, codigo])
 }
@@ -45,6 +80,7 @@ model Localidad {
   fuente         String
   consulta       String
   iglesias       Iglesia[]
+  municipio      Municipio @relation(fields: [estadoClave, municipioClave], references: [estadoClave, codigo], onDelete: Restrict)
 
   @@unique([estadoClave, municipioClave, localidadClave])
 }
@@ -104,6 +140,9 @@ model Usuario {
   iglesiaId          String?            @db.Uuid
   iglesia            Iglesia?           @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
   activo             Boolean            @default(true)
+  importacionesPrevias ImportacionLocalidades[] @relation("ImportacionAutor")
+  importacionesAplicadas ImportacionLocalidades[] @relation("ImportacionAplicador")
+  importacionesRevertidas ImportacionLocalidades[] @relation("ImportacionReversor")
   sesiones           Sesion[]
   cambiosPatrimonio  CambioPatrimonio[]
   cambiosCierre CambioCierre[]

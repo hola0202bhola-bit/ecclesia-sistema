@@ -70,11 +70,17 @@ import {
   diezmosWeb,
 } from "../modules/diezmos/presentation/router.js";
 import { ErrorDiezmo } from "../modules/diezmos/domain/diezmo.js";
+import { ServicioImportacion } from "../modules/iglesias/application/importacion.js";
+import { PrismaRepositorioImportacion } from "../modules/iglesias/infrastructure/importacion.js";
+import { DescargaInegi } from "../modules/iglesias/infrastructure/descarga-inegi.js";
+import type { FuenteLocalidades } from "../modules/iglesias/domain/importacion.js";
+import { importacionRouter } from "../modules/iglesias/presentation/importacion.js";
 export function createApp(
   db: PrismaClient,
   config: AccesoConfig,
   anioActual = new Date().getUTCFullYear(),
   reloj: () => Date = () => new Date(),
+  fuenteLocalidades: FuenteLocalidades = new DescargaInegi(),
 ) {
   const app = express();
   app.disable("x-powered-by");
@@ -118,6 +124,16 @@ export function createApp(
   };
   const personal = personalSesion(repoIdentidad, acceso, personalJwt(config));
   const catalogos = new ServicioCatalogos(new PrismaRepositorioCatalogos(db));
+  app.use(
+    importacionRouter(
+      new ServicioImportacion(
+        new PrismaRepositorioImportacion(db),
+        fuenteLocalidades,
+      ),
+      catalogos,
+      personal,
+    ),
+  );
   const patrimonio = new ServicioPatrimonio(
     new PrismaRepositorioPatrimonio(db),
     anioActual,

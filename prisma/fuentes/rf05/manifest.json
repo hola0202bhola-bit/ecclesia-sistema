@@ -1,0 +1,8 @@
+{
+  "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/21114",
+  "consulta": "2026-11-04",
+  "sha256": "63c38bad7a9963a9a281ed3435877931fe3086c82855521d0c71dbecaf951ce0",
+  "registros": 144,
+  "alcance": "Localidades devueltas por consulta del municipio de Puebla 21114; no es catálogo nacional",
+  "documentacion": "https://www.inegi.org.mx/servicios/catalogounico.html"
+}

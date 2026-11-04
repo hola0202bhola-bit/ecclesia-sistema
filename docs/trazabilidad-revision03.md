@@ -1,3 +1,5 @@
+RF05 / CT03 / RNF08 / RN02 (P063/P092): src/modules/iglesias/{domain,application,infrastructure,presentation}/importacion.ts, descarga-inegi.ts, composición y vista importacion-localidades.ejs. Undécima migración FK jerárquica y cargas auditadas; snapshot municipal oficial 21114 de 144 registros, no nacional. tests/importacion-localidades.test.ts cubre diferencias, integridad SQL, duplicados, obsolescencia/concurrencia, idempotencia, reversión e historia, permisos/CSRF/XSS, descarga limitada y actualización de diez esquemas. OpenAPI/subconjunto/matriz de seguridad y gate del arnés ampliados sin suprimir regresiones. PC01/22 y RF05 nacional siguen abiertos; UI aprobada y Teams fuera del alcance.
+
 ## Incremento final UI / RF04 / RF11
 
 | Requisito / fuente | Implementación actual | Verificación |

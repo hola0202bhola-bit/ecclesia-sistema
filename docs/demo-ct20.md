@@ -1,3 +1,5 @@
+4 de noviembre: demo conserva ocho localidades. RF05 permite importar Puebla 144 después de vista previa/confirmación por Coordinación; no se altera el fixture ni se declara catálogo nacional. Guion vigente en README.
+
 # Demostración CT20 y CT03
 
 3 de noviembre de 2026, America/Mexico_City. Continuación autorizada del alumno; no aceptación docente. Fuente: [caso P199–225](fuentes/caso-parrafos.md#p199), [requerimientos 6.2](requerimientos.md#62-mínimos-de-datos-de-prueba). Bases remotas verificadas antes de editar: aplicación `416e92c97939ff45dedccfc58df0506c814b5d2f`, arnés `5f82433d20bd3e5726dc22d37b19a71e7d3b3589`.
@@ -10,7 +12,7 @@ Requisitos: Node 24, dependencias de desarrollo instaladas por `npm ci` en ambos
 npm run db:demo
 ```
 
-El comando crea y abre exclusivamente su propio PostgreSQL local en `.demo/postgres`, con usuario y base `ecclesia_demo`, contraseña aleatoria y un puerto libre. **Ignora DATABASE_URL y la base de .env**: no intenta conectar, migrar, limpiar ni poblar una base del usuario. Genera Prisma, aplica las diez migraciones (nueve anteriores intactas), carga CT20, compila y muestra el enlace local del servidor. No necesita PostgreSQL instalado ni ejecutar `db:seed` o `db:coordinacion`.
+El comando crea y abre exclusivamente su propio PostgreSQL local en `.demo/postgres`, con usuario y base `ecclesia_demo`, contraseña aleatoria y un puerto libre. **Ignora DATABASE_URL y la base de .env**: no intenta conectar, migrar, limpiar ni poblar una base del usuario. Genera Prisma, aplica las once migraciones (las diez anteriores intactas), carga CT20, compila y muestra el enlace local del servidor. No necesita PostgreSQL instalado ni ejecutar `db:seed` o `db:coordinacion`.
 
 Abra el enlace mostrado, seleccione Puebla (21), Tlaxcala (29) o Veracruz (30), y abra una ficha. La ficha resume datos públicos y enlaza al patrimonio, servicios, pláticas, misas y espacios completos. Personal → login permite usar las cuentas exclusivas de la demo. Los identificadores, contraseñas y comprobantes de seguimiento están **solo en `.demo/accesos-locales.json`**, nunca en esta guía ni en Git. Hay Coordinación, seis administradores y seis tesoreros; el índice de cada usuario corresponde a una de las primeras seis iglesias (iglesiaId en el archivo). Los 12 comprobantes se corresponden por posición con `idDemo("solicitud", 0..11)`; contienen folio, clave y verificador. Use folio/clave en Seguimiento de solicitud. No hace falta crear una cuenta de solicitante.
 
