@@ -22,3 +22,4 @@
 
 # Respuestas oficiales originales: los hashes verifican bytes, sin conversión LF/CRLF.
 prisma/fuentes/inegi-*.json -text
+prisma/demo/fuentes/?????????.json -text

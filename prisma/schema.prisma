@@ -6,6 +6,13 @@ datasource db {
   provider = "postgresql"
 }
 
+// Identifica una carga completa; nunca habilita reemplazar registros del usuario.
+model CargaDemo {
+  id         String   @id
+  referencia DateTime @db.Timestamptz(3)
+  fuentes    String   @db.VarChar(64)
+}
+
 model Estado {
   clave      String      @id @db.VarChar(2)
   nombre     String

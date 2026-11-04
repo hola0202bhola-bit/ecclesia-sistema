@@ -1,0 +1,55 @@
+{
+  "consulta": "2026-11-03",
+  "archivos": [
+    {
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/210190001",
+      "registros": 1,
+      "archivo": "210190001.json",
+      "sha256": "15cdc00f76e93da851170f86fbd70996ee0cdd2a952ab1c374ad39a185e8f9a2"
+    },
+    {
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/211140001",
+      "registros": 1,
+      "archivo": "211140001.json",
+      "sha256": "e7e8a0fb9ccc7b55855220101ad1d5e076a8baf3149c0b490ffcd4093ed578a6"
+    },
+    {
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/211190001",
+      "registros": 1,
+      "archivo": "211190001.json",
+      "sha256": "9b026a6b1e3197d5c61faa4697e9405b5364de42b645d5fe31b108ff6a61dbe2"
+    },
+    {
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/290050001",
+      "registros": 1,
+      "archivo": "290050001.json",
+      "sha256": "28c192f3122d5bbf5b9526552ac56ca8e2168cee6f4d2c77f868994a07ec09e7"
+    },
+    {
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/290330001",
+      "registros": 1,
+      "archivo": "290330001.json",
+      "sha256": "6d03e815d6d9ba60b5db40a290701e73a80108aa2329eefa386e46cc53b0b780"
+    },
+    {
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/290430001",
+      "registros": 1,
+      "archivo": "290430001.json",
+      "sha256": "83c32ffe5d6f78a2eae194cec874891656b09189e52e70030ba48aea659cf561"
+    },
+    {
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/300870001",
+      "registros": 1,
+      "archivo": "300870001.json",
+      "sha256": "deace600d0eeb878356986a19b625b63a341231dc49fdc4bf8d05b8f21bf3830"
+    },
+    {
+      "fuente": "https://gaia.inegi.org.mx/wscatgeo/v2/localidades/301930001",
+      "registros": 1,
+      "archivo": "301930001.json",
+      "sha256": "e73be87ea6255544b57cb876933031b7fef1accf9c61a88f4415760fbd877ab2"
+    }
+  ],
+  "alcance": "Ocho localidades de ocho municipios en Puebla, Tlaxcala y Veracruz; no catálogo nacional de localidades",
+  "version": "inegi-demo-2026-11-03"
+}
