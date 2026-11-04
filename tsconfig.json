@@ -12,7 +12,7 @@
   "include": [
     "src/**/*.ts",
     "tests/**/*.ts",
-    "prisma/seed.ts",
+    "prisma/**/*.ts",
     "vitest.config.ts",
     "prisma.config.ts"
   ]

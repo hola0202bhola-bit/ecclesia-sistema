@@ -1,7 +1,7 @@
 import { Router } from "express";
 import type { Request, RequestHandler } from "express";
 import type { ServicioIglesias } from "../application/servicio.js";
-import type { Principal } from "../domain/iglesia.js";
+import type { Principal, Iglesia } from "../domain/iglesia.js";
 import type { ServicioCatalogos } from "../application/catalogos.js";
 import {
   crearInput,
@@ -49,6 +49,9 @@ export function iglesiasRouter(
 export function webRouter(
   servicio: ServicioIglesias,
   catalogos: ServicioCatalogos,
+  completar: (
+    iglesia: Iglesia,
+  ) => Promise<Record<string, unknown>> = async () => ({}),
 ) {
   const router = Router();
   router.get("/", async (req, res) => {
@@ -72,7 +75,8 @@ export function webRouter(
     });
   });
   router.get("/:id", async (req, res) => {
-    res.render("ficha", await servicio.ficha(idInput.parse(req.params.id)));
+    const ficha = await servicio.ficha(idInput.parse(req.params.id));
+    res.render("ficha", { ...ficha, ...(await completar(ficha.iglesia)) });
   });
   return router;
 }

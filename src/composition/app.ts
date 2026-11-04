@@ -49,7 +49,10 @@ import {
   ofertaRouter,
   ofertaWeb,
 } from "../modules/servicios/presentation/router.js";
-import { ErrorOferta } from "../modules/servicios/domain/oferta.js";
+import {
+  ErrorOferta,
+  tiposPlatica,
+} from "../modules/servicios/domain/oferta.js";
 import { ServicioAgenda } from "../modules/agenda/application/servicio.js";
 import { PrismaRepositorioAgenda } from "../modules/agenda/infrastructure/prisma-repositorio.js";
 import {
@@ -150,7 +153,48 @@ export function createApp(
   app.use("/api/v1/catalogos", catalogosRouter(catalogos));
   app.use("/personal/iglesias", gestionRouter(servicio, catalogos, personal));
   app.use("/api/v1/iglesias", iglesiasRouter(servicio, personal));
-  app.use("/iglesias", webRouter(servicio, catalogos));
+  app.use(
+    "/iglesias",
+    webRouter(servicio, catalogos, async (iglesia) => {
+      // RF02: composición de consultas públicas existentes, sin importar módulos entre sí.
+      // Cada sección se limita a cinco registros y enlaza a su consulta completa.
+      const pagina = { page: 1, pageSize: 5 };
+      const ahora = reloj();
+      const desde = iglesia.zonaIana
+        ? new Intl.DateTimeFormat("sv-SE", {
+            timeZone: iglesia.zonaIana,
+          }).format(ahora)
+        : null;
+      const [ubicacion, piezas, servicios, platicas, misas, espacios] =
+        await Promise.all([
+          catalogos.consultar({
+            estadoClave: iglesia.estadoClave,
+            municipioClave: iglesia.municipioClave,
+          }),
+          patrimonio.consultar(iglesia.id, pagina),
+          oferta.servicios(iglesia.id, pagina),
+          oferta.platicas(iglesia.id, pagina),
+          desde ? agenda.semana(iglesia.id, { desde }) : Promise.resolve([]),
+          solicitudes.espacios(iglesia.id),
+        ]);
+      const proximas = misas.filter(
+        (misa) => misa.inicio.getTime() >= ahora.getTime(),
+      );
+      return {
+        resumen: {
+          ubicacion,
+          piezas,
+          servicios,
+          platicas,
+          misas: proximas.slice(0, 7),
+          totalMisas: proximas.length,
+          desde,
+          espacios,
+          tiposPlatica,
+        },
+      };
+    }),
+  );
   app.get("/", (_req, res) => res.redirect("/iglesias"));
   app.use((_req, res) =>
     res.status(404).json({
