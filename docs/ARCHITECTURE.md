@@ -1,3 +1,7 @@
+## 19/11/2026: separación de superficies para Render
+
+`composition/deployment.ts` valida el entorno y delimita rutas antes de los routers existentes. Tres procesos (`api`, `front`, `admin`) comparten PostgreSQL y código de dominio; EJS se sirve desde los procesos web, sin llamadas HTTP internas a la API. El modo `all` conserva la demo local y se rechaza en producción. No hay extracción a microservicios ni ampliación de roles. [Operación y límites](despliegue-render.md).
+
 ## RF05 geográfico — 4 de noviembre de 2026
 
 Iglesias incorpora dominio/puertos importacion.ts, servicio autorizado, adaptadores DescargaInegi/Prisma y router API/EJS; composition inyecta fuente y repositorio sin cruces entre módulos. La red se consulta antes de bloquear tablas. JSON original, SHA-256, fuente/consulta, snapshot municipal anterior, diferencias, huellas y actores/motivos se conservan en ImportacionLocalidades. Bloqueo SHARE ROW EXCLUSIVE sobre Localidad/ImportacionLocalidades serializa preparación/aplicación/reversión y evita escrituras concurrentes de seed; las lecturas continúan. FK compuesta valida jerarquía incluso desde SQL. Reversión compara huella, exige orden inverso y rechaza altas referenciadas. La propia FK protege una carrera de iglesia/reversión. Idempotencia de comandos y seed que respeta versiones ya cargadas; las ausencias nunca se borran automáticamente. Límites por municipio y ausencia de equivalencias/bajas son decisiones conservadoras de entrega, no aprobación de PC01/22. README describe uso y restricciones; no equivale a actualización nacional.

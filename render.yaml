@@ -1,0 +1,120 @@
+{
+  "services": [
+    {
+      "type": "web",
+      "name": "ecclesia-api",
+      "runtime": "node",
+      "plan": "free",
+      "autoDeployTrigger": "off",
+      "buildCommand": "npm ci --include=dev && npm run generate && npm run build",
+      "startCommand": "node scripts/render-start.mjs api",
+      "healthCheckPath": "/health/ready",
+      "envVars": [
+        {
+          "key": "NODE_VERSION",
+          "value": "24"
+        },
+        {
+          "key": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "key": "APP_SURFACE",
+          "value": "api"
+        },
+        {
+          "key": "TRUST_PROXY_HOPS",
+          "value": "1"
+        },
+        {
+          "key": "DATABASE_URL",
+          "sync": false
+        },
+        {
+          "key": "JWT_SECRET",
+          "sync": false
+        }
+      ]
+    },
+    {
+      "type": "web",
+      "name": "ecclesia-front",
+      "runtime": "node",
+      "plan": "free",
+      "autoDeployTrigger": "off",
+      "buildCommand": "npm ci --include=dev && npm run generate && npm run build",
+      "startCommand": "node scripts/render-start.mjs front",
+      "healthCheckPath": "/health/ready",
+      "envVars": [
+        {
+          "key": "NODE_VERSION",
+          "value": "24"
+        },
+        {
+          "key": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "key": "APP_SURFACE",
+          "value": "front"
+        },
+        {
+          "key": "TRUST_PROXY_HOPS",
+          "value": "1"
+        },
+        {
+          "key": "DATABASE_URL",
+          "sync": false
+        },
+        {
+          "key": "JWT_SECRET",
+          "sync": false
+        },
+        {
+          "key": "ADMIN_ORIGIN",
+          "sync": false
+        }
+      ]
+    },
+    {
+      "type": "web",
+      "name": "ecclesia-admin",
+      "runtime": "node",
+      "plan": "free",
+      "autoDeployTrigger": "off",
+      "buildCommand": "npm ci --include=dev && npm run generate && npm run build",
+      "startCommand": "node scripts/render-start.mjs admin",
+      "healthCheckPath": "/health/ready",
+      "envVars": [
+        {
+          "key": "NODE_VERSION",
+          "value": "24"
+        },
+        {
+          "key": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "key": "APP_SURFACE",
+          "value": "admin"
+        },
+        {
+          "key": "TRUST_PROXY_HOPS",
+          "value": "1"
+        },
+        {
+          "key": "DATABASE_URL",
+          "sync": false
+        },
+        {
+          "key": "JWT_SECRET",
+          "sync": false
+        },
+        {
+          "key": "FRONT_ORIGIN",
+          "sync": false
+        }
+      ]
+    }
+  ]
+}

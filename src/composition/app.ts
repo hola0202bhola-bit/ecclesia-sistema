@@ -74,6 +74,7 @@ import { ServicioImportacion } from "../modules/iglesias/application/importacion
 import { PrismaRepositorioImportacion } from "../modules/iglesias/infrastructure/importacion.js";
 import { DescargaInegi } from "../modules/iglesias/infrastructure/descarga-inegi.js";
 import type { FuenteLocalidades } from "../modules/iglesias/domain/importacion.js";
+import { surfaceBoundary, type Deployment } from "./deployment.js";
 import { importacionRouter } from "../modules/iglesias/presentation/importacion.js";
 export function createApp(
   db: PrismaClient,
@@ -81,9 +82,11 @@ export function createApp(
   anioActual = new Date().getUTCFullYear(),
   reloj: () => Date = () => new Date(),
   fuenteLocalidades: FuenteLocalidades = new DescargaInegi(),
+  deployment: Deployment = {},
 ) {
   const app = express();
   app.disable("x-powered-by");
+  app.set("trust proxy", deployment.proxyHops ?? 0);
   app.use((_req, res, next) => {
     res.set({
       "Cache-Control": "no-store",
@@ -96,11 +99,25 @@ export function createApp(
   });
   app.use((req, res, next) => {
     res.locals.activePath = req.path;
-    res.locals.personalLink = req.headers.cookie?.includes("ecclesia_session=")
-      ? "/personal"
-      : "/personal/login";
+    res.locals.frontOrigin =
+      deployment.surface === "admin" ? (deployment.frontOrigin ?? "") : "";
+    res.locals.personalLink =
+      (deployment.surface === "front" ? (deployment.adminOrigin ?? "") : "") +
+      (req.headers.cookie?.includes("ecclesia_session=")
+        ? "/personal"
+        : "/personal/login");
     next();
   });
+  app.get("/health/live", (_req, res) => res.json({ status: "ok" }));
+  app.get("/health/ready", async (_req, res) => {
+    try {
+      await db.$queryRaw`SELECT 1`;
+      res.json({ status: "ok" });
+    } catch {
+      res.status(503).json({ status: "unavailable" });
+    }
+  });
+  app.use(surfaceBoundary(deployment));
   app.use(
     "/assets",
     express.static(resolve("public"), { index: false, dotfiles: "deny" }),
@@ -151,7 +168,7 @@ export function createApp(
   );
   const anonimo = proteccionAnonima(acceso.origin, config.secret);
   const limitar = async (req: express.Request, seguimiento: boolean) => {
-    // Express no confía en X-Forwarded-For: límite sobre la conexión real.
+    // Solo se confía en el salto explícito del proxy configurado, nunca en toda la cadena.
     await solicitudes.limitar(
       claveLimite(
         config.secret,
@@ -235,7 +252,11 @@ export function createApp(
       };
     }),
   );
-  app.get("/", (_req, res) => res.redirect("/iglesias"));
+  app.get("/", (_req, res) =>
+    res.redirect(
+      deployment.surface === "admin" ? "/personal/login" : "/iglesias",
+    ),
+  );
   app.use((_req, res) =>
     res.status(404).json({
       code: "NO_IMPLEMENTADO",

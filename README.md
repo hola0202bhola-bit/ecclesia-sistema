@@ -1,4 +1,10 @@
-# Ecclesia — entrega del 4 de noviembre de 2026
+# Ecclesia — preparación Render, 19 de noviembre de 2026
+
+Nueva etapa real: `render.yaml` prepara **API, front y admin** como tres servicios del mismo monolito modular. `scripts/render-start.mjs api|front|admin` delimita rutas; solo API aplica migraciones al arrancar, sin seed automático. Render recibe conexiones en 0.0.0.0 y usa su URL HTTPS como origen. Configuración inválida impide el arranque. Directorio público, permisos por iglesia, UI y demo CT20 conservados.
+
+**No está desplegado.** Faltan cuenta/destino Render, base PostgreSQL vacía elegida por el usuario y orígenes reales. No se crearon recursos ni archivos en Drive. [Pasos concretos, variables, pruebas y límites](docs/despliegue-render.md). La separación es por procesos y rutas; EJS sigue usando los casos de uso del monolito, no se afirma un front independiente que consuma la API. Las instrucciones locales siguientes siguen vigentes.
+
+## Entrega funcional anterior: 4 de noviembre de 2026
 
 Aplicación Express/TypeScript/PostgreSQL/Prisma/EJS. La interfaz aprobada se conserva. RF04 cierre/reapertura y RF11 criterios versionados/auditados siguen disponibles; el criterio original reproduce **35.5**. Teams RF01–10 adicional continúa excluido. Las decisiones de negocio PC pendientes y la aceptación docente no se presentan como resueltas.
 
