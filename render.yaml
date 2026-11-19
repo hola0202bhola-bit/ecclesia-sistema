@@ -3,6 +3,7 @@
     {
       "type": "web",
       "name": "ecclesia-api",
+      "region": "ohio",
       "runtime": "node",
       "plan": "free",
       "autoDeployTrigger": "off",
@@ -39,6 +40,7 @@
     {
       "type": "web",
       "name": "ecclesia-front",
+      "region": "ohio",
       "runtime": "node",
       "plan": "free",
       "autoDeployTrigger": "off",
@@ -79,6 +81,7 @@
     {
       "type": "web",
       "name": "ecclesia-admin",
+      "region": "ohio",
       "runtime": "node",
       "plan": "free",
       "autoDeployTrigger": "off",
