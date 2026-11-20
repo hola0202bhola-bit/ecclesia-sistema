@@ -19,6 +19,7 @@ export function personalSesion(
   repo: RepositorioIdentidad,
   config: AccesoConfig,
   externo: RequestHandler,
+  validarCsrf = true,
 ): RequestHandler {
   return async (req, res, next) => {
     const bearer = req.headers.authorization;
@@ -65,7 +66,11 @@ export function personalSesion(
       return next(
         new ErrorIdentidad(401, "SESION_INVALIDA", "Inicie sesión de nuevo"),
       );
-    if (!bearer && !["GET", "HEAD", "OPTIONS"].includes(req.method)) {
+    if (
+      validarCsrf &&
+      !bearer &&
+      !["GET", "HEAD", "OPTIONS"].includes(req.method)
+    ) {
       const csrf = req.get("X-CSRF-Token") ?? req.body?._csrf;
       if (
         req.get("Origin") !== config.origin ||

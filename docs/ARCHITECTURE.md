@@ -1,3 +1,7 @@
+## Ecclesia 1.1 — identidad y perfil propio
+
+Identidad añade VISITANTE, PerfilCuenta y LimiteRegistro por capas. Composition exige sesión para directorio/API y separa visitantes del admin. El perfil toma su dueño de la sesión y usa versión transaccional, sin aceptar rol/iglesia en su DTO. El arnés conserva un adaptador histórico de módulos exclusivamente local y prueba por separado los entrypoints actuales autenticados. [ADR 011](adr/011.md).
+
 ## 19/11/2026: separación de superficies para Render
 
 `composition/deployment.ts` valida el entorno y delimita rutas antes de los routers existentes. Tres procesos (`api`, `front`, `admin`) comparten PostgreSQL y código de dominio; EJS se sirve desde los procesos web, sin llamadas HTTP internas a la API. El modo `all` conserva la demo local y se rechaza en producción. No hay extracción a microservicios ni ampliación de roles. [Operación y límites](despliegue-render.md).

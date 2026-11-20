@@ -4,6 +4,8 @@ import {
   ErrorIdentidad,
   type RepositorioIdentidad,
   type Usuario,
+  type PerfilCuenta,
+  type EdicionPerfil,
 } from "../domain/identidad.js";
 const publico = {
   id: true,
@@ -39,7 +41,7 @@ export class PrismaRepositorioIdentidad implements RepositorioIdentidad {
       return await this.db.$transaction(async (tx) => {
         if (inicial) {
           await tx.$executeRaw`SELECT pg_advisory_xact_lock(827316)`;
-          if (await tx.usuario.count())
+          if (await tx.usuario.count({ where: { rol: { not: "VISITANTE" } } }))
             throw new ErrorIdentidad(
               409,
               "YA_INICIALIZADO",
@@ -100,5 +102,68 @@ export class PrismaRepositorioIdentidad implements RepositorioIdentidad {
   }
   async salir(id: string) {
     await this.db.sesion.deleteMany({ where: { id } });
+  }
+  async perfil(usuarioId: string): Promise<PerfilCuenta> {
+    const row = await this.db.perfilCuenta.findUnique({ where: { usuarioId } });
+    return row
+      ? { ...row, avatar: row.avatar as PerfilCuenta["avatar"] }
+      : {
+          usuarioId,
+          nombreVisible: null,
+          presentacion: null,
+          avatar: "templo",
+          version: 0,
+        };
+  }
+  async guardarPerfil(
+    usuarioId: string,
+    datos: EdicionPerfil,
+  ): Promise<PerfilCuenta> {
+    return this.db.$transaction(async (tx) => {
+      // Serializa también la primera edición; dos perfiles iniciales no ganan ambos.
+      const actors = await tx.$queryRaw<
+        { id: string }[]
+      >`SELECT id FROM "Usuario" WHERE id=${usuarioId}::uuid AND activo=true FOR UPDATE`;
+      if (!actors.length)
+        throw new ErrorIdentidad(
+          401,
+          "SESION_INVALIDA",
+          "Inicie sesión de nuevo",
+        );
+      const actual = await tx.perfilCuenta.findUnique({ where: { usuarioId } });
+      if ((actual?.version ?? 0) !== datos.version)
+        throw new ErrorIdentidad(
+          409,
+          "VERSION_OBSOLETA",
+          "El perfil cambió; recargue antes de guardar",
+        );
+      const nuevo = {
+        nombreVisible: datos.nombreVisible,
+        presentacion: datos.presentacion,
+        avatar: datos.avatar,
+        version: datos.version + 1,
+      };
+      const row = actual
+        ? await tx.perfilCuenta.update({ where: { usuarioId }, data: nuevo })
+        : await tx.perfilCuenta.create({ data: { ...nuevo, usuarioId } });
+      return { ...row, avatar: row.avatar as PerfilCuenta["avatar"] };
+    });
+  }
+  async limitarRegistro(clave: string) {
+    await this.db
+      .$executeRaw`DELETE FROM "LimiteRegistro" WHERE ventana < floor(extract(epoch FROM clock_timestamp())/3600)::bigint - 1`;
+    const rows = await this.db.$queryRaw<{ cantidad: number }[]>`
+      INSERT INTO "LimiteRegistro" (clave,ventana,cantidad)
+      VALUES (${clave},floor(extract(epoch FROM clock_timestamp())/3600)::bigint,1)
+      ON CONFLICT (clave) DO UPDATE SET
+        cantidad=CASE WHEN "LimiteRegistro".ventana < EXCLUDED.ventana THEN 1 ELSE LEAST("LimiteRegistro".cantidad+1,6) END,
+        ventana=GREATEST("LimiteRegistro".ventana, EXCLUDED.ventana)
+      RETURNING cantidad`;
+    if (rows[0].cantidad > 5)
+      throw new ErrorIdentidad(
+        429,
+        "REGISTROS_AGOTADOS",
+        "Demasiados intentos de registro; intente más tarde",
+      );
   }
 }

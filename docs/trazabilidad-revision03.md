@@ -1,3 +1,7 @@
+## Ecclesia 1.1 — ampliación autorizada de identidad
+
+La indicación docente aportada por el usuario exige login para las consultas del área pública. RF06 se amplía con registro VISITANTE sin iglesia, perfil propio y protección de privilegios, conservando P092/P093 para el personal. Identidad/composition, migración 202611190001, tests/cuentas.test.ts y contrato/smoke del arnés cubren registro, CSRF, concurrencia, bootstrap con visitantes, aislamiento y actualización de once migraciones. [Alcance y límites](adr/011.md).
+
 ## 19/11/2026 — preparación de entrega Render
 
 RNF01/RNF09 y CT entrega: composition/deployment.ts, server.ts, render.yaml y scripts/render-start.mjs habilitan bind/origen de Render, API/front/admin, salud y validación previa. tests/deployment.test.ts y smoke-deployment del arnés verifican límites, cookies, CSRF y sesión/revocación entre procesos sobre PostgreSQL aislado. P092 conserva consultas públicas; P092/P093 conserva roles/ámbito. Sin nuevas migraciones ni cambios a fuentes. HTTPS remoto, URL, carga y aceptación física siguen pendientes. [Guía](despliegue-render.md).

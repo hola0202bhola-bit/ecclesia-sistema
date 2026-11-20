@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { avataresCuenta } from "../domain/identidad.js";
 export const identificadorInput = z
   .string()
   .trim()
@@ -35,5 +36,23 @@ export const paginaInput = z
   .object({
     page: z.coerce.number().int().min(1).max(100000).default(1),
     pageSize: z.coerce.number().int().min(1).max(100).default(20),
+  })
+  .strict();
+export const registroInput = z
+  .object({ identificador: identificadorInput, password: passwordInput })
+  .strict();
+const textoPerfil = (max: number) =>
+  z
+    .string()
+    .trim()
+    .max(max)
+    .transform((v) => v || null)
+    .nullable();
+export const perfilInput = z
+  .object({
+    nombreVisible: textoPerfil(100),
+    presentacion: textoPerfil(500),
+    avatar: z.enum(avataresCuenta),
+    version: z.number().int().min(0).max(2147483646),
   })
   .strict();

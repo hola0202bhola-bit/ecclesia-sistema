@@ -1,3 +1,5 @@
+Ecclesia 1.1 (rama): el usuario reporta Render funcionando; este incremento no se despliega ni accede a esa base. El directorio/API ahora requieren sesión y front añade /cuenta/login, /cuenta/registro y /cuenta/perfil. Ver [guía actual](cuentas-1-1.md); las descripciones de consulta anónima siguientes pertenecen a la etapa anterior.
+
 # Render: primera etapa, tres servicios
 
 19 de noviembre de 2026. Preparación implementada; **sin despliegue ni URL real acreditados**. No se han creado recursos ni bases remotas. No hay cambios de esquema, datos originales o permisos de negocio.

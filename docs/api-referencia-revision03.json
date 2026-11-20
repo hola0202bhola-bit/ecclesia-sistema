@@ -3,7 +3,7 @@
   "info": {
     "title": "Ecclesia API: identidad, iglesias, patrimonio, servicios, agenda y diezmos",
     "version": "0.8.0",
-    "description": "Operaciones IMPLEMENTADO ejecutables; DISEÑO_NO_IMPLEMENTADO conserva alcance futuro. Ver docs/estado-producto.md."
+    "description": "Operaciones IMPLEMENTADO ejecutables; DISEÑO_NO_IMPLEMENTADO conserva alcance futuro. Ver docs/estado-producto.md. Ecclesia 1.1: consultas del área pública requieren sesión; autorregistro solo VISITANTE y perfil propio. El arnés conserva adaptadores históricos de módulos sin exponerlos en el arranque actual."
   },
   "servers": [
     {
@@ -20,7 +20,7 @@
         "tags": ["iglesias"],
         "x-requirements": ["RF-01"],
         "x-pending": [],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -164,7 +164,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "REFERENCIA_REAL"
       },
       "post": {
@@ -238,7 +242,7 @@
         "tags": ["iglesias"],
         "x-requirements": ["RF-02"],
         "x-pending": ["PC-04"],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -286,7 +290,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "REFERENCIA_REAL_PARCIAL"
       },
       "patch": {
@@ -588,7 +596,7 @@
         "tags": ["identidad"],
         "x-requirements": ["RF-06"],
         "x-pending": ["PC-19"],
-        "x-roles": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO"],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO", "VISITANTE"],
         "security": [
           {
             "PersonalJWT": []
@@ -623,7 +631,7 @@
         "tags": ["identidad"],
         "x-requirements": ["RF-06"],
         "x-pending": ["PC-19"],
-        "x-roles": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO"],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO", "VISITANTE"],
         "security": [
           {
             "PersonalJWT": []
@@ -802,7 +810,7 @@
         "tags": ["catalogos"],
         "x-requirements": ["RF-05"],
         "x-pending": [],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "page",
@@ -863,7 +871,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       }
     },
@@ -875,7 +887,7 @@
         "tags": ["catalogos"],
         "x-requirements": ["RF-05"],
         "x-pending": [],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -945,7 +957,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       }
     },
@@ -957,7 +973,7 @@
         "tags": ["catalogos"],
         "x-requirements": ["RF-05"],
         "x-pending": [],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -1036,7 +1052,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       }
     },
@@ -1048,7 +1068,7 @@
         "tags": ["catalogos"],
         "x-requirements": ["RF-05"],
         "x-pending": [],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "catalogo",
@@ -1118,7 +1138,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       }
     },
@@ -1130,7 +1154,7 @@
         "tags": ["patrimonio"],
         "x-requirements": ["RF-09", "RF-10"],
         "x-pending": ["PC-05", "PC-07", "PC-08"],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -1237,7 +1261,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       }
     },
@@ -1249,7 +1277,7 @@
         "tags": ["patrimonio"],
         "x-requirements": ["RF-12"],
         "x-pending": ["PC-05", "PC-06"],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "estadoClave",
@@ -1356,7 +1384,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       }
     },
@@ -1368,7 +1400,7 @@
         "tags": ["patrimonio"],
         "x-requirements": ["RF-02", "RF-07"],
         "x-pending": ["PC-06"],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1437,7 +1469,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       },
       "post": {
@@ -1687,7 +1723,7 @@
         "tags": ["servicios"],
         "x-requirements": ["RF-13", "RF-15"],
         "x-pending": ["PC-09", "PC-22"],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1756,7 +1792,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       },
       "post": {
@@ -1923,7 +1963,7 @@
         "tags": ["servicios"],
         "x-requirements": ["RF-14", "RF-15"],
         "x-pending": ["PC-09", "PC-22"],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -1992,7 +2032,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       },
       "post": {
@@ -2157,8 +2201,12 @@
         "summary": "Consultar tipos informativos de tipos-servicio",
         "x-requirements": ["RF-13", "RF-14"],
         "x-pending": ["PC-22"],
-        "x-roles": ["PUBLICO"],
-        "security": [],
+        "x-roles": ["AUTENTICADO"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO",
         "responses": {
           "200": {
@@ -2191,6 +2239,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
           }
         }
       }
@@ -2201,8 +2252,12 @@
         "summary": "Consultar tipos informativos de tipos-platica",
         "x-requirements": ["RF-13", "RF-14"],
         "x-pending": ["PC-22"],
-        "x-roles": ["PUBLICO"],
-        "security": [],
+        "x-roles": ["AUTENTICADO"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO",
         "responses": {
           "200": {
@@ -2235,6 +2290,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
           }
         }
       }
@@ -2248,8 +2306,12 @@
         "x-implementation": "IMPLEMENTADO",
         "x-requirements": ["RF-17", "RF-19"],
         "x-pending": ["PC-10", "PC-11", "PC-12"],
-        "x-roles": ["PUBLICO"],
-        "security": [],
+        "x-roles": ["AUTENTICADO"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3868,7 +3930,7 @@
         "tags": ["solicitudes"],
         "x-requirements": ["RF-25"],
         "x-pending": [],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -3926,7 +3988,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "x-implementation": "IMPLEMENTADO"
       }
     },
@@ -3938,7 +4004,7 @@
         "tags": ["solicitudes"],
         "x-requirements": ["RF-26"],
         "x-pending": ["PC-14", "PC-15"],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "parameters": [
           {
             "name": "iglesiaId",
@@ -4002,7 +4068,11 @@
             "$ref": "#/components/responses/E500"
           }
         },
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -4096,7 +4166,7 @@
         "tags": ["solicitudes"],
         "x-requirements": ["RF-27", "RF-30"],
         "x-pending": ["PC-15", "PC-16", "PC-17"],
-        "x-roles": ["SOLICITANTE"],
+        "x-roles": ["SOLICITANTE_AUTENTICADO"],
         "parameters": [
           {
             "name": "folio",
@@ -4146,6 +4216,7 @@
         },
         "security": [
           {
+            "PersonalJWT": [],
             "SolicitudClave": []
           }
         ],
@@ -4233,7 +4304,7 @@
         "tags": ["solicitudes"],
         "x-requirements": ["RF-29", "RF-30"],
         "x-pending": ["PC-15", "PC-17", "PC-18"],
-        "x-roles": ["SOLICITANTE"],
+        "x-roles": ["SOLICITANTE_AUTENTICADO"],
         "parameters": [
           {
             "name": "folio",
@@ -4299,6 +4370,7 @@
         },
         "security": [
           {
+            "PersonalJWT": [],
             "SolicitudClave": []
           }
         ],
@@ -4323,7 +4395,7 @@
         "tags": ["solicitudes"],
         "x-requirements": ["RF-29", "RF-30"],
         "x-pending": ["PC-15", "PC-17", "PC-18"],
-        "x-roles": ["SOLICITANTE"],
+        "x-roles": ["SOLICITANTE_AUTENTICADO"],
         "parameters": [
           {
             "name": "folio",
@@ -4389,6 +4461,7 @@
         },
         "security": [
           {
+            "PersonalJWT": [],
             "SolicitudClave": []
           }
         ],
@@ -4413,7 +4486,7 @@
         "tags": ["solicitudes"],
         "x-requirements": ["RF-31", "RF-30"],
         "x-pending": ["PC-15", "PC-17", "PC-18"],
-        "x-roles": ["SOLICITANTE"],
+        "x-roles": ["SOLICITANTE_AUTENTICADO"],
         "parameters": [
           {
             "name": "folio",
@@ -4479,6 +4552,7 @@
         },
         "security": [
           {
+            "PersonalJWT": [],
             "SolicitudClave": []
           }
         ],
@@ -4503,9 +4577,13 @@
         "tags": ["solicitudes"],
         "x-requirements": ["RF-26", "RF-27"],
         "x-pending": ["PC-15"],
-        "x-roles": ["PUBLICO"],
+        "x-roles": ["AUTENTICADO"],
         "x-implementation": "IMPLEMENTADO",
-        "security": [],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -5363,6 +5441,131 @@
                 "$ref": "#/components/schemas/LocalidadesMotivoInput"
               }
             }
+          }
+        }
+      }
+    },
+    "/auth/registro": {
+      "post": {
+        "operationId": "cuentas_registro",
+        "summary": "Crear cuenta de visitante",
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": [],
+        "x-roles": ["PUBLICO"],
+        "security": [],
+        "x-implementation": "IMPLEMENTADO",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroVisitanteInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cuenta visitante creada sin sesión automática",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CuentaPersonal"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
+          },
+          "429": {
+            "$ref": "#/components/responses/E429"
+          }
+        }
+      }
+    },
+    "/cuenta/perfil": {
+      "get": {
+        "operationId": "cuentas_perfil",
+        "summary": "Consultar mi perfil personal",
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": [],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO", "VISITANTE"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "responses": {
+          "200": {
+            "description": "Perfil propio; no requiere ni acepta otro usuarioId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerfilCuenta"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          }
+        }
+      },
+      "put": {
+        "operationId": "cuentas_perfil_guardar",
+        "summary": "Editar mi perfil con versión",
+        "tags": ["identidad"],
+        "x-requirements": ["RF-06"],
+        "x-pending": [],
+        "x-roles": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO", "VISITANTE"],
+        "security": [
+          {
+            "PersonalJWT": []
+          }
+        ],
+        "x-implementation": "IMPLEMENTADO",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PerfilCuentaInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Perfil propio actualizado; no cambia rol, iglesia o credenciales",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerfilCuenta"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "422": {
+            "$ref": "#/components/responses/E422"
           }
         }
       }
@@ -8517,7 +8720,7 @@
           },
           "rol": {
             "type": "string",
-            "enum": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO"]
+            "enum": ["COORDINACION", "ADMIN_IGLESIA", "TESORERO", "VISITANTE"]
           },
           "iglesiaId": {
             "type": "string",
@@ -11288,6 +11491,83 @@
           "creadoEn"
         ],
         "additionalProperties": false
+      },
+      "RegistroVisitanteInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identificador": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80,
+            "description": "Se normaliza a minúsculas y se recortan extremos. Patrón final: ^[a-z0-9][a-z0-9._-]{2,79}$"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 72,
+            "description": "Máximo 72 bytes UTF-8, rechazo sin truncamiento bcrypt."
+          }
+        },
+        "required": ["identificador", "password"]
+      },
+      "PerfilCuentaInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nombreVisible": {
+            "type": ["string", "null"],
+            "maxLength": 100
+          },
+          "presentacion": {
+            "type": ["string", "null"],
+            "maxLength": 500
+          },
+          "avatar": {
+            "type": "string",
+            "enum": ["templo", "campana", "paloma", "rama"]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483646
+          }
+        },
+        "required": ["nombreVisible", "presentacion", "avatar", "version"]
+      },
+      "PerfilCuenta": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nombreVisible": {
+            "type": ["string", "null"],
+            "maxLength": 100
+          },
+          "presentacion": {
+            "type": ["string", "null"],
+            "maxLength": 500
+          },
+          "avatar": {
+            "type": "string",
+            "enum": ["templo", "campana", "paloma", "rama"]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          },
+          "usuarioId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "nombreVisible",
+          "presentacion",
+          "avatar",
+          "version",
+          "usuarioId"
+        ]
       }
     },
     "securitySchemes": {
@@ -11295,7 +11575,7 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT",
-        "description": "Personal con expiración y ámbito, permisos adicionales PC-19."
+        "description": "Cuenta activa con expiración y ámbito. VISITANTE consulta; el personal conserva sus permisos explícitos."
       },
       "SolicitudClave": {
         "type": "apiKey",

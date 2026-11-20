@@ -1,3 +1,7 @@
+## Ecclesia 1.1 — cuentas, 19/11/2026
+
+VISITANTE sin iglesia ni privilegios en autorregistro; perfil propio privado/versionado con avatar local, protección web y límite de registro persistente. Login obligatorio en el arranque del producto y separación del admin, conservando permisos anteriores. Migración duodécima aditiva, OpenAPI y arnés actualizados. Trabajo solo en ramas, sin despliegue. Resultados ejecutados en docs/estado-producto.md.
+
 ## 19 de noviembre de 2026 — primera etapa Render
 
 Tres superficies Express/EJS API/front/admin, configuración estricta antes de conectar, bind público en Render, origen HTTPS propio, proxy explícito, salud y cookies locales al host. Plantilla sin secretos/seed automático ni auto-despliegue. Nuevas pruebas PostgreSQL y smoke compilado de tres procesos; guía de provisión inicial y límites. Once migraciones y reglas de negocio preservadas; despliegue pendiente. Resultados finales en estado-producto.md.

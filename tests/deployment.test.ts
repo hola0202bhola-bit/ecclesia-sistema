@@ -64,6 +64,16 @@ describe("separación Render y sesiones PostgreSQL", () => {
     const app = make("api");
     expect(
       (await request(app).get("/api/v1/iglesias?estadoClave=21")).status,
+    ).toBe(401);
+    const login = await request(app)
+      .post("/api/v1/auth/login")
+      .send({ identificador: "render.coordinacion", password });
+    expect(
+      (
+        await request(app)
+          .get("/api/v1/iglesias?estadoClave=21")
+          .auth(login.body.accessToken, { type: "bearer" })
+      ).status,
     ).toBe(200);
     for (const path of [
       "/",
@@ -76,9 +86,17 @@ describe("separación Render y sesiones PostgreSQL", () => {
       expect((await request(app).get(path)).status).toBe(404);
     expect((await request(app).get("/api/v1/usuarios")).status).toBe(401);
   });
-  it("front conserva directorio público, CSS/CSP y enlace al admin", async () => {
+  it("front exige sesión para directorio y conserva CSS/CSP y enlace al admin", async () => {
     const app = make("front");
-    const r = await request(app).get("/iglesias");
+    expect((await request(app).get("/iglesias")).headers.location).toBe(
+      "/cuenta/login",
+    );
+    const login = await request(make("api"))
+      .post("/api/v1/auth/login")
+      .send({ identificador: "render.coordinacion", password });
+    const r = await request(app)
+      .get("/iglesias")
+      .auth(login.body.accessToken, { type: "bearer" });
     expect(r.status).toBe(200);
     expect(r.text).toContain(origin + "/personal/login");
     expect(r.headers["content-security-policy"]).toContain(
