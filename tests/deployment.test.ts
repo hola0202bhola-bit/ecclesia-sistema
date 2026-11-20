@@ -99,6 +99,25 @@ describe("separación Render y sesiones PostgreSQL", () => {
       .auth(login.body.accessToken, { type: "bearer" });
     expect(r.status).toBe(200);
     expect(r.text).toContain(origin + "/personal/login");
+    // Ni una cookie válida del front ni una falsificada acreditan sesión en admin.
+    for (const cookie of [
+      "ecclesia_session=" + login.body.accessToken,
+      "ecclesia_session=invalida",
+    ]) {
+      const page = await request(app)
+        .get("/iglesias")
+        .auth(login.body.accessToken, { type: "bearer" })
+        .set("Cookie", cookie);
+      expect(page.status).toBe(200);
+      const link = page.text.match(/class="nav-personal" href="([^"]+)"/);
+      expect(link?.[1]).toBe(origin + "/personal/login");
+      const destination = await request(make("admin")).get(
+        new URL(link![1]).pathname,
+      );
+      expect(destination.status).toBe(200);
+      expect(destination.text).toContain('action="/personal/login"');
+      expect(destination.headers["set-cookie"]).toBeUndefined();
+    }
     expect(r.headers["content-security-policy"]).toContain(
       "form-action 'self'",
     );
@@ -152,6 +171,7 @@ describe("separación Render y sesiones PostgreSQL", () => {
       .get("/personal")
       .set("Cookie", cookie);
     expect(page.status).toBe(200);
+    expect(page.text).toContain('class="nav-personal" href="/personal"');
     expect(page.text).toContain("https://front.example.test/iglesias");
     const me = await request(api)
       .get("/api/v1/auth/me")

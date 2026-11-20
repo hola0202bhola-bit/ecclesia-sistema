@@ -1,3 +1,7 @@
+## 20 de noviembre de 2026 — navegación front/admin (P3)
+
+El enlace Área del personal del front siempre abre el login del admin: una cookie local del front no demuestra sesión en otro host. Se amplían las pruebas existentes de cuentas/despliegue y el smoke del arnés, conservando cookies host-only, permisos VISITANTE y sesiones administrativas propias. Sin cambios a migraciones ni despliegue. Validación ejecutada y límites en docs/estado-producto.md.
+
 ## Ecclesia 1.1 — cuentas, 19/11/2026
 
 VISITANTE sin iglesia ni privilegios en autorregistro; perfil propio privado/versionado con avatar local, protección web y límite de registro persistente. Login obligatorio en el arranque del producto y separación del admin, conservando permisos anteriores. Migración duodécima aditiva, OpenAPI y arnés actualizados. Trabajo solo en ramas, sin despliegue. Resultados ejecutados en docs/estado-producto.md.

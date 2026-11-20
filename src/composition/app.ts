@@ -115,9 +115,11 @@ export function createApp(
     res.locals.cuentaDisponible = deployment.surface !== "api";
     res.locals.frontOrigin =
       deployment.surface === "admin" ? (deployment.frontOrigin ?? "") : "";
+    // La cookie host-only del front no acredita una sesión en el host admin.
     res.locals.personalLink =
       (deployment.surface === "front" ? (deployment.adminOrigin ?? "") : "") +
-      (req.headers.cookie?.includes("ecclesia_session=")
+      (deployment.surface !== "front" &&
+      req.headers.cookie?.includes("ecclesia_session=")
         ? "/personal"
         : "/personal/login");
     next();

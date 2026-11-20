@@ -300,6 +300,18 @@ describe("Ecclesia 1.1: registro y separación de permisos", () => {
       .get("/cuenta/perfil")
       .set("Cookie", cookie);
     expect(page.status).toBe(200);
+    const link = page.text.match(/class="nav-personal" href="([^"]+)"/);
+    expect(link?.[1]).toBe("https://admin.example.invalid/personal/login");
+    const admin = make("admin");
+    // Simula el salto de host: la cookie del front no acompaña a la petición.
+    const destination = await request(admin).get(new URL(link![1]).pathname);
+    expect(destination.status).toBe(200);
+    expect(destination.text).toContain('action="/personal/login"');
+    expect((await request(admin).get("/personal")).status).toBe(401);
+    // Incluso si alguien copia expresamente la cookie, VISITANTE sigue prohibido.
+    expect(
+      (await request(admin).get("/personal").set("Cookie", cookie)).status,
+    ).toBe(403);
     const logout = await request(make("front"))
       .post("/cuenta/logout")
       .set("Origin", config.origin)
