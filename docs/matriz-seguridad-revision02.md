@@ -1,3 +1,5 @@
+Ecclesia 1.1: la nueva indicación docente aportada por el usuario exige sesión para el área pública. VISITANTE consulta, no entra al admin ni elige rol/iglesia al registrarse; cada cuenta edita solo su perfil. La matriz operativa vigente está en OpenAPI y el arnés; se conserva esta matriz histórica. Ver [ADR 011](adr/011.md).
+
 RF22–24 implementados sin cambiar la política de roles previa: TESORERO propio en captura/corrección/consulta/historial; ADMIN_IGLESIA y TESORERO propios en reportes. Coordinación denegada. La matriz siguiente conserva las rutas; disponibilidad y DTO reales en OpenAPI/subconjunto y [ADR009](adr/009.md).
 
 # Matriz explícita de rutas — revisión 02

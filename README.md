@@ -1,3 +1,11 @@
+## Ecclesia 1.1 — visitantes y perfiles de cuentas (rama de trabajo)
+
+Rama `feat/ecclesia-1-1-cuentas`: autorregistro exclusivo de VISITANTE, login obligatorio al consultar directorio/API y perfil propio editable (nombre visible, presentación y avatar local). El personal conserva roles/ámbito y ve su iglesia asignada por nombre. [Recorrido y API](docs/cuentas-1-1.md), [decisiones y límites](docs/adr/011.md).
+
+Validación completada: **491 pruebas del producto y 106 del arnés**, sin omitidas; cobertura de líneas **97.58%**. Migración nueva y repetición completa comprobadas sobre PostgreSQL efímero. [Evidencia y límites](docs/estado-producto.md).
+
+El usuario reporta su instalación Render operativa. Esta rama no la modifica, no usa su base y no se integra en main ni se despliega. Los apartados anteriores de consulta anónima y preparación de despliegue quedan como antecedentes. Foto/descripción de iglesias, recuperación de acceso y cambio de asignaciones quedan fuera de esta etapa.
+
 # Ecclesia — preparación Render, 19 de noviembre de 2026
 
 Nueva etapa real: `render.yaml` prepara **API, front y admin** como tres servicios del mismo monolito modular. `scripts/render-start.mjs api|front|admin` delimita rutas; solo API aplica migraciones al arrancar, sin seed automático. Render recibe conexiones en 0.0.0.0 y usa su URL HTTPS como origen. Configuración inválida impide el arranque. Directorio público, permisos por iglesia, UI y demo CT20 conservados.

@@ -6,6 +6,7 @@ export interface Deployment {
   frontOrigin?: string;
   adminOrigin?: string;
   proxyHops?: 0 | 1;
+  requireLogin?: boolean;
 }
 
 function origin(value: string | undefined, required: boolean, https: boolean) {
@@ -64,6 +65,7 @@ export function deploymentConfig(env: NodeJS.ProcessEnv) {
     )!,
     deployment: {
       surface: surface as Surface,
+      requireLogin: true,
       proxyHops: Number(proxy) as 0 | 1,
       frontOrigin: origin(env.FRONT_ORIGIN, surface === "admin", production),
       adminOrigin: origin(env.ADMIN_ORIGIN, surface === "front", production),
@@ -77,14 +79,21 @@ export function surfaceBoundary(config: Deployment): RequestHandler {
     const surface = config.surface ?? "all";
     const api = /^\/api\/v1(?:\/|$)/i.test(req.path);
     const admin = /^\/personal(?:\/|$)/i.test(req.path);
+    const cuenta = /^\/cuenta(?:\/|$)/i.test(req.path);
     const front =
       /^\/(?:iglesias|ranking-patrimonial|solicitudes)(?:\/|$)/i.test(req.path);
     if (
       surface === "all" ||
       (surface === "api" && api) ||
-      (surface === "admin" && (admin || req.path === "/")) ||
+      (surface === "admin" &&
+        (admin ||
+          req.path === "/" ||
+          /^\/cuenta\/(?:perfil|logout)\/?$/i.test(req.path))) ||
       (surface === "front" &&
-        (front || req.path === "/" || /^\/assets\//i.test(req.path))) ||
+        (front ||
+          cuenta ||
+          req.path === "/" ||
+          /^\/assets\//i.test(req.path))) ||
       (surface === "admin" && /^\/assets\//i.test(req.path))
     )
       return next();

@@ -13,3 +13,4 @@ La continuación añade [ADR 006: identidad local y sesiones](006.md), que ampl�
 001 stack/IA confirmados por alumno; 002 arquitectura aplicada; 003 acceso/stack confirmados y esquema mínimo provisional; 004 JWT mínimo implementado, identidad/seguimiento futuros; 005 patrimonio de diseño pendiente. Leer estado de cada ADR. Confirmación del stack no aprueba todas las políticas ni todo el código. Versiones 02 preservadas en el ZIP antecedente.
 
 - [010 — Espacios, solicitudes y cotizaciones privadas](010.md): implementación con supuestos técnicos, PC14–19 abiertas.
+Ecclesia 1.1: [ADR 011 — visitantes y perfil propio](011.md). Amplía identidad y exige login en las consultas por la nueva indicación docente aportada por el usuario; las demás decisiones se conservan con sus límites.

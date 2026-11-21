@@ -2,6 +2,7 @@
 <header class="site-header"><div class="header-inner">
 <a class="brand" href="<%= frontOrigin %>/iglesias" aria-label="Ecclesia, inicio"><span class="brand-mark" aria-hidden="true">✝</span><span>Ecclesia<small>Patrimonio y comunidad</small></span></a>
 <nav class="site-nav" aria-label="Navegación principal">
+<% if(cuentaDisponible){ %><a href="<%= cuentaLink %>">Mi cuenta</a><% } %>
 <a href="<%= frontOrigin %>/iglesias" <%- activePath.startsWith('/iglesias') ? 'aria-current="page"' : '' %>>Explorar iglesias</a>
 <a href="<%= frontOrigin %>/ranking-patrimonial" <%- activePath==='/ranking-patrimonial' ? 'aria-current="page"' : '' %>>Patrimonio</a>
 <a href="<%= frontOrigin %>/solicitudes" <%- activePath.startsWith('/solicitudes') ? 'aria-current="page"' : '' %>>Seguimiento</a>

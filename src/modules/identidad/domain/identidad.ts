@@ -18,6 +18,15 @@ export interface Sesion {
   csrf: string;
   vence: Date;
 }
+export const avataresCuenta = ["templo", "campana", "paloma", "rama"] as const;
+export interface PerfilCuenta {
+  usuarioId: string;
+  nombreVisible: string | null;
+  presentacion: string | null;
+  avatar: (typeof avataresCuenta)[number];
+  version: number;
+}
+export type EdicionPerfil = Omit<PerfilCuenta, "usuarioId">;
 export interface RepositorioIdentidad {
   buscar(identificador: string): Promise<Cuenta | null>;
   crear(
@@ -37,6 +46,9 @@ export interface RepositorioIdentidad {
   ): Promise<{ id: string; csrf: string }>;
   sesion(id: string): Promise<Sesion | null>;
   salir(id: string): Promise<void>;
+  perfil(usuarioId: string): Promise<PerfilCuenta>;
+  guardarPerfil(usuarioId: string, datos: EdicionPerfil): Promise<PerfilCuenta>;
+  limitarRegistro(clave: string): Promise<void>;
 }
 export interface Credenciales {
   hash(password: string): Promise<string>;

@@ -3,11 +3,17 @@ import type { Principal } from "../../../shared/domain/personal.js";
 import { ErrorIdentidad, type Sesion } from "../domain/identidad.js";
 import type { ServicioIdentidad } from "../application/servicio.js";
 import { altaInput, loginInput, paginaInput } from "./validacion.js";
+import { cuentaRouter, type IglesiaAsignada } from "./cuenta.js";
 type Personal = Request & { principal?: Principal; sesion?: Sesion };
 export function identidadRouter(
   servicio: ServicioIdentidad,
   personal: RequestHandler,
   origin: string,
+  cuentas: {
+    csrf: RequestHandler;
+    limitarRegistro: RequestHandler;
+    iglesiaAsignada: IglesiaAsignada;
+  },
 ) {
   const router = Router();
   // Límite por IP antes de bcrypt; mapa acotado y ventana fija. No bloquea cuentas permanentemente.
@@ -44,6 +50,13 @@ export function identidadRouter(
     secure: origin.startsWith("https:"),
     path: "/",
   };
+  router.use(
+    cuentaRouter(servicio, personal, {
+      ...cuentas,
+      origin,
+      limitarLogin: limitar,
+    }),
+  );
   router.post("/api/v1/auth/login", origen, limitar, async (req, res) => {
     const input = loginInput.parse(req.body);
     const resultado = await servicio.login(input.identificador, input.password);
@@ -74,6 +87,7 @@ export function identidadRouter(
       const resultado = await servicio.login(
         input.identificador,
         input.password,
+        true,
       );
       res
         .cookie("ecclesia_session", resultado.accessToken, {
@@ -89,8 +103,12 @@ export function identidadRouter(
       throw error;
     }
   });
-  router.get("/personal", personal, (req: Personal, res) =>
-    res.render("personal", { usuario: req.principal, csrf: req.sesion?.csrf }),
+  router.get("/personal", personal, async (req: Personal, res) =>
+    res.render("personal", {
+      usuario: req.principal,
+      csrf: req.sesion?.csrf,
+      iglesiaAsignada: await cuentas.iglesiaAsignada(req.principal),
+    }),
   );
   router.get("/personal/usuarios", personal, async (req: Personal, res) => {
     const { page, pageSize } = paginaInput.parse(req.query);

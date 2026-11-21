@@ -14,7 +14,7 @@ import {
 } from "../modules/solicitudes/presentation/router.js";
 import { ErrorSolicitud } from "../modules/solicitudes/domain/solicitud.js";
 import express from "express";
-import type { ErrorRequestHandler } from "express";
+import type { ErrorRequestHandler, RequestHandler } from "express";
 import { resolve } from "node:path";
 import { ZodError } from "zod";
 import { ServicioIdentidad } from "../modules/identidad/application/servicio.js";
@@ -24,8 +24,13 @@ import { CredencialesBcrypt } from "../modules/identidad/infrastructure/credenci
 import {
   personalSesion,
   type AccesoConfig,
+  type RequestSesion,
 } from "../modules/identidad/infrastructure/personal.js";
 import { identidadRouter } from "../modules/identidad/presentation/router.js";
+import {
+  csrfAcceso,
+  limiteRegistro,
+} from "../modules/identidad/infrastructure/acceso-cuenta.js";
 import type { PrismaClient } from "@prisma/client";
 import { ServicioIglesias } from "../modules/iglesias/application/servicio.js";
 import { ErrorIglesias } from "../modules/iglesias/domain/iglesia.js";
@@ -99,11 +104,22 @@ export function createApp(
   });
   app.use((req, res, next) => {
     res.locals.activePath = req.path;
+    res.locals.areaPersonal =
+      deployment.surface === "admin" || /^\/personal(?:\/|$)/i.test(req.path);
+    res.locals.loginLink = res.locals.areaPersonal
+      ? "/personal/login"
+      : "/cuenta/login";
+    res.locals.cuentaLink = req.headers.cookie?.includes("ecclesia_session=")
+      ? "/cuenta/perfil"
+      : "/cuenta/login";
+    res.locals.cuentaDisponible = deployment.surface !== "api";
     res.locals.frontOrigin =
       deployment.surface === "admin" ? (deployment.frontOrigin ?? "") : "";
+    // La cookie host-only del front no acredita una sesión en el host admin.
     res.locals.personalLink =
       (deployment.surface === "front" ? (deployment.adminOrigin ?? "") : "") +
-      (req.headers.cookie?.includes("ecclesia_session=")
+      (deployment.surface !== "front" &&
+      req.headers.cookie?.includes("ecclesia_session=")
         ? "/personal"
         : "/personal/login");
     next();
@@ -139,7 +155,84 @@ export function createApp(
     ...config,
     origin: config.origin ?? "http://127.0.0.1:3000",
   };
-  const personal = personalSesion(repoIdentidad, acceso, personalJwt(config));
+  const autenticarSesion = personalSesion(
+    repoIdentidad,
+    acceso,
+    personalJwt(config),
+  );
+  // El filtro general solo exige identidad. Cada mutación conserva su protección
+  // de sesión o el CSRF anónimo ya existente de solicitudes; no mezcla sus tokens.
+  const accesoDirectorio = personalSesion(
+    repoIdentidad,
+    acceso,
+    personalJwt(config),
+    false,
+  );
+  const personal: RequestHandler = (req, res, next) => {
+    void Promise.resolve(
+      autenticarSesion(req, res, (error) => {
+        if (error) return next(error);
+        if (
+          (deployment.surface === "admin" ||
+            /^\/personal(?:\/|$)/i.test(req.originalUrl)) &&
+          (req as RequestSesion).principal?.rol === "VISITANTE"
+        )
+          return next(
+            new ErrorIdentidad(
+              403,
+              "PROHIBIDO",
+              "El área del personal requiere una cuenta administrativa",
+            ),
+          );
+        next();
+      }),
+    ).catch(next);
+  };
+  const iglesiaAsignada = async (
+    principal?: import("../shared/domain/personal.js").Principal,
+  ) =>
+    principal?.iglesiaId &&
+    ["ADMIN_IGLESIA", "TESORERO"].includes(principal.rol)
+      ? db.iglesia.findUnique({
+          where: { id: principal.iglesiaId },
+          select: { id: true, nombre: true },
+        })
+      : null;
+  app.use(
+    identidadRouter(identidad, personal, acceso.origin, {
+      csrf: csrfAcceso(acceso.origin, config.secret),
+      limitarRegistro: limiteRegistro(
+        (clave) => identidad.limitarRegistro(clave),
+        config.secret,
+      ),
+      iglesiaAsignada,
+    }),
+  );
+  app.use((req, res, next) => {
+    const requerido =
+      deployment.requireLogin ||
+      ["api", "front"].includes(deployment.surface ?? "all");
+    const protegido =
+      /^\/(?:api\/v1|iglesias|ranking-patrimonial|solicitudes)(?:\/|$)/i.test(
+        req.path,
+      );
+    if (!requerido || !protegido) return next();
+    void Promise.resolve(
+      accesoDirectorio(req, res, (error) => {
+        if (!error) return next();
+        if (
+          error instanceof ErrorIdentidad &&
+          error.status === 401 &&
+          !req.path.toLowerCase().startsWith("/api/") &&
+          ["GET", "HEAD"].includes(req.method)
+        ) {
+          res.redirect(302, "/cuenta/login");
+          return;
+        }
+        next(error);
+      }),
+    ).catch(next);
+  });
   const catalogos = new ServicioCatalogos(new PrismaRepositorioCatalogos(db));
   app.use(
     importacionRouter(
@@ -155,7 +248,6 @@ export function createApp(
     new PrismaRepositorioPatrimonio(db),
     anioActual,
   );
-  app.use(identidadRouter(identidad, personal, acceso.origin));
   app.use(
     criteriosRouter(
       new ServicioCriterios(new PrismaRepositorioCriterios(db)),
@@ -272,6 +364,7 @@ export function createApp(
         : 500;
     if (
       req.path.startsWith("/personal") ||
+      req.path.startsWith("/cuenta") ||
       req.path.startsWith("/personal/iglesias") ||
       req.path.startsWith("/iglesias") ||
       req.path.startsWith("/personal/patrimonio") ||

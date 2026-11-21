@@ -130,6 +130,7 @@ enum RolPersonal {
   COORDINACION
   ADMIN_IGLESIA
   TESORERO
+  VISITANTE
 }
 
 model Usuario {
@@ -140,6 +141,7 @@ model Usuario {
   iglesiaId          String?            @db.Uuid
   iglesia            Iglesia?           @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
   activo             Boolean            @default(true)
+  perfilCuenta       PerfilCuenta?
   importacionesPrevias ImportacionLocalidades[] @relation("ImportacionAutor")
   importacionesAplicadas ImportacionLocalidades[] @relation("ImportacionAplicador")
   importacionesRevertidas ImportacionLocalidades[] @relation("ImportacionReversor")
@@ -153,6 +155,22 @@ model Usuario {
   cambiosSolicitud   CambioSolicitud[]
   cambiosEspacio     CambioEspacio[]
   celebraciones      CelebracionMisa[]
+}
+
+model PerfilCuenta {
+  usuarioId String @id @db.Uuid
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  nombreVisible String? @db.VarChar(100)
+  presentacion String? @db.VarChar(500)
+  avatar String @default("templo") @db.VarChar(20)
+  version Int @default(1)
+}
+
+model LimiteRegistro {
+  clave String @id @db.VarChar(64)
+  ventana BigInt
+  cantidad Int
+  @@index([ventana])
 }
 
 enum CondicionPatrimonio {

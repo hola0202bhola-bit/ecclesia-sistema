@@ -1,3 +1,5 @@
+Ecclesia 1.1, 19/11/2026: avance en RF06 autorizado para visitantes, sesión obligatoria y perfil propio; sin foto/descripcion de iglesias. Registro, perfil y separación admin quedan sujetos a las pruebas del incremento. Recuperación, contraseña, asignaciones, multirol y propiedad de solicitudes siguen fuera. El usuario reporta Render operativo, sin nueva validación o despliegue de esta rama. [Límites](adr/011.md).
+
 Actualización 19/11/2026: preparación real para Render API/front/admin implementada en el mismo monolito. No hay despliegue, URL HTTPS ni prueba móvil física acreditados. RNF/CT de entrega avanza en configuración, límites de rutas y smoke local separado; el resto de esta matriz conserva sus pendientes. [Guía concreta](despliegue-render.md).
 
 Actualización 4 de noviembre de 2026: importación geográfica RF05 limitada y real; cobertura nacional y aceptación docente siguen sin acreditarse.
