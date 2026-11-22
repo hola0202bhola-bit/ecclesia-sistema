@@ -67,7 +67,13 @@ export function solicitudesRouter(
   );
   r.get(base + "/ofertas-espacio", async (req, res) =>
     res.json({
-      data: (await s.espacios(id(req))).map((f) => ({ tipo: f.tipo })),
+      data: (await s.espacios(id(req))).map(
+        ({ tipo, responsablePublico, costoReferencia }) => ({
+          tipo,
+          ...(responsablePublico !== undefined ? { responsablePublico } : {}),
+          ...(costoReferencia !== undefined ? { costoReferencia } : {}),
+        }),
+      ),
     }),
   );
   r.get(
@@ -90,6 +96,10 @@ export function solicitudesRouter(
           d.activo,
           d.version,
           req.principal,
+          {
+            responsablePublico: d.responsablePublico,
+            costoReferencia: d.costoReferencia,
+          },
         ),
       );
     },
@@ -236,6 +246,8 @@ export function solicitudesWeb(
         req.principal,
       ),
       errores: [],
+      valores: {},
+      tipoError: null,
     }),
   );
   r.post(base + "/espacios/:tipo", async (req: Personal, res) => {
@@ -249,6 +261,14 @@ export function solicitudesWeb(
               ? false
               : campos(req).activo,
         version: Number(campos(req).version),
+        responsablePublico:
+          typeof campos(req).responsablePublico === "string"
+            ? campos(req).responsablePublico.trim() || null
+            : campos(req).responsablePublico,
+        costoReferencia:
+          typeof campos(req).costoReferencia === "string"
+            ? campos(req).costoReferencia.trim() || null
+            : campos(req).costoReferencia,
       });
       await s.espacio(
         id(req),
@@ -256,10 +276,33 @@ export function solicitudesWeb(
         d.activo,
         d.version,
         req.principal,
+        {
+          responsablePublico: d.responsablePublico,
+          costoReferencia: d.costoReferencia,
+        },
       );
       res.redirect(303, "/personal/solicitudes/" + id(req));
     } catch (e) {
-      errorWeb(e, res);
+      if (!(
+        e instanceof ZodError ||
+        (e instanceof ErrorSolicitud && e.status === 409)
+      )) {
+        errorWeb(e, res);
+        return;
+      }
+      res
+        .status(e instanceof ZodError ? 422 : e.status)
+        .render("solicitudes-gestion", {
+          ...contexto(req),
+          espacios: await s.espacios(id(req), req.principal, true),
+          lista: await s.lista(id(req), 1, req.principal),
+          errores:
+            e instanceof ZodError
+              ? e.issues.map((i) => `${i.path.join(".")}: ${i.message}`)
+              : [e.message],
+          valores: campos(req),
+          tipoError: req.params.tipo,
+        });
     }
   });
   r.get(base + "/:solicitudId", async (req: Personal, res) =>

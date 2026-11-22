@@ -912,3 +912,240 @@ describe("Hora local estricta", () => {
     ).toBe(false);
   });
 });
+
+describe("indicaciones del profesor: desvinculación conservadora", () => {
+  async function retirar(
+    p = padre,
+    version = 1,
+    extra: object = {},
+    usuario = "admin",
+    iglesia = own,
+  ) {
+    return request(app)
+      .delete(ruta(iglesia) + "/asignaciones/" + p)
+      .auth(await token(usuario), { type: "bearer" })
+      .send({ version, motivo: "Cambio de atención ficticio", ...extra });
+  }
+  it("retira solo el vínculo propio y conserva identidad, horarios inactivos, historia y otra iglesia", async () => {
+    const h = await alta({ activo: false });
+    expect(h.status).toBe(201);
+    expect((await alta({ horaLocal: "12:00" }, other, "otro")).status).toBe(
+      201,
+    );
+    const identidad = await db.sacerdote.findUniqueOrThrow({
+      where: { id: padre },
+    });
+    const r = await retirar();
+    expect(r.status).toBe(200);
+    contrato("AgendaAsignacionRetirada", r.body);
+    expect(r.body).toEqual({ sacerdoteId: padre, activo: false, version: 2 });
+    expect(
+      await db.sacerdote.findUniqueOrThrow({ where: { id: padre } }),
+    ).toEqual(identidad);
+    expect(
+      await db.asignacionSacerdote.findUniqueOrThrow({
+        where: {
+          iglesiaId_sacerdoteId: { iglesiaId: other, sacerdoteId: padre },
+        },
+      }),
+    ).toMatchObject({ activo: true, version: 1 });
+    expect(
+      await db.horarioMisa.findUniqueOrThrow({ where: { id: h.body.id } }),
+    ).toMatchObject({ activo: false, sacerdoteId: padre });
+    expect(
+      (
+        await request(app)
+          .get(ruta() + "/sacerdotes")
+          .auth(await token(), { type: "bearer" })
+      ).body.data.map((p: { id: string }) => p.id),
+    ).not.toContain(padre);
+    expect(
+      (
+        await request(app)
+          .get(ruta() + `/sacerdotes/${padre}/semana?desde=2026-10-05`)
+          .auth(await token(), { type: "bearer" })
+      ).status,
+    ).toBe(404);
+    expect((await alta()).status).toBe(404);
+    expect(
+      await db.cambioAgenda.findFirst({
+        where: { iglesiaId: own, recursoId: padre },
+      }),
+    ).toMatchObject({
+      despues: { activo: false, motivo: "Cambio de atención ficticio" },
+    });
+    expect(
+      await db.ocurrenciaMisa.count({ where: { iglesiaId: other } }),
+    ).toBeGreaterThan(0);
+  });
+  it("programación bloquea sin mutar; inactivarla sin hechos permite retirar conservando el horario", async () => {
+    const h = await alta();
+    expect((await retirar()).body.code).toBe("ASIGNACION_EN_USO");
+    expect(await db.cambioAgenda.count()).toBe(1);
+    expect((await editar(h.body.id, { activo: false })).status).toBe(200);
+    expect((await retirar()).status).toBe(200);
+    expect(await db.horarioMisa.count()).toBe(1);
+  });
+  it("celebraciones protegen al previsto y al suplente real sin perder hechos ni auditoría", async () => {
+    await alta();
+    const c = await celebrar({
+      oficianteId: suplente,
+      motivo: "Suplencia ficticia",
+    });
+    expect(c.status).toBe(201);
+    const antes = await db.celebracionMisa.findMany();
+    const cambios = await db.cambioAgenda.count();
+    expect((await retirar()).body.code).toBe("ASIGNACION_EN_USO");
+    expect((await retirar(suplente)).body.code).toBe("ASIGNACION_EN_USO");
+    expect(await db.celebracionMisa.findMany()).toEqual(antes);
+    expect(await db.cambioAgenda.count()).toBe(cambios);
+  });
+  it("versión del vínculo evita retirada obsoleta tras reactivación y serializa dos retiradas", async () => {
+    expect((await retirar(padre, 2)).status).toBe(409);
+    const resultados = await Promise.all([retirar(), retirar()]);
+    expect(resultados.map((r) => r.status).sort()).toEqual([200, 404]);
+    const vinculo = await request(app)
+      .post(ruta() + "/asignaciones")
+      .auth(await token(), { type: "bearer" })
+      .send({ sacerdoteId: padre });
+    expect(vinculo.status).toBe(201);
+    expect(vinculo.body.asignacionVersion).toBe(3);
+    expect((await retirar()).body.code).toBe("VERSION_OBSOLETA");
+    expect((await retirar(padre, 3)).body.version).toBe(4);
+  });
+  it("carrera con programación no deja una misa de sacerdote desvinculado", async () => {
+    await token();
+    const [plan, retiro] = await Promise.all([
+      alta({ sacerdoteId: suplente }),
+      retirar(suplente),
+    ]);
+    expect([
+      [201, 409],
+      [404, 200],
+    ]).toContainEqual([plan.status, retiro.status]);
+    const a = await db.asignacionSacerdote.findUniqueOrThrow({
+      where: {
+        iglesiaId_sacerdoteId: { iglesiaId: own, sacerdoteId: suplente },
+      },
+    });
+    expect(
+      await db.ocurrenciaMisa.count({
+        where: { iglesiaId: own, sacerdoteId: suplente },
+      }),
+    ).toBe(a.activo ? 4 : 0);
+  });
+  it("carrera con sustitución protege al oficiante real o rechaza la celebración", async () => {
+    await alta();
+    const [hecho, retiro] = await Promise.all([
+      celebrar({ oficianteId: suplente, motivo: "Suplencia" }),
+      retirar(suplente),
+    ]);
+    expect([
+      [201, 409],
+      [404, 200],
+    ]).toContainEqual([hecho.status, retiro.status]);
+    expect(
+      await db.celebracionMisa.count({ where: { oficianteId: suplente } }),
+    ).toBe(hecho.status === 201 ? 1 : 0);
+  });
+  it("mantiene 401/403, ámbito, iglesias cerradas y DTO estricto; visitante sin edición", async () => {
+    expect(
+      (
+        await request(app)
+          .delete(ruta() + "/asignaciones/" + padre)
+          .send({ version: 1, motivo: "X" })
+      ).status,
+    ).toBe(401);
+    await db.usuario.create({
+      data: { identificador: "visita", rol: "VISITANTE", passwordHash: hash },
+    });
+    for (const u of ["otro", "tesorero", "coord", "visita"])
+      expect((await retirar(padre, 1, {}, u)).status).toBe(403);
+    expect((await retirar(suplente, 1, {}, "otro", other)).status).toBe(404);
+    for (const extra of [
+      { version: 0 },
+      { version: "1" },
+      { motivo: "  " },
+      { motivo: "x".repeat(501) },
+      { actorId: own },
+    ])
+      expect((await retirar(padre, 1, extra)).status).toBe(422);
+    expect((await retirar(randomUUID())).status).toBe(404);
+    await db.iglesia.update({
+      where: { id: own },
+      data: { cerradaDesde: new Date() },
+    });
+    expect((await retirar()).status).toBe(404);
+    expect(await db.cambioAgenda.count()).toBe(0);
+  });
+  it("formulario protege CSRF/Origin, conserva versión y escapa el motivo tras conflicto", async () => {
+    const { cookie, csrf } = await sesion();
+    const url = web() + "/desvincular";
+    const d = {
+      sacerdoteId: padre,
+      version: "2",
+      motivo: '<img src=x onerror="x">',
+    };
+    expect(
+      (await request(app).get(web()).set("Cookie", cookie)).text,
+    ).toContain("Desvincular de esta iglesia");
+    expect(
+      (
+        await request(app)
+          .post(url)
+          .set("Cookie", cookie)
+          .set("Origin", config.origin)
+          .type("form")
+          .send(d)
+      ).status,
+    ).toBe(403);
+    expect(
+      (
+        await request(app)
+          .post(url)
+          .set("Cookie", cookie)
+          .set("Origin", "https://otro.invalid")
+          .type("form")
+          .send({ ...d, _csrf: csrf })
+      ).status,
+    ).toBe(403);
+    const error = await request(app)
+      .post(url)
+      .set("Cookie", cookie)
+      .set("Origin", config.origin)
+      .type("form")
+      .send({ ...d, _csrf: csrf });
+    expect(error.status).toBe(409);
+    expect(error.text).toContain("&lt;img");
+    expect(error.text).toContain('name="version" value="2"');
+    expect(
+      (
+        await request(app)
+          .post(url)
+          .set("Cookie", cookie)
+          .set("Origin", config.origin)
+          .type("form")
+          .send({ ...d, version: "1", _csrf: csrf })
+      ).status,
+    ).toBe(303);
+  });
+  it("fallo de auditoría revierte la retirada del vínculo", async () => {
+    const repo = new PrismaRepositorioAgenda(db);
+    await expect(
+      repo.desvincular(
+        own,
+        randomUUID(),
+        { id: padre, version: 1 },
+        "Fallo ficticio",
+      ),
+    ).rejects.toThrow();
+    expect(
+      await db.asignacionSacerdote.findUniqueOrThrow({
+        where: {
+          iglesiaId_sacerdoteId: { iglesiaId: own, sacerdoteId: padre },
+        },
+      }),
+    ).toMatchObject({ activo: true, version: 1 });
+    expect(await db.cambioAgenda.count()).toBe(0);
+  });
+});

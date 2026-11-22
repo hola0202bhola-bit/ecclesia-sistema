@@ -1,3 +1,17 @@
+## 22/11/2026 — Indicaciones recientes del profesor
+
+**Gate final del 22/11 aprobado: 520/520 producto y 110/110 arnés**, sin omisiones; cobertura de líneas 97.57%, catorce migraciones, 67 escenarios del índice y demo/reinicio verificados. [Informe](docs/informe-cumplimiento-profesor-20261122.md).
+
+Retirada lógica/versionada de asignaciones con motivo/auditoría y mutex, API/EJS y bloqueo de programación/hechos. Responsable institucional y costo público de referencia opcionales por oferta; centavos exactos, cotización privada intacta. Migración 14 aditiva y nuevas regresiones sin quitar pruebas. [Alcance y decisiones](docs/indicaciones-profesor-20261122.md).
+
+## 22 de noviembre de 2026 — corrección R-01 de contratos
+
+Seis esquemas de Iglesia en OpenAPI y subconjunto de referencia validan HTTPS, sintaxis DNS/puerto, ausencia de userinfo y fragmentos, sufijos locales y descripción con al menos un carácter no blanco. Se conserva `null`, omisión y validación Zod sin cambios. Cuatro casos de correspondencia Ajv/Zod en el producto y dos del arnés, sin quitar pruebas. Límites de WHATWG/IDNA, trim y longitud Unicode explícitos. Resultado del gate en estado-producto; sin commits ni publicación.
+
+## 21 de noviembre de 2026 — ajustes escolares de ficha y criptas
+
+Descripción y fotografía HTTPS opcionales en alta/edición, directorio y ficha de iglesias; eliminación explícita, validación de URL y CSP limitada a imágenes propias/HTTPS. Migración 13 aditiva, contratos actualizados y regresiones SQL/API/EJS adicionales. Criptas aclara responsable, cotización individual MXN, folio/clave, vigencia de 15 días y ausencia de pago/reserva. Login/roles y negocio de solicitudes conservados. Comandos de verificación admiten los nombres actuales y anteriores de carpetas hermanas. Rama de revisión local, sin main ni despliegue. Resultados ejecutados en estado-producto.
+
 ## 20 de noviembre de 2026 — navegación front/admin (P3)
 
 El enlace Área del personal del front siempre abre el login del admin: una cookie local del front no demuestra sesión en otro host. Se amplían las pruebas existentes de cuentas/despliegue y el smoke del arnés, conservando cookies host-only, permisos VISITANTE y sesiones administrativas propias. Sin cambios a migraciones ni despliegue. Validación ejecutada y límites en docs/estado-producto.md.

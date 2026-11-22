@@ -98,7 +98,7 @@ export function createApp(
       "X-Content-Type-Options": "nosniff",
       "Referrer-Policy": "same-origin",
       "Content-Security-Policy":
-        "default-src 'self'; style-src 'self'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+        "default-src 'self'; style-src 'self'; script-src 'none'; img-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
     });
     next();
   });

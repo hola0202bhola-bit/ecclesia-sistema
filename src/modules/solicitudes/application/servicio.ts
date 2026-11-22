@@ -9,6 +9,7 @@ import {
   type Revision,
   type RepositorioSolicitudes,
   type CredencialesSolicitud,
+  type InformacionEspacio,
 } from "../domain/solicitud.js";
 export class ServicioSolicitudes {
   constructor(
@@ -36,6 +37,7 @@ export class ServicioSolicitudes {
     activo: boolean,
     version: number,
     actor?: Principal,
+    informacion: InformacionEspacio = {},
   ) {
     return this.repo.espacio(
       id,
@@ -43,6 +45,7 @@ export class ServicioSolicitudes {
       activo,
       version,
       this.autorizar(id, actor).id,
+      informacion,
     );
   }
   async crear(id: string, d: ContactoSolicitud) {

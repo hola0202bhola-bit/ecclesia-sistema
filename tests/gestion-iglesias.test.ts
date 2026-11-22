@@ -6,6 +6,7 @@ import {
   cpSync,
   mkdtempSync,
   readFileSync,
+  readdirSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -126,6 +127,157 @@ async function guardar(
     .send({ _csrf: s.csrf, ...datos });
 }
 describe("gestión EJS con sesión real y PostgreSQL", () => {
+  it("visitante con sesión PostgreSQL real no modifica descripción/foto de ninguna iglesia", async () => {
+    await db.usuario.create({
+      data: {
+        identificador: "visitante-escolar",
+        passwordHash: hash,
+        rol: "VISITANTE",
+      },
+    });
+    const acceso = await request(app)
+      .post("/api/v1/auth/login")
+      .send({ identificador: "visitante-escolar", password });
+    expect(acceso.status).toBe(200);
+    const r = await request(app)
+      .patch(`/api/v1/iglesias/${own}`)
+      .auth(acceso.body.accessToken, { type: "bearer" })
+      .send({
+        version: 1,
+        descripcion: "No autorizada",
+        fotoUrl: "https://example.org/foto.jpg",
+      });
+    expect(r.status).toBe(403);
+    expect(
+      await db.iglesia.findUniqueOrThrow({ where: { id: own } }),
+    ).toMatchObject({ descripcion: null, fotoUrl: null, version: 1 });
+  });
+  it("alta, edición, omisión y borrado de foto/descripción mediante formulario real", async () => {
+    const s = await sesion();
+    const fotoUrl = "https://example.org/foto.jpg";
+    const alta = await guardar(s, {
+      ...form,
+      descripcion: "  Descripción ficticia  ",
+      fotoUrl,
+    });
+    expect(alta.status).toBe(303);
+    const id = alta.headers.location.split("/")[3];
+    expect(await db.iglesia.findUniqueOrThrow({ where: { id } })).toMatchObject(
+      { descripcion: "Descripción ficticia", fotoUrl },
+    );
+    const vista = await request(app)
+      .get(alta.headers.location)
+      .set("Cookie", s.cookie);
+    expect(vista.text).toContain('name="descripcion"');
+    expect(vista.text).toContain('value="https://example.org/foto.jpg"');
+    expect((await guardar(s, { ...form, version: "1" }, id)).status).toBe(303);
+    expect(await db.iglesia.findUniqueOrThrow({ where: { id } })).toMatchObject(
+      { descripcion: "Descripción ficticia", fotoUrl },
+    );
+    expect(
+      (
+        await guardar(
+          s,
+          { ...form, version: "2", descripcion: "", fotoUrl: "   " },
+          id,
+        )
+      ).status,
+    ).toBe(303);
+    expect(await db.iglesia.findUniqueOrThrow({ where: { id } })).toMatchObject(
+      { descripcion: null, fotoUrl: null, version: 3 },
+    );
+  });
+  it("foto y descripción se muestran escapadas, con SVG sin foto y CSP que bloquea scripts", async () => {
+    const s = await sesion("administrador");
+    const descripcion = '<script>alert("demo")</script>';
+    const fotoUrl = 'https://example.org/foto.jpg?q="demo"&a=1';
+    expect(
+      (await guardar(s, { ...form, version: "1", descripcion, fotoUrl }, own))
+        .status,
+    ).toBe(303);
+    for (const url of [
+      "/iglesias?estadoClave=21",
+      `/iglesias/${own}`,
+      `/personal/iglesias/${own}/editar`,
+    ]) {
+      const r = await request(app).get(url).set("Cookie", s.cookie);
+      expect(r.status).toBe(200);
+      expect(r.text).toContain("&lt;script&gt;");
+      expect(r.text).not.toContain(descripcion);
+      expect(r.text).toContain(
+        "https://example.org/foto.jpg?q=&#34;demo&#34;&amp;a=1",
+      );
+      expect(r.headers["content-security-policy"]).toContain(
+        "img-src 'self' https:",
+      );
+      expect(r.headers["content-security-policy"]).toContain(
+        "script-src 'none'",
+      );
+    }
+    const directorio = await request(app)
+      .get("/iglesias?estadoClave=21")
+      .set("Cookie", s.cookie);
+    expect(directorio.text).toContain('src="/assets/iglesia.svg"');
+    const sinFoto = await request(app)
+      .get(`/iglesias/${other}`)
+      .set("Cookie", s.cookie);
+    expect(sinFoto.text).not.toContain('class="church-photo"');
+  });
+  it("formulario conserva captura inválida y no escribe foto insegura ni versión obsoleta", async () => {
+    const s = await sesion("administrador");
+    const r = await guardar(
+      s,
+      {
+        ...form,
+        version: "1",
+        descripcion: "Descripción a conservar",
+        fotoUrl: "http://example.org/foto.jpg",
+      },
+      own,
+    );
+    expect(r.status).toBe(422);
+    expect(r.text).toContain("Descripción a conservar");
+    expect(r.text).toContain('value="http://example.org/foto.jpg"');
+    expect(
+      await db.iglesia.findUniqueOrThrow({ where: { id: own } }),
+    ).toMatchObject({ descripcion: null, fotoUrl: null, version: 1 });
+    expect(
+      (
+        await guardar(
+          s,
+          { ...form, version: "1", descripcion: "Vigente", fotoUrl: "" },
+          own,
+        )
+      ).status,
+    ).toBe(303);
+    expect(
+      (
+        await guardar(
+          s,
+          { ...form, version: "1", descripcion: "Obsoleta", fotoUrl: "" },
+          own,
+        )
+      ).status,
+    ).toBe(409);
+    expect(
+      (await db.iglesia.findUniqueOrThrow({ where: { id: own } })).descripcion,
+    ).toBe("Vigente");
+  });
+  it("criptas aclara responsable, cotización privada, vigencia y ausencia de pago/reserva", async () => {
+    const s = await sesion();
+    const r = await request(app)
+      .get(`/iglesias/${own}/espacios`)
+      .set("Cookie", s.cookie);
+    expect(r.status).toBe(200);
+    for (const texto of [
+      "administración de esta iglesia",
+      "cotización individual en MXN",
+      "folio y clave",
+      "15 días",
+      "pago ni reserva física",
+    ])
+      expect(r.text).toContain(texto);
+  });
   it("campos opcionales vacíos conservan sus datos previos al editar", async () => {
     const s = await sesion("administrador");
     await db.iglesia.update({
@@ -452,6 +604,104 @@ describe("gestión EJS con sesión real y PostgreSQL", () => {
   });
 });
 describe("catálogos auténticos, contratos, selección y trazabilidad", () => {
+  it("decimotercera migración aditiva conserva iglesia, cuenta y sesión sin inventar foto/descripción", async () => {
+    const pg = new Client({ connectionString: process.env.DATABASE_URL! });
+    await pg.connect();
+    try {
+      await pg.query(
+        "BEGIN; CREATE SCHEMA ficha_upgrade; SET LOCAL search_path TO ficha_upgrade",
+      );
+      const migrations = readdirSync("prisma/migrations")
+        .filter((v) => /^\d/.test(v))
+        .sort();
+      expect(migrations).toHaveLength(14);
+      expect(migrations[12]).toBe("202611210001_ficha_escolar");
+      for (const migration of migrations.slice(0, 12))
+        await pg.query(
+          readFileSync(`prisma/migrations/${migration}/migration.sql`, "utf8"),
+        );
+      await pg.query('INSERT INTO "Estado" (clave,nombre) VALUES ($1,$2)', [
+        "21",
+        "Estado ficticio",
+      ]);
+      await pg.query(
+        'INSERT INTO "Municipio" (clave,"estadoClave",codigo,nombre) VALUES ($1,$2,$3,$4)',
+        ["21114", "21", "114", "Municipio ficticio"],
+      );
+      await pg.query('INSERT INTO "Localidad" VALUES ($1,$2,$3,$4,$5,$6,$7)', [
+        "211140001",
+        "21",
+        "114",
+        "0001",
+        "Localidad ficticia",
+        "Fixture",
+        "2026-11-21",
+      ]);
+      await pg.query('INSERT INTO "TipoIglesia" VALUES ($1,$2)', [
+        form.tipoId,
+        "Capilla",
+      ]);
+      await pg.query(
+        'INSERT INTO "Iglesia" (id,nombre,"nombreBusqueda","tipoId","estadoClave","municipioClave","localidadClave",direccion,version) VALUES ($1,$2,$2,$3,$4,$5,$6,$7,5)',
+        [
+          own,
+          "Iglesia previa",
+          form.tipoId,
+          "21",
+          "114",
+          "0001",
+          "Dirección ficticia",
+        ],
+      );
+      const usuarioId = randomUUID(),
+        sesionId = randomUUID();
+      await pg.query(
+        'INSERT INTO "Usuario" (id,identificador,"passwordHash",rol,"iglesiaId") VALUES ($1,$2,$3,$4,$5)',
+        [usuarioId, "previo", hash, "ADMIN_IGLESIA", own],
+      );
+      await pg.query(
+        'INSERT INTO "Sesion" (id,"usuarioId",csrf,vence) VALUES ($1,$2,$3,$4)',
+        [sesionId, usuarioId, "x".repeat(64), new Date(Date.now() + 60000)],
+      );
+      await pg.query(
+        readFileSync(
+          `prisma/migrations/${migrations[12]}/migration.sql`,
+          "utf8",
+        ),
+      );
+      expect(
+        (
+          await pg.query(
+            'SELECT nombre,version,descripcion,"fotoUrl" FROM "Iglesia"',
+          )
+        ).rows,
+      ).toEqual([
+        {
+          nombre: "Iglesia previa",
+          version: 5,
+          descripcion: null,
+          fotoUrl: null,
+        },
+      ]);
+      expect(
+        (
+          await pg.query('SELECT "iglesiaId" FROM "Usuario" WHERE id=$1', [
+            usuarioId,
+          ])
+        ).rows[0].iglesiaId,
+      ).toBe(own);
+      expect(
+        (
+          await pg.query('SELECT "usuarioId" FROM "Sesion" WHERE id=$1', [
+            sesionId,
+          ])
+        ).rows[0].usuarioId,
+      ).toBe(usuarioId);
+    } finally {
+      await pg.query("ROLLBACK");
+      await pg.end();
+    }
+  });
   it("la migración aditiva conserva iglesias y usuarios de la versión anterior", async () => {
     const pg = new Client({ connectionString: process.env.DATABASE_URL! });
     await pg.connect();

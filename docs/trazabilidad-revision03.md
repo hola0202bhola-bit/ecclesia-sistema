@@ -1,3 +1,9 @@
+> Actualización autorizada 22/11/2026: retirada lógica/versionada de asignación sin hechos/programación y responsable institucional/costo público de referencia opcionales; cotización individual privada intacta. Esta ampliación supera solo las exclusiones históricas correspondientes del texto siguiente. [Reglas y pruebas actuales](indicaciones-profesor-20261122.md).
+
+## 21/11/2026 — ajustes escolares de Ecclesia 1.1
+
+Fuente adicional: LEEME_PRIMERO del ZIP proporcionado y petición expresa del usuario. RF01/02 (P063, complemento autorizado): descripcion/fotoUrl opcionales en dominio/Prisma/DTO/API/formulario/directorio/ficha, migración 13 aditiva, contratos en ambos archivos. RF25–31 (P088–090): textos de responsable/cotización MXN/folio y clave/15 días/sin pago ni reserva, conservando máquina de estados y privacidad. Pruebas de iglesias/gestión SQL y EJS verifican persistencia, permisos, borrado, conflictos, escape, CSP y actualización con datos previos. Gate y revisión visual se registran como ejecución en estado-producto, sin atribuir aceptación docente. [Alcance](ajustes-demostracion-escolar.md).
+
 ## Ecclesia 1.1 — ampliación autorizada de identidad
 
 La indicación docente aportada por el usuario exige login para las consultas del área pública. RF06 se amplía con registro VISITANTE sin iglesia, perfil propio y protección de privilegios, conservando P092/P093 para el personal. Identidad/composition, migración 202611190001, tests/cuentas.test.ts y contrato/smoke del arnés cubren registro, CSRF, concurrencia, bootstrap con visitantes, aislamiento y actualización de once migraciones. [Alcance y límites](adr/011.md).

@@ -1,0 +1,233 @@
+{
+  "fecha": "2026-11-22",
+  "zona": "America/Mexico_City",
+  "rama": "feat/ajustes-escolares-20261121",
+  "comando": "npm run check -- ../ecclesia-sistema",
+  "directorio": "ecclesia-arnes-codex",
+  "ejecucionFinal": "gate-02",
+  "exit": 0,
+  "minutos": 42.568587103333336,
+  "inicio": "2026-11-22T11:08:32.6149387-06:00",
+  "fin": "2026-11-22T11:51:06.7301649-06:00",
+  "indiceAlIniciar": {
+    "productoTree": "ac77ad0b6485592655b903086bad85daca8daad9",
+    "inicio": "2026-11-22T11:08:32.6149387-06:00",
+    "arnesTree": "829636db737032dd97f7bf256c091ec8be198763"
+  },
+  "producto": {
+    "archivosDePrueba": 13,
+    "pruebas": 520,
+    "correctas": 520,
+    "fallidas": 0,
+    "omitidas": 0,
+    "canceladas": 0,
+    "anterioresConservadas": 504,
+    "nuevas": 16
+  },
+  "arnes": {
+    "pruebas": 110,
+    "correctas": 110,
+    "fallidas": 0,
+    "omitidas": 0,
+    "canceladas": 0,
+    "anterioresConservadas": 108,
+    "nuevas": 2
+  },
+  "indice": {
+    "escenarios": 67,
+    "aceptaciones": 1,
+    "rechazosEsperados": 66,
+    "indiceYDirectorioConservados": true
+  },
+  "arquitectura": {
+    "esperadas": 60,
+    "analizadas": 60,
+    "violaciones": 0
+  },
+  "cobertura": {
+    "lines": {
+      "total": 2106,
+      "covered": 2055,
+      "skipped": 0,
+      "pct": 97.57
+    },
+    "statements": {
+      "total": 2219,
+      "covered": 2155,
+      "skipped": 0,
+      "pct": 97.11
+    },
+    "functions": {
+      "total": 650,
+      "covered": 643,
+      "skipped": 0,
+      "pct": 98.92
+    },
+    "branches": {
+      "total": 1423,
+      "covered": 1295,
+      "skipped": 0,
+      "pct": 91
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "archivosCongelados": 329,
+  "diferenciasDuranteGate": [],
+  "base": {
+    "motor": "PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
+    "migraciones": 14,
+    "seedRuns": 2,
+    "aislada": true,
+    "baseRemotaUsada": false,
+    "temporalDetenidoYEliminado": true
+  },
+  "comprobacionesCompiladas": {
+    "solicitudes": {
+      "ofertaPublica": 200,
+      "costoReferenciaPublico": "20.00",
+      "responsablePublico": true,
+      "desvinculacionPropia": 200,
+      "alta": 201,
+      "seguimientoInvalido": 404,
+      "seguimientoValido": 200,
+      "cotizacion": 200,
+      "precio": "0.10",
+      "vigenciaHoras": 360,
+      "ejs": 200,
+      "aceptacion": 200,
+      "cancelarAceptada": 409,
+      "gestionAnonima": 401
+    },
+    "diezmos": {
+      "alta": 201,
+      "correccion": 200,
+      "duplicado": 409,
+      "versionObsoleta": 409,
+      "totalCentavos": "30",
+      "historial": 200,
+      "web": 200,
+      "anonimo": 401
+    },
+    "demo": {
+      "iglesias": 40,
+      "fichaIntegrada": 200,
+      "reportesAnonimos": 401
+    },
+    "tresProcesos": {
+      "processes": 3,
+      "wildcardBind": true,
+      "readiness": true,
+      "routeIsolation": true,
+      "sessionAndRevocationAcrossProcesses": true,
+      "visitorRegistrationAndProfile": true,
+      "visitorDeniedAdmin": true,
+      "frontPersonalLinkToAdminLogin": true,
+      "visitorAdminLoginCreatesNoSession": true,
+      "profileAndSessionSurviveFrontRestart": true,
+      "remoteDeployment": false
+    }
+  },
+  "interfaz": {
+    "demostracionPropia": true,
+    "casos": [
+      "Retirada del sacerdote CT20 con programación/hechos: bloqueo visible, motivo conservado.",
+      "Alta de sacerdote ficticio sin agenda y retirada mediante formulario: desaparece del listado activo.",
+      "Formulario CRIPTA: responsable institucional ficticio y 1500.00 MXN guardados, versión 1 a 2.",
+      "Vista pública autenticada: responsable, referencia 1500.00 MXN y distinción de cotización privada visibles.",
+      "Otros tipos sin referencia muestran solicitud de cotización y administración como responsable.",
+      "Borrado de ambos campos por formulario: restaurados a ausencia, versión 2 a 3; auditoría conservada."
+    ],
+    "reinicio": {
+      "identidadConservada": true,
+      "vinculoRetirado": true,
+      "versionVinculo": 2,
+      "historiaConservada": 2,
+      "camposPublicosRestaurados": true,
+      "versionOferta": 3,
+      "cierreExit": 0,
+      "bloqueoRetirado": true
+    },
+    "movilFisico": false,
+    "cierreInicial": "El primer ejecutor informó salida 1 al cerrar su hijo con stdin no disponible; se verificó ausencia de procesos propios y después reinicio/cierre normal con salida 0."
+  },
+  "intentosPrevios": [
+    {
+      "nombre": "producto-01",
+      "inicio": "2026-11-22T10:46:50.1291369-06:00",
+      "fin": "2026-11-22T10:47:13.4179766-06:00",
+      "exit": 1,
+      "resultado": "Detenido antes de PostgreSQL/pruebas por declaración duplicada en smoke nuevo; corregida."
+    },
+    {
+      "nombre": "producto-02",
+      "inicio": "2026-11-22T10:48:41.7295564-06:00",
+      "fin": "2026-11-22T10:48:58.6552307-06:00",
+      "exit": 1,
+      "resultado": "Detenido antes de PostgreSQL/pruebas por declaración duplicada en smoke nuevo; corregida."
+    },
+    {
+      "nombre": "producto-03",
+      "fin": "2026-11-22T10:52:13.7458995-06:00",
+      "exit": 1,
+      "inicio": "2026-11-22T10:49:19.4265005-06:00",
+      "resultado": "233 pruebas correctas y una fallida en fixture de enums entre esquemas; corregido sin retirar aserciones."
+    },
+    {
+      "nombre": "producto-04",
+      "exit": 0,
+      "inicio": "2026-11-22T10:53:03.8691396-06:00",
+      "fin": "2026-11-22T10:57:27.3514896-06:00",
+      "resultado": "520/520 producto y smokes, salida 0."
+    },
+    {
+      "nombre": "gate-01",
+      "fin": "2026-11-22T11:07:06.9818710-06:00",
+      "minutos": 2.713629388333333,
+      "inicio": "2026-11-22T11:04:24.1641077-06:00",
+      "exit": 1,
+      "resultado": "109/110 arnés. Git Permission denied al preparar fixture temporal; cero escenarios de índice ejecutados. Reproducción aislada init/add correcta; se repitió el gate completo sin cambios."
+    }
+  ],
+  "revision": {
+    "bloqueantesCodigo": 0,
+    "matrizAnteriorIntactaSalvoNuevaRuta": true,
+    "treceMigracionesAnterioresIntactas": true,
+    "cotizacionPrivadaIntacta": true,
+    "contratosFotosIntactos": {
+      "openapi.yaml": true,
+      "docs/api-referencia-revision03.json": true
+    },
+    "archivosProtegidosIntactos": 36,
+    "indiceSinRutasSensibles": true,
+    "credencialesDemoComparadas": 38,
+    "coincidencias": 0
+  },
+  "limites": [
+    "Revisión técnica; no aceptación docente ni auditoría humana independiente.",
+    "Retirada bloquea programación/ocurrencias y celebraciones propias como previsto u oficiante, incluso ocurrencias pasadas sin hecho.",
+    "Costo de referencia público opcional, sin inventario, disponibilidad garantizada, pago, reserva o recotización.",
+    "PC anteriores abiertas; no inventa respuestas del profesor.",
+    "SVG por ausencia de URL y límites HTTPS/DNS/normalización anteriores conservados.",
+    "Sin commits, push, merges, main, despliegues ni cambios remotos.",
+    "Después del gate solo se actualiza documentación y evidencia versionada."
+  ],
+  "huellasLocales": {
+    "gate-02.log": "6563ffc58cf344588f103be3fce8d770e914705a4086b6a92235f8f2f5428944",
+    "gate-02-entrada.json": "fee779896c9e3a947f82c56f702ec088e09b08488954b46ff2cb0951bddad5f2",
+    "gate-02-resultado.json": "458d5bc1e8f455e4d21a9012d934bfdf7ed1aaaa4caa4b04a96a71fa6082fbad",
+    "congelacion-gate.json": "e9991e43db19a03df0dc89f13f395c181c42352b3d8ce9962d00bcff85f6579d",
+    "integridad-gate.json": "5d38af5ac5e3250aad8355311e7fd4ddd8eb7589f7f1deb8d8d95c723ef3feeb",
+    "indice-gate-02/product-index.json": "bdb7079619df85290ebf548d92e3b718f2660aed9fe0731eb9301bb6d3b4354f",
+    "revision-cambios.json": "c177e49d655010d13c88039146689387dc6cad3b2d990e35bebcb1964ce6b8af",
+    "revision-seguridad-indice.json": "0b39be26951d17e7aa9754b9c4520c1dc0638aa1e764c77b2a29759b746ba742",
+    "regresiones-conservadas.json": "fe79d81a79796d5270449da3988446ed170103e918bb49a61feeb8edfaa84e15",
+    "conservacion-codigo-aprobado.json": "4563e6c3072f44566f0b5add624beaa766c469f3bdc9576ba57bf6d5f4818dc5",
+    "interfaz.json": "76d165d87d43688f6ac8a00796ba3d62dd75255a1b89aaf8d5c9b8ca63b99e37",
+    "demo-reinicio-verificado.json": "a6133e2febdd32f3bdc57f0d65f2df4bbcec20e37ce44abfe7d5f8ffcc6a5eb7"
+  }
+}

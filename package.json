@@ -17,7 +17,7 @@
     "lint": "eslint src tests prisma/seed.ts prisma/demo",
     "format:check": "prettier --check src tests prisma scripts views *.json *.ts *.mjs",
     "test": "node scripts/test-db.mjs",
-    "check": "node ../arnes-codex/scripts/check.mjs .",
+    "check": "node scripts/test-db.mjs --completo",
     "db:coordinacion": "npm run build && node scripts/crear-coordinacion.mjs"
   },
   "dependencies": {

@@ -1,3 +1,5 @@
+> Ampliación autorizada 22/11/2026: las indicaciones recientes transmitidas por el usuario incorporan desvinculación conservadora del sacerdote y responsable institucional/costo público de referencia opcionales por tipo funerario. La referencia pública fue confirmada expresamente por el usuario y no sustituye la cotización individual privada de P088–090. Se conservan las fuentes y preguntas PC siguientes; no se atribuye aceptación docente. [Reglas actuales](indicaciones-profesor-20261122.md), [cumplimiento ejecutado](informe-cumplimiento-profesor-20261122.md).
+
 # Requerimientos del Proyecto Ecclesia
 
 Documento de análisis del Sistema Nacional de Gestión de Iglesias para revisión con el docente que representa a la Coordinación Nacional de Templos. Define qué debe hacer el sistema, sus restricciones y cómo se prevé verificarlo antes de implementar.

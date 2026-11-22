@@ -7,6 +7,37 @@ const campos = {
   municipioClave: z.string().regex(/^\d{3}$/),
   localidadClave: z.string().regex(/^\d{4}$/),
   direccion: texto(500),
+  descripcion: texto(500).nullable().optional(),
+  fotoUrl: z
+    .string()
+    .trim()
+    .min(1)
+    .max(700)
+    .refine((valor) => {
+      try {
+        const u = new URL(valor);
+        // Solo nombres DNS públicos: sin IP literal ni destinos locales/reservados.
+        // No hay petición ni resolución DNS desde el servidor.
+        const host = u.hostname.toLowerCase().replace(/\.$/, "");
+        return (
+          u.protocol === "https:" &&
+          !u.username &&
+          !u.password &&
+          !valor.includes("#") &&
+          !/\s/.test(valor) &&
+          /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(
+            host,
+          ) &&
+          !/(^|\.)(localhost|local|internal|invalid|test|example|onion)$/.test(
+            host,
+          )
+        );
+      } catch {
+        return false;
+      }
+    }, "Use URL HTTPS pública sin credenciales ni fragmento")
+    .nullable()
+    .optional(),
   capacidad: z.number().int().min(0).max(2147483647).optional(),
   anioConstruccion: z.number().int().min(1).max(9999).optional(),
   contacto: texto(300).optional(),
@@ -87,6 +118,18 @@ export const formularioInput = z
     nombre: campos.nombre,
     tipoId: campos.tipoId,
     direccion: campos.direccion,
+    descripcion: z
+      .preprocess(
+        (v) => (typeof v === "string" && v.trim() === "" ? null : v),
+        campos.descripcion,
+      )
+      .optional(),
+    fotoUrl: z
+      .preprocess(
+        (v) => (typeof v === "string" && v.trim() === "" ? null : v),
+        campos.fotoUrl,
+      )
+      .optional(),
     capacidad: numeroFormulario(campos.capacidad).optional(),
     anioConstruccion: numeroFormulario(campos.anioConstruccion).optional(),
     latitud: numeroFormulario(campos.latitud).optional(),

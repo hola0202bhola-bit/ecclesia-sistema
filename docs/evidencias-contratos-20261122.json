@@ -1,0 +1,119 @@
+{
+  "fecha": "2026-11-22",
+  "zona": "America/Mexico_City",
+  "comando": "npm run check -- ../ecclesia-sistema",
+  "directorio": "ecclesia-arnes-codex",
+  "exit": 0,
+  "inicio": "2026-11-22T08:15:41.9470052-06:00",
+  "fin": "2026-11-22T08:54:43.1574827-06:00",
+  "minutos": 39.020181208333334,
+  "indiceAlIniciar": {
+    "inicio": "2026-11-22T08:15:41.9470052-06:00",
+    "productoTree": "79f052780a34329b9d5f35776f910f07901b4ebd",
+    "arnesTree": "9a3fa7061176486c63fe8c82b27a059f4c43ba1a"
+  },
+  "producto": {
+    "archivosPrueba": 13,
+    "pruebas": 504,
+    "correctas": 504,
+    "fallidas": 0,
+    "omitidas": 0,
+    "canceladas": 0
+  },
+  "arnes": {
+    "pruebas": 108,
+    "correctas": 108,
+    "fallidas": 0,
+    "omitidas": 0,
+    "canceladas": 0
+  },
+  "cobertura": {
+    "lines": {
+      "total": 2075,
+      "covered": 2025,
+      "skipped": 0,
+      "pct": 97.59
+    },
+    "statements": {
+      "total": 2186,
+      "covered": 2123,
+      "skipped": 0,
+      "pct": 97.11
+    },
+    "functions": {
+      "total": 642,
+      "covered": 635,
+      "skipped": 0,
+      "pct": 98.9
+    },
+    "branches": {
+      "total": 1381,
+      "covered": 1254,
+      "skipped": 0,
+      "pct": 90.8
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "arquitectura": {
+    "esperadas": 60,
+    "analizadas": 60,
+    "violaciones": 0
+  },
+  "indice": {
+    "escenarios": 65,
+    "aceptaciones": 1,
+    "rechazosEsperados": 64,
+    "indiceYDirectorioConservados": true
+  },
+  "archivosEjecucionCongelados": 216,
+  "diferenciasCongelacion": [],
+  "base": {
+    "motor": "PostgreSQL 18.6 efímero loopback",
+    "migraciones": 13,
+    "seedEjecutadoDosVeces": true,
+    "baseRemotaUsada": false,
+    "temporalDetenidoYEliminado": true
+  },
+  "comprobacionesCompiladas": [
+    "solicitudes/cotizaciones",
+    "diezmos",
+    "HTTP/EJS/login/catálogos/patrimonio/ranking/misas",
+    "INEGI/reversión/huellas CT20",
+    "UI/CSP/RF04/RF11",
+    "CT20 40 iglesias",
+    "cuentas VISITANTE/perfil y tres procesos api/front/admin"
+  ],
+  "intentosPrevios": [
+    {
+      "archivo": "producto-01.log",
+      "exit": 1,
+      "motivo": "P2028: timeout al iniciar transacción del seed, antes de pruebas; presión de memoria observada. No se cambiaron controles."
+    },
+    {
+      "archivo": "producto-02.log",
+      "exit": 0,
+      "pruebas": 504,
+      "inicio": "2026-11-22T08:10:55.8479638-06:00",
+      "fin": "2026-11-22T08:15:03.6976330-06:00"
+    }
+  ],
+  "limites": [
+    "No es aceptación docente ni auditoría humana independiente.",
+    "No se repitió inspección visual de navegador: UI/CSP/SVG intactos respecto de la demostración previa.",
+    "JSON Schema no normaliza WHATWG/IDNA/trim ni equipara unidades UTF-16 a caracteres Unicode. Zod permanece intacto.",
+    "Sin consulta DNS, prueba de disponibilidad/licencia o fallback SVG ante error de URL remota.",
+    "Sin commits, push, merges, despliegue ni recursos remotos."
+  ],
+  "huellasEvidencia": {
+    "gate-01.log": "f247e320b9a242db9f75e7d55d13851b1ff7b5940d57aaa7ca7f2eb6a54aa0f5",
+    "gate-01-entrada.json": "0dae167307babc1dab051b1288540a9c40d1e2151c8749940702c27027bb511d",
+    "gate-01-resultado.json": "f94d00694366ad72fb52c5387f5bbfdee2dc4e0166b3bbe8ffadc1f4f72cd013",
+    "congelacion-gate.json": "dd57fd362bf86f4ce373c5435269354036ed55a537259d30f68ff00edef72301",
+    "indice-gate-01/product-index.json": "0bd2c53e60886c7770f8b5a5c3c5f80d40f0a8cf1082aece11b84312ea6a2153"
+  }
+}

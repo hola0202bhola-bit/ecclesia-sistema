@@ -32,6 +32,9 @@ export class ServicioAgenda {
   renombrar(id: string, e: Edicion, nombre: string, actor?: Principal) {
     return this.repo.renombrar(id, this.autorizar(id, actor).id, e, nombre);
   }
+  desvincular(id: string, e: Edicion, motivo: string, actor?: Principal) {
+    return this.repo.desvincular(id, this.autorizar(id, actor).id, e, motivo);
+  }
   horarios(id: string, actor?: Principal) {
     this.autorizar(id, actor);
     return this.repo.horarios(id);

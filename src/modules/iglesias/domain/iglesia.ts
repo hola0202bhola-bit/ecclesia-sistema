@@ -11,6 +11,8 @@ export interface DatosIglesia {
   municipioClave: string;
   localidadClave: string;
   direccion: string;
+  descripcion?: string | null;
+  fotoUrl?: string | null;
   capacidad?: number;
   anioConstruccion?: number;
   contacto?: string;
