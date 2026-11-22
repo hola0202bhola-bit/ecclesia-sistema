@@ -1,0 +1,21 @@
+# Revisión PC-10 — identidad de sacerdotes en los PR #2
+
+22/11/2026. Consulta revisada: PrismaRepositorioAgenda.renombrar. Se comprobó que [PR producto #2](https://github.com/hola0202bhola-bit/ecclesia-sistema/pull/2) y [PR arnés #2](https://github.com/hola0202bhola-bit/ecclesia-arnes-codex/pull/2) están abiertos, en borrador y hacia main; bases 06e479c/f7e2df0, cabezas iniciales 5b79bb0/155f818. Los commits y ramas ya están publicados; las notas anteriores sin publicación describen su momento histórico. Sin merges, despliegues o bases remotas.
+
+## Contraste previo
+
+P082 exige identidad compartida y evitar traslapes; P083 distingue horarios y hechos. Ninguno define quién renombra después de retirar un vínculo. PC-10 sigue Pendiente en requerimientos.md; decisiones-pc-revision03, fila 10, deja abiertas autoridad e historia. No hay respuesta docente que conceda a la última iglesia activa la edición de la identidad global. ADR008 limita la edición a identidad exclusiva y bloquea cambios unilaterales al compartirla, como supuesto conservador revisable. La guía de desvinculación indica que esa protección permanece. La prueba anterior cubre dos asignaciones activas y permite identidad nueva exclusiva; faltaba el caso explícito de una activa más una retirada.
+
+## Decisión técnica conservada
+
+**Se cuentan todas las asignaciones conservadas, activas e inactivas.** Con A retirada y B única activa, B continúa recibiendo 409 IDENTIDAD_COMPARTIDA_PC10. A retirada recibe 404 por no tener vínculo activo. Dos iglesias activas conservan el bloqueo. Una identidad con una única asignación propia activa y sin vínculos históricos ajenos sigue siendo editable. La consulta no recibe filtro activo.
+
+La retirada es lógica: fila, CambioAgenda y horarios inactivos permanecen. Estos horarios conservan una FK al mismo Sacerdote. Renombrarlo desde B cambiaría el nombre obtenido al consultar la referencia histórica de A, aunque A ya no pueda editar; no es una modificación limitada a B. Se mantiene esa protección mientras exista el vínculo histórico ajeno. Los snapshots de auditoría no se reescriben.
+
+Es una elección técnica existente, **no una regla docente confirmada ni cierre de PC-10**. Contar solo activas ampliaría autoridad sobre la identidad global; requiere una decisión explícita y definir el nombre histórico (por ejemplo, versionado o una proyección histórica) o una autoridad de corrección acordada. No hay nombre por iglesia ni corrección compartida implementada.
+
+## Regresión y validación
+
+Nueva prueba PostgreSQL en agenda: dos activas bloquean; A conserva un horario inactivo y se desvincula; B queda única activa y sigue bloqueada; A retirada no edita; identidad, versión, nombre referenciado y eventos permanecen iguales. Se mantienen las 520 pruebas anteriores. No cambian consulta, payloads, permisos, migraciones, CSP, Zod o cotizaciones. Un comentario y las descripciones de ambos contratos explican el motivo. El arnés conserva sus 110 casos, ejecutores y umbrales; solo actualiza documentación.
+
+Pipeline íntegro del producto aprobado: **521/521**, sin omisiones, cobertura de líneas 97.57%, Prisma/compilación/lint/formato, catorce migraciones y smokes correctos. Gate conjunto `npm run check -- ../ecclesia-sistema` aprobado con salida 0: **521/521 producto, 110/110 arnés y 67 escenarios del índice** (un positivo y 66 rechazos esperados, índice/directorio preservados). Sin fallos, omisiones o cancelaciones; 12:43:57–13:33:36 -06:00, **49.65 minutos**. Contratos, arquitectura, generación Prisma, compilación, lint/formato, catorce migraciones, doble seed y smokes compilados pasaron. Cobertura: líneas 97.57%, sentencias 97.11%, funciones 98.92%, ramas 91.00%. Se cotejaron los 332 archivos congelados sin diferencias; después solo se actualizó documentación/evidencia. La revisión de ambos índices no encontró rutas prohibidas, claves privadas ni coincidencias con las 38 credenciales de demo comprobadas. [Resumen verificable](evidencias-pc10-pr2-20261122.json). Los PR conservan su estado de borrador; se actualizarán sus descripciones con esta decisión y los resultados reales al publicar los commits adicionales. Los 520/110 anteriores son antecedente, sin reescribir sus informes.

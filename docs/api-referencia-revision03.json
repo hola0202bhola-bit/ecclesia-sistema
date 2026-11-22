@@ -2728,7 +2728,7 @@
       "patch": {
         "operationId": "agendaV1_nombrePadre",
         "summary": "nombrePadre",
-        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas.",
+        "description": "Implementado en vigencia explícita hasta 366 días. PC-10/11/12 siguen abiertas; ver docs/adr/008.md. Edición completa PUT con versión. Agenda del sacerdote interna a administradores con asignación propia. Sin correcciones históricas. PC-10: el nombre global solo se edita con una única asignación conservada; vínculos retirados también bloquean la edición unilateral, aunque quede una sola iglesia activa. Ver docs/revision-pc10-pr2-20261122.md.",
         "tags": ["agenda"],
         "x-implementation": "IMPLEMENTADO",
         "x-requirements": ["RF-16"],

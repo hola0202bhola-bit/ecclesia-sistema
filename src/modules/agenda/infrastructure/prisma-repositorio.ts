@@ -137,6 +137,8 @@ export class PrismaRepositorioAgenda implements RepositorioAgenda {
         where: { id: e.id },
       });
       this.version(antes.version, e.version);
+      // PC-10: también cuentan vínculos retirados. El nombre es global y sus
+      // referencias históricas de otras iglesias no desaparecen al desvincular.
       if (
         (await tx.asignacionSacerdote.count({ where: { sacerdoteId: e.id } })) >
         1

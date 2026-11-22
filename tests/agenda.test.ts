@@ -926,6 +926,66 @@ describe("indicaciones del profesor: desvinculación conservadora", () => {
       .auth(await token(usuario), { type: "bearer" })
       .send({ version, motivo: "Cambio de atención ficticio", ...extra });
   }
+  it("PC10 mantiene bloqueo con dos iglesias activas y con una activa más un vínculo histórico", async () => {
+    const h = await alta({ activo: false });
+    expect(h.status).toBe(201);
+    const nombreOriginal = await db.sacerdote.findUniqueOrThrow({
+      where: { id: padre },
+    });
+    const renombrarDesdeB = () =>
+      request(app)
+        .patch(ruta(other) + "/sacerdotes/" + padre)
+        .auth(tokens.otro, { type: "bearer" })
+        .send({
+          nombre: "Cambio unilateral desde B",
+          version: nombreOriginal.version,
+        });
+    await token("otro");
+    const dosActivas = await renombrarDesdeB();
+    expect(dosActivas.status).toBe(409);
+    expect(dosActivas.body.code).toBe("IDENTIDAD_COMPARTIDA_PC10");
+    expect((await retirar()).status).toBe(200);
+    expect(
+      await db.asignacionSacerdote.count({
+        where: { sacerdoteId: padre, activo: true },
+      }),
+    ).toBe(1);
+    expect(
+      await db.asignacionSacerdote.findUniqueOrThrow({
+        where: {
+          iglesiaId_sacerdoteId: { iglesiaId: other, sacerdoteId: padre },
+        },
+      }),
+    ).toMatchObject({ activo: true, version: 1 });
+    const historia = await db.cambioAgenda.findMany({ orderBy: { id: "asc" } });
+    const unaActiva = await renombrarDesdeB();
+    expect(unaActiva.status).toBe(409);
+    expect(unaActiva.body.code).toBe("IDENTIDAD_COMPARTIDA_PC10");
+    const retiradaSinPermiso = await request(app)
+      .patch(ruta() + "/sacerdotes/" + padre)
+      .auth(await token(), { type: "bearer" })
+      .send({
+        nombre: "Cambio desde A retirada",
+        version: nombreOriginal.version,
+      });
+    expect(retiradaSinPermiso.status).toBe(404);
+    expect(
+      await db.sacerdote.findUniqueOrThrow({ where: { id: padre } }),
+    ).toEqual(nombreOriginal);
+    expect(
+      await db.horarioMisa.findUniqueOrThrow({
+        where: { id: h.body.id },
+        include: { sacerdote: { select: { nombre: true } } },
+      }),
+    ).toMatchObject({
+      activo: false,
+      sacerdoteId: padre,
+      sacerdote: { nombre: nombreOriginal.nombre },
+    });
+    expect(await db.cambioAgenda.findMany({ orderBy: { id: "asc" } })).toEqual(
+      historia,
+    );
+  });
   it("retira solo el vínculo propio y conserva identidad, horarios inactivos, historia y otra iglesia", async () => {
     const h = await alta({ activo: false });
     expect(h.status).toBe(201);
