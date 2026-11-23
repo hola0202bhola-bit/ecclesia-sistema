@@ -98,3 +98,7 @@ Comandos y resultados ejecutados: [evidencias revisión 04](docs/evidencias-revi
 ## Antecedentes
 
 Los commits base de importación y los registros de revisión 01/02/03 se conservan en Git y en la [bitácora](docs/bitacora-ia.md). Este archivo no reconstruye fechas anteriores ni atribuye aprobaciones humanas.
+
+## 23/11/2026 — correcciones finales de revisión escolar
+
+Separación visible de importe y detalle de servicios/pláticas en ficha, con una clase CSS limitada a esos dos campos. Estado vigente de README/cuentas actualizado; antecedentes conservados. Sin cambios de negocio, contratos, dependencias ni migraciones. Corrección independiente de los PR #3/#4; [alcance y evidencia](docs/revision-escolar-final-20261123.md). Validación final y aceptación humana se registran por separado.

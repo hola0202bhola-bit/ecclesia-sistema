@@ -170,4 +170,9 @@ Se clonaron ambos repositorios y se confirmó su identidad. La reproducción de 
 Resultado técnico ejecutado: gate completo en copia de trabajo y clones Windows nuevos, ambos salida 0 con 75 pruebas del arnés y 70 del producto. Los cinco escenarios del hook conservan índice y archivos, aceptan el índice válido y rechazan los cuatro fallos previstos. Una corrida anterior cambió la huella del arnés durante las pruebas por un ajuste local de EOL; se repitió con el arnés estable, sin contar la corrida interrumpida como validación. Los commits R1/R2 se crearon con fecha real y pie Asistido-por: Codex; el commit del producto ejecutó su hook. No se atribuyen al alumno aprobación detallada ni experiencias de depuración. La publicación de las correcciones requiere lectura remota posterior, registrada en el informe final.
 
 
+
+## 23/11/2026 — correcciones finales de revisión escolar
+
+Separación visible de importe y detalle de servicios/pláticas en ficha, con una clase CSS limitada a esos dos campos. Estado vigente de README/cuentas actualizado; antecedentes conservados. Sin cambios de negocio, contratos, dependencias ni migraciones. Corrección independiente de los PR #3/#4; [alcance y evidencia](revision-escolar-final-20261123.md). Validación final y aceptación humana se registran por separado.
+
 RF25–31: gate integral repetido con salida 0, 343/343 producto y 93/93 arnés; 36 escenarios de índice preservados. Primer fixture temporal corregido para comprobar semántica tras superar formato. Resultados completos en estado-producto.md; sin aceptación humana/docente.

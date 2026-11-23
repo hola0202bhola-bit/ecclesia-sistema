@@ -754,6 +754,10 @@ td select {
 .page-ficha section {
   position: relative;
 }
+.page-ficha .summary-detail {
+  display: block;
+  margin-top: 0.25rem;
+}
 .page-ficha section h2 {
   font-size: 1.7rem;
 }
