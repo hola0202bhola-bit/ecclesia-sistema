@@ -171,3 +171,7 @@ Resultado técnico ejecutado: gate completo en copia de trabajo y clones Windows
 
 
 RF25–31: gate integral repetido con salida 0, 343/343 producto y 93/93 arnés; 36 escenarios de índice preservados. Primer fixture temporal corregido para comprobar semántica tras superar formato. Resultados completos en estado-producto.md; sin aceptación humana/docente.
+
+22/11/2026 — El alumno autoriza corregir la tarjeta asignada en rama/PR, sin despliegue ni bases existentes. Causa comprobada: cuadrícula hero de dos columnas. Cambio acotado a dos vistas y CSS; renderizado visual con datos ficticios aprobado (40 combinaciones y 10 estados sin iglesia), arnés completo pendiente. No se inventa aceptación docente. Detalles en correccion-tarjeta-asignada-20261122.md.
+
+23/11/2026 — Cierre técnico de la tarjeta asignada: gate final íntegro con salida 0, 521/521 producto, 110/110 arnés y 67 escenarios del índice conservados, sin omisiones; 97.57 % de líneas. Inicio 22/11 23:01:33 -06:00, fin 23/11 00:02:31 -06:00 (60.97 min). Primera pasada 109/110 por escritura Git temporal separada; reproducción y ajuste de caché solo en el proceso, sin rebajar controles. Código de vistas/CSS idéntico al verificado visualmente; arnés sin cambios, PostgreSQL propio cerrado/eliminado, sin bases reales ni despliegue. Solo documentación completada tras el gate. Preparado para rama/PR, sin aceptación docente inventada.

@@ -1,3 +1,7 @@
+## 23/11/2026 — tarjeta de iglesia asignada
+
+Panel y perfil muestran etiqueta, nombre y enlace en una columna compacta y adaptable. Solo vistas/CSS; condición, escape, permisos y destino conservados. Verificación visual local en cinco anchos aprobada; gate integral aprobado: 521/521 producto, 110/110 arnés y 67 escenarios del índice, sin omisiones. Ejecución final con salida 0 (60.97 minutos); intento anterior de permisos Git separado. [Causa, alcance y evidencia](correccion-tarjeta-asignada-20261122.md). Sin despliegue ni cambios en bases existentes.
+
 ## 22/11/2026 — revisión PC-10 de los PR #2
 
 Se conserva el bloqueo contando vínculos activos e históricos; una iglesia única activa no adquiere autoridad para renombrar referencias históricas ajenas. PC-10 sigue abierta. Se añade una regresión sin modificar la consulta. Ambos PR #2 existen, abiertos y en borrador; las notas anteriores sin commits/publicación son históricas. Gate conjunto aprobado: 521/521 producto, 110/110 arnés y 67 escenarios del índice, sin omisiones (12:43:57–13:33:36 -06:00; 49.65 minutos). Los 332 archivos congelados permanecieron idénticos; después solo se actualizó documentación/evidencia. [Contraste y decisión](revision-pc10-pr2-20261122.md).
