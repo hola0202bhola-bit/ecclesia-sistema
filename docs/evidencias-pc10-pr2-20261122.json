@@ -1,0 +1,62 @@
+{
+  "fecha": "2026-11-22",
+  "decision": "Conservar cómputo de asignaciones activas e históricas; consulta sin cambios; PC-10 pendiente",
+  "productoPreliminar": {
+    "comando": "npm test",
+    "exit": 0,
+    "pruebas": 521
+  },
+  "gate": {
+    "comando": "npm run check -- ../ecclesia-sistema",
+    "directorio": "ecclesia-arnes-codex",
+    "fin": "2026-11-22T13:33:36.4817293-06:00",
+    "exit": 0,
+    "inicio": "2026-11-22T12:43:57.4811377-06:00",
+    "minutos": 49.65000986,
+    "treesEntrada": {
+      "productoTree": "bcb2f656353546b21f12e9a2646aa7e08e233afc",
+      "inicio": "2026-11-22T12:43:57.4811377-06:00",
+      "arnesTree": "06f75a18db5d75baa4fe96968223a9dec6bab14f"
+    },
+    "producto": {
+      "pruebas": 521,
+      "archivos": 13,
+      "omitidas": 0
+    },
+    "arnes": {
+      "pruebas": 110,
+      "fallidas": 0,
+      "canceladas": 0,
+      "omitidas": 0
+    },
+    "indice": {
+      "escenarios": 67,
+      "aceptaciones": 1,
+      "rechazosEsperados": 66,
+      "indiceYDirectorioPreservados": true
+    },
+    "archivosCongeladosSinCambios": 332,
+    "cobertura": {
+      "lineas": 97.57,
+      "sentencias": 97.11,
+      "funciones": 98.92,
+      "ramas": 91
+    },
+    "migraciones": 14,
+    "seed": "Doble carga en PostgreSQL efímero",
+    "smokesCompilados": "Aprobados; incluye CT20, cuentas, agenda, solicitudes, finanzas, INEGI y UI/RF04/RF11"
+  },
+  "seguridadIndice": {
+    "rutasProhibidas": 0,
+    "clavesPrivadasDetectadas": 0,
+    "coincidenciasCredencialesDemo": 0,
+    "credencialesDemoComparadas": 38
+  },
+  "limites": [
+    "PC-10 sigue pendiente; no se atribuye regla al docente",
+    "Sin cambios de consulta, permisos, payloads, Zod o migraciones",
+    "Solo documentación/evidencia actualizadas después del gate",
+    "Sin nueva revisión visual en esta revisión de comentario, prueba y documentación",
+    "Sin merges, despliegues o acceso a bases de datos remotas"
+  ]
+}

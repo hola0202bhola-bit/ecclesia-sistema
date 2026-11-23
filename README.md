@@ -1,3 +1,25 @@
+## 22/11/2026 — revisión PC-10 de los PR #2
+
+Se conserva el bloqueo contando vínculos activos e históricos; una iglesia única activa no adquiere autoridad para renombrar referencias históricas ajenas. PC-10 sigue abierta. Se añade una regresión sin modificar la consulta. Ambos PR #2 existen, abiertos y en borrador; las notas anteriores sin commits/publicación son históricas. Gate conjunto aprobado: 521/521 producto, 110/110 arnés y 67 escenarios del índice, sin omisiones (12:43:57–13:33:36 -06:00; 49.65 minutos). Los 332 archivos congelados permanecieron idénticos; después solo se actualizó documentación/evidencia. [Contraste y decisión](docs/revision-pc10-pr2-20261122.md).
+
+## 22/11/2026 — Indicaciones recientes del profesor
+
+**Gate final del 22/11 aprobado: 520/520 producto y 110/110 arnés**, sin omisiones; cobertura de líneas 97.57%, catorce migraciones, 67 escenarios del índice y demo/reinicio verificados. [Informe](docs/informe-cumplimiento-profesor-20261122.md).
+
+Desvinculación conservadora de sacerdotes e información funeraria pública opcional autorizada. Se conserva la identidad e historia y se bloquean vínculos en uso. Referencia pública y cotización individual privada quedan separadas. [Alcance y decisiones](docs/indicaciones-profesor-20261122.md).
+
+## 22/11/2026 — corrección de compatibilidad de contratos
+
+Los seis esquemas de Iglesia en ambos contratos ahora expresan las restricciones verificables de fotografía HTTPS y descripción no blanca, conservando `null` y campos opcionales. Zod permanece intacto. Gate integral del 22/11 aprobado: **504/504 producto y 108/108 arnés**, sin omisiones; Prisma, compilación y pruebas compiladas correctas. [Alcance y límites de normalización](docs/revision-compatibilidad-contratos-20261122.md).
+
+## Ajustes escolares de ficha y criptas — rama de demostración
+
+Descripción opcional y fotografía remota HTTPS de iglesia, con vista en directorio y ficha. Criptas explica que la administración emite cotización individual en MXN; el sistema no procesa pagos. Ver [guía escolar](docs/ajustes-demostracion-escolar.md). **No se despliega automáticamente**.
+
+Validación del 21/11/2026: **500/500 pruebas del producto y 106/106 del arnés**, sin omitidas; cobertura de líneas **97.59%**. Gate integral con salida 0, PostgreSQL efímero y revisión de interfaz CT20 completados. [Resultados y límites](docs/estado-producto.md), [resumen verificable](docs/evidencias-escolares-20261121.json).
+
+Con las carpetas actuales `ecclesia-sistema` y `ecclesia-arnes-codex`, instalar con `npm ci` en cada una. Desde el producto: `npm run generate`, `npm run build`, `npm test` (pipeline completo del producto) y `npm run db:demo`. Desde el arnés: `npm run check -- ../ecclesia-sistema` (gate de ambos). `npm run check` en el producto también localiza el arnés hermano; conserva compatibilidad con el nombre anterior `arnes-codex`. La demo aplica ahora trece migraciones, con credenciales solo en `.demo`, excluida de Git. Este incremento supera la exclusión histórica de foto/descripción que aparece más abajo; las demás restricciones de Ecclesia 1.1 siguen vigentes.
+
 ## Ecclesia 1.1 — visitantes y perfiles de cuentas (rama de trabajo)
 
 Rama `feat/ecclesia-1-1-cuentas`: autorregistro exclusivo de VISITANTE, login obligatorio al consultar directorio/API y perfil propio editable (nombre visible, presentación y avatar local). El personal conserva roles/ámbito y ve su iglesia asignada por nombre. [Recorrido y API](docs/cuentas-1-1.md), [decisiones y límites](docs/adr/011.md).

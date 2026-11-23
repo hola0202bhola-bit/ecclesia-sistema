@@ -5,6 +5,12 @@ export const tipoInput = z.enum(tipos);
 export const espacioInput = z.strictObject({
   activo: z.boolean(),
   version: z.number().int().min(0).max(2147483646),
+  responsablePublico: z.string().trim().min(1).max(200).nullable().optional(),
+  costoReferencia: z
+    .string()
+    .regex(/^(0|[1-9]\d{0,8})\.\d{2}(?![\s\S])/)
+    .nullable()
+    .optional(),
 });
 export const altaInput = z.strictObject({
   tipo: tipoInput,

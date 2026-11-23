@@ -85,7 +85,11 @@ export type Revision =
       precio: string;
       condiciones: string;
     };
-export interface Espacio {
+export interface InformacionEspacio {
+  responsablePublico?: string | null;
+  costoReferencia?: string | null;
+}
+export interface Espacio extends InformacionEspacio {
   tipo: TipoEspacio;
   activo: boolean;
   version: number;
@@ -130,6 +134,7 @@ export interface RepositorioSolicitudes {
     activo: boolean,
     version: number,
     actorId: string,
+    informacion?: InformacionEspacio,
   ): Promise<Espacio>;
   crear(
     iglesiaId: string,

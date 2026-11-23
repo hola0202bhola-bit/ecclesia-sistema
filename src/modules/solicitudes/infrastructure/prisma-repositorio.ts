@@ -22,6 +22,7 @@ import {
   type Decision,
   type Revision,
   type Seguimiento,
+  type InformacionEspacio,
 } from "../domain/solicitud.js";
 import { verificaClave } from "./seguridad.js";
 const ausente = () =>
@@ -62,6 +63,19 @@ function snapshot(s: SolicitudEspacio): Prisma.InputJsonObject {
     emitida: s.emitida?.toISOString() ?? null,
     vence: s.vence?.toISOString() ?? null,
     decisionEn: s.decisionEn?.toISOString() ?? null,
+  };
+}
+function informacionPublica(f: {
+  responsablePublico: string | null;
+  costoReferenciaCentavos: bigint | null;
+}) {
+  return {
+    ...(f.responsablePublico !== null
+      ? { responsablePublico: f.responsablePublico }
+      : {}),
+    ...(f.costoReferenciaCentavos !== null
+      ? { costoReferencia: precioDecimal(f.costoReferenciaCentavos) }
+      : {}),
   };
 }
 export class PrismaRepositorioSolicitudes implements RepositorioSolicitudes {
@@ -105,11 +119,23 @@ export class PrismaRepositorioSolicitudes implements RepositorioSolicitudes {
     return this.db.$transaction(
       async (tx) => {
         await this.iglesia(tx, iglesiaId);
-        const filas = await tx.ofertaFuneraria.findMany({
+        const ofertas = await tx.ofertaFuneraria.findMany({
           where: { iglesiaId, ...(privados ? {} : { activo: true }) },
-          select: { tipo: true, activo: true, version: true },
+          select: {
+            tipo: true,
+            activo: true,
+            version: true,
+            responsablePublico: true,
+            costoReferenciaCentavos: true,
+          },
           orderBy: { tipo: "asc" },
         });
+        const filas = ofertas.map((f) => ({
+          tipo: f.tipo,
+          activo: f.activo,
+          version: f.version,
+          ...informacionPublica(f),
+        }));
         return privados
           ? tipos.map(
               (tipo) =>
@@ -130,6 +156,7 @@ export class PrismaRepositorioSolicitudes implements RepositorioSolicitudes {
     activo: boolean,
     version: number,
     actorId: string,
+    informacion: InformacionEspacio = {},
   ) {
     return this.db.$transaction(async (tx) => {
       await this.iglesia(tx, iglesiaId, true);
@@ -138,13 +165,27 @@ export class PrismaRepositorioSolicitudes implements RepositorioSolicitudes {
         where: { iglesiaId_tipo: { iglesiaId, tipo } },
       });
       if ((antes?.version ?? 0) !== version) throw conflicto();
+      const datos = {
+        activo,
+        ...(informacion.responsablePublico !== undefined
+          ? { responsablePublico: informacion.responsablePublico }
+          : {}),
+        ...(informacion.costoReferencia !== undefined
+          ? {
+              costoReferenciaCentavos:
+                informacion.costoReferencia === null
+                  ? null
+                  : precioCentavos(informacion.costoReferencia),
+            }
+          : {}),
+      };
       const despues = antes
         ? await tx.ofertaFuneraria.update({
             where: { iglesiaId_tipo: { iglesiaId, tipo } },
-            data: { activo, version: { increment: 1 } },
+            data: { ...datos, version: { increment: 1 } },
           })
         : await tx.ofertaFuneraria.create({
-            data: { iglesiaId, tipo, activo },
+            data: { iglesiaId, tipo, ...datos },
           });
       await tx.cambioEspacio.create({
         data: {
@@ -153,11 +194,26 @@ export class PrismaRepositorioSolicitudes implements RepositorioSolicitudes {
           actorId,
           instante: this.reloj(),
           version: despues.version,
-          antes: antes ? { activo: antes.activo, version: antes.version } : {},
-          despues: { activo, version: despues.version },
+          antes: antes
+            ? {
+                activo: antes.activo,
+                version: antes.version,
+                ...informacionPublica(antes),
+              }
+            : {},
+          despues: {
+            activo,
+            version: despues.version,
+            ...informacionPublica(despues),
+          },
         },
       });
-      return { tipo, activo, version: despues.version };
+      return {
+        tipo,
+        activo,
+        version: despues.version,
+        ...informacionPublica(despues),
+      };
     });
   }
   async crear(

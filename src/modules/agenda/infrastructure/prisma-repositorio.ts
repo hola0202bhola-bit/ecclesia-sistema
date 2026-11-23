@@ -53,7 +53,8 @@ export class PrismaRepositorioAgenda implements RepositorioAgenda {
     const p = await tx.asignacionSacerdote.findUnique({
       where: { iglesiaId_sacerdoteId: { iglesiaId, sacerdoteId } },
     });
-    if (!p) throw ausente();
+    if (!p?.activo) throw ausente();
+    return p;
   }
   private audit(
     tx: Prisma.TransactionClient,
@@ -77,11 +78,15 @@ export class PrismaRepositorioAgenda implements RepositorioAgenda {
   sacerdotes(iglesiaId: string) {
     return this.db.$transaction(async (tx) => {
       await this.iglesia(tx, iglesiaId);
-      return tx.sacerdote.findMany({
-        where: { asignaciones: { some: { iglesiaId } } },
-        select: padreSelect,
-        orderBy: { id: "asc" },
+      const asignaciones = await tx.asignacionSacerdote.findMany({
+        where: { iglesiaId, activo: true },
+        include: { sacerdote: { select: padreSelect } },
+        orderBy: { sacerdoteId: "asc" },
       });
+      return asignaciones.map((a) => ({
+        ...a.sacerdote,
+        asignacionVersion: a.version,
+      }));
     });
   }
   registrar(iglesiaId: string, actorId: string, nombre: string) {
@@ -92,7 +97,7 @@ export class PrismaRepositorioAgenda implements RepositorioAgenda {
         select: padreSelect,
       });
       await this.audit(tx, iglesiaId, actorId, p.id, null, p);
-      return p;
+      return { ...p, asignacionVersion: 1 };
     });
   }
   vincular(iglesiaId: string, actorId: string, sacerdoteId: string) {
@@ -103,31 +108,37 @@ export class PrismaRepositorioAgenda implements RepositorioAgenda {
         select: padreSelect,
       });
       if (!p) throw ausente();
-      if (
-        await tx.asignacionSacerdote.findUnique({
-          where: { iglesiaId_sacerdoteId: { iglesiaId, sacerdoteId } },
-        })
-      )
+      const antes = await tx.asignacionSacerdote.findUnique({
+        where: { iglesiaId_sacerdoteId: { iglesiaId, sacerdoteId } },
+      });
+      if (antes?.activo)
         throw new ErrorAgenda(
           409,
           "YA_ASIGNADO",
           "El sacerdote ya atiende esta iglesia",
         );
-      await tx.asignacionSacerdote.create({ data: { iglesiaId, sacerdoteId } });
-      await this.audit(tx, iglesiaId, actorId, p.id, null, {
-        asignacion: iglesiaId,
-      });
-      return p;
+      const asignacion = antes
+        ? await tx.asignacionSacerdote.update({
+            where: { iglesiaId_sacerdoteId: { iglesiaId, sacerdoteId } },
+            data: { activo: true, version: { increment: 1 } },
+          })
+        : await tx.asignacionSacerdote.create({
+            data: { iglesiaId, sacerdoteId },
+          });
+      await this.audit(tx, iglesiaId, actorId, p.id, antes, asignacion);
+      return { ...p, asignacionVersion: asignacion.version };
     });
   }
   renombrar(iglesiaId: string, actorId: string, e: Edicion, nombre: string) {
     return this.escritura(async (tx) => {
       await this.iglesia(tx, iglesiaId, true);
-      await this.asignado(tx, iglesiaId, e.id);
+      const asignacion = await this.asignado(tx, iglesiaId, e.id);
       const antes = await tx.sacerdote.findUniqueOrThrow({
         where: { id: e.id },
       });
       this.version(antes.version, e.version);
+      // PC-10: también cuentan vínculos retirados. El nombre es global y sus
+      // referencias históricas de otras iglesias no desaparecen al desvincular.
       if (
         (await tx.asignacionSacerdote.count({ where: { sacerdoteId: e.id } })) >
         1
@@ -143,7 +154,43 @@ export class PrismaRepositorioAgenda implements RepositorioAgenda {
         select: padreSelect,
       });
       await this.audit(tx, iglesiaId, actorId, p.id, antes, p);
-      return p;
+      return { ...p, asignacionVersion: asignacion.version };
+    });
+  }
+  desvincular(iglesiaId: string, actorId: string, e: Edicion, motivo: string) {
+    return this.escritura(async (tx) => {
+      await this.iglesia(tx, iglesiaId, true);
+      const antes = await this.asignado(tx, iglesiaId, e.id);
+      this.version(antes.version, e.version);
+      // El mismo mutex protege programación, sustitución y retirada del vínculo.
+      const planes = await tx.horarioMisa.count({
+        where: { iglesiaId, sacerdoteId: e.id, activo: true },
+      });
+      const ocurrencias = await tx.ocurrenciaMisa.count({
+        where: { iglesiaId, sacerdoteId: e.id },
+      });
+      const hechos = await tx.celebracionMisa.count({
+        where: { iglesiaId, OR: [{ previstoId: e.id }, { oficianteId: e.id }] },
+      });
+      if (planes || ocurrencias || hechos)
+        throw new ErrorAgenda(
+          409,
+          "ASIGNACION_EN_USO",
+          "No se puede desvincular: tiene misas programadas o celebraciones registradas en esta iglesia",
+        );
+      const despues = await tx.asignacionSacerdote.update({
+        where: { iglesiaId_sacerdoteId: { iglesiaId, sacerdoteId: e.id } },
+        data: { activo: false, version: { increment: 1 } },
+      });
+      await this.audit(tx, iglesiaId, actorId, e.id, antes, {
+        ...despues,
+        motivo,
+      });
+      return {
+        sacerdoteId: e.id,
+        activo: false as const,
+        version: despues.version,
+      };
     });
   }
   private version(actual: number, esperada: number) {

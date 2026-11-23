@@ -9,6 +9,10 @@ import { createApp } from "../src/composition/app.js";
 import { PrismaRepositorioIglesias } from "../src/modules/iglesias/infrastructure/prisma-repositorio.js";
 import { ServicioIglesias } from "../src/modules/iglesias/application/servicio.js";
 import { normalizar } from "../src/modules/iglesias/domain/iglesia.js";
+import {
+  crearInput,
+  editarInput,
+} from "../src/modules/iglesias/presentation/validacion.js";
 
 const db = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }),
@@ -89,6 +93,154 @@ beforeEach(async () => {
 });
 afterAll(async () => {
   await db.$disconnect();
+});
+
+describe("contratos escolares: correspondencia verificable con Zod", () => {
+  const nombres = [
+    "Iglesia",
+    "IglesiaInput",
+    "IglesiaCreateInput",
+    "IglesiaPatchInput",
+    "IglesiaReferenciaCreateInput",
+    "IglesiaReferenciaPatchInput",
+  ];
+  const contratos = ["openapi.yaml", "docs/api-referencia-revision03.json"].map(
+    (archivo) => ({ archivo, api: JSON.parse(readFileSync(archivo, "utf8")) }),
+  );
+  const validador = new Ajv2020({ strict: false, validateFormats: false });
+  const reglas = contratos.flatMap(({ archivo, api }) =>
+    nombres.map((nombre) => ({
+      etiqueta: `${archivo}: ${nombre}`,
+      foto: validador.compile(
+        api.components.schemas[nombre].properties.fotoUrl,
+      ),
+      descripcion: validador.compile(
+        api.components.schemas[nombre].properties.descripcion,
+      ),
+    })),
+  );
+  function aceptaZod(campo: "fotoUrl" | "descripcion", valor: unknown) {
+    const cambio = { [campo]: valor };
+    const editar = editarInput.safeParse({ version: 1, ...cambio }).success;
+    expect(crearInput.safeParse({ ...data, ...cambio }).success).toBe(editar);
+    return editar;
+  }
+  it("los seis esquemas de ambos contratos mantienen campos opcionales, iguales y borrado mediante null", () => {
+    for (const nombre of nombres) {
+      const primero = contratos[0]!.api.components.schemas[nombre];
+      const segundo = contratos[1]!.api.components.schemas[nombre];
+      for (const campo of ["fotoUrl", "descripcion"] as const) {
+        expect(primero.properties[campo]).toEqual(segundo.properties[campo]);
+        for (const schema of [primero, segundo])
+          expect(schema.required ?? []).not.toContain(campo);
+        expect(aceptaZod(campo, null)).toBe(true);
+      }
+    }
+    for (const regla of reglas) {
+      expect(regla.foto(null), regla.etiqueta).toBe(true);
+      expect(regla.descripcion(null), regla.etiqueta).toBe(true);
+    }
+    expect(
+      editarInput.parse({ version: 1, nombre: data.nombre }),
+    ).not.toHaveProperty("fotoUrl");
+    expect(
+      editarInput.parse({ version: 1, nombre: data.nombre }),
+    ).not.toHaveProperty("descripcion");
+  });
+  it("Ajv y Zod rechazan HTTP, javascript, userinfo, fragmentos, IP literal, nombres locales y foto vacía", () => {
+    for (const valor of [
+      "http://example.org/foto.jpg",
+      "HTTP://example.org/foto.jpg",
+      "javascript:alert(1)",
+      "data:image/png;base64,AA==",
+      "file:///foto.jpg",
+      "//example.org/foto.jpg",
+      "https://usuario:clave@example.org/foto.jpg",
+      "https://usuario@example.org/foto.jpg",
+      "https://:clave@example.org/foto.jpg",
+      "https://example.org/foto.jpg#fragmento",
+      "https://example.org/foto.jpg#",
+      "https://127.0.0.1/foto.jpg",
+      "https://10.0.0.1/foto.jpg",
+      "https://[::1]/foto.jpg",
+      "https://2130706433/foto.jpg",
+      "https://0x7f000001/foto.jpg",
+      "https://localhost/foto.jpg",
+      "https://foto.localhost/foto.jpg",
+      "https://foto.local/foto.jpg",
+      "https://FOTO.LOCAL./foto.jpg",
+      "https://sub.foto.internal:443/foto.jpg",
+      "https://foto.invalid/foto.jpg",
+      "https://foto.test/foto.jpg",
+      "https://foto.example/foto.jpg",
+      "https://foto.onion/foto.jpg",
+      "https://example.org:65536/foto.jpg",
+      "https://example.org/una foto.jpg",
+      "",
+      " \t\n",
+      42,
+      false,
+      {},
+      "https://example.org/" + "a".repeat(701),
+    ]) {
+      expect(aceptaZod("fotoUrl", valor), JSON.stringify(valor)).toBe(false);
+      for (const regla of reglas)
+        expect(
+          regla.foto(valor),
+          `${regla.etiqueta}: ${JSON.stringify(valor)}`,
+        ).toBe(false);
+    }
+  });
+  it("Ajv y Zod aceptan HTTPS válida, puertos, mayúsculas, IDN y límite ASCII de 700", () => {
+    const inicio = "https://example.org/";
+    for (const valor of [
+      "https://example.org",
+      inicio,
+      "https://sub-dominio.example.org/foto.jpg?v=1&ancho=800",
+      "HTTPS://FOTO.EXAMPLE.ORG/a.JPG",
+      "https://example.org.:443/foto.png",
+      "https://example.org:65535/foto.jpg",
+      "https://example.org:000443/foto.jpg",
+      " https://example.org/foto.jpg ",
+      "https://mañana.example.org/iglesia-á.jpg",
+      "https://xn--maana-pta.example.org/a.jpg",
+      "https://example.org/foto.jpg?correo=demo@example.org",
+      'https://example.org/foto.jpg?q="demo"&a=1',
+      "https://example.org/a?fragmento=%23",
+      inicio + "a".repeat(700 - inicio.length),
+    ]) {
+      expect(aceptaZod("fotoUrl", valor), valor).toBe(true);
+      for (const regla of reglas)
+        expect(regla.foto(valor), `${regla.etiqueta}: ${valor}`).toBe(true);
+    }
+  });
+  it("Ajv y Zod rechazan descripción vacía o solo espacios y conservan texto válido y null", () => {
+    for (const valor of [
+      "",
+      " ",
+      "\t\r\n",
+      "\u00a0\u2003",
+      "x".repeat(501),
+      42,
+      false,
+      {},
+    ]) {
+      expect(aceptaZod("descripcion", valor)).toBe(false);
+      for (const regla of reglas)
+        expect(regla.descripcion(valor), regla.etiqueta).toBe(false);
+    }
+    for (const valor of [
+      "Descripción ficticia",
+      "  Texto con espacios exteriores  ",
+      "<script>solo texto</script>",
+      "x".repeat(500),
+      null,
+    ]) {
+      expect(aceptaZod("descripcion", valor)).toBe(true);
+      for (const regla of reglas)
+        expect(regla.descripcion(valor), regla.etiqueta).toBe(true);
+    }
+  });
 });
 
 describe("consulta pública con PostgreSQL", () => {
@@ -271,6 +423,119 @@ describe("escritura mínima y persistencia", () => {
     expect(
       (await db.iglesia.findUniqueOrThrow({ where: { id: own } })).capacidad,
     ).toBe(0);
+  });
+  it("guarda y elimina descripción y foto opcionales, con persistencia y lectura de referencia", async () => {
+    const fotoUrl =
+      "https://upload.wikimedia.org/wikipedia/commons/a/ab/iglesia.jpg";
+    const r = await patch(own, {
+      version: 1,
+      descripcion: "Una iglesia de demostración.",
+      fotoUrl,
+    });
+    expect(r.status).toBe(200);
+    expect(r.body.descripcion).toBe("Una iglesia de demostración.");
+    expect(r.body.fotoUrl).toBe(fotoUrl);
+    const stored = await db.iglesia.findUniqueOrThrow({ where: { id: own } });
+    expect(stored.descripcion).toBe("Una iglesia de demostración.");
+    expect(stored.fotoUrl).toBe(fotoUrl);
+    const ficha = await request(app).get(base + "/" + own);
+    expect(ficha.status).toBe(200);
+    expect(ficha.body.iglesia.descripcion).toBe("Una iglesia de demostración.");
+    cumple("Iglesia", r.body);
+    cumple("FichaBasicaPublica", ficha.body);
+    const lista = await request(app).get(base).query({ estadoClave: "21" });
+    expect(
+      lista.body.data.find((i: { id: string }) => i.id === own).fotoUrl,
+    ).toBe(fotoUrl);
+    const omitida = await patch(own, {
+      version: 2,
+      direccion: "Otra calle ficticia",
+    });
+    expect(omitida.body).toMatchObject({
+      descripcion: stored.descripcion,
+      fotoUrl,
+    });
+    expect((await patch(own, { version: 2, fotoUrl: null })).status).toBe(409);
+    const limpia = await patch(own, {
+      version: 3,
+      descripcion: null,
+      fotoUrl: null,
+    });
+    expect(limpia.status).toBe(200);
+    const final = await db.iglesia.findUniqueOrThrow({ where: { id: own } });
+    expect(final.descripcion).toBeNull();
+    expect(final.fotoUrl).toBeNull();
+  });
+  it("rechaza fotos HTTP, credenciales, fragmentos y descripciones excesivas", async () => {
+    for (const cambio of [
+      { fotoUrl: "http://example.org/foto.jpg" },
+      { fotoUrl: "https://usuario:clave@example.org/foto.jpg" },
+      { fotoUrl: "https://example.org/foto.jpg#clave" },
+      { fotoUrl: "https://example.org/foto.jpg#" },
+      { fotoUrl: "javascript:alert(1)" },
+      { fotoUrl: "data:image/png;base64,AA==" },
+      { fotoUrl: "file:///foto.jpg" },
+      { fotoUrl: "https://localhost/foto.jpg" },
+      { fotoUrl: "https://foto.local/foto.jpg" },
+      { fotoUrl: "https://127.0.0.1/foto.jpg" },
+      { fotoUrl: "https://10.0.0.1/foto.jpg" },
+      { fotoUrl: "https://[::1]/foto.jpg" },
+      { fotoUrl: "https://example.org/una foto.jpg" },
+      { fotoUrl: "https://example.org/" + "a".repeat(700) },
+      { fotoUrl: "" },
+      { fotoUrl: 42 },
+      { descripcion: " " },
+      { descripcion: "x".repeat(501) },
+    ]) {
+      expect((await patch(own, { version: 1, ...cambio })).status).toBe(422);
+      expect(
+        (await db.iglesia.findUniqueOrThrow({ where: { id: own } })).version,
+      ).toBe(1);
+    }
+  });
+  it("Coordinación registra campos nuevos y la matriz de roles protege su edición", async () => {
+    const extras = {
+      descripcion: "  Descripción de demostración  ",
+      fotoUrl: " https://example.org/foto.jpg ",
+    };
+    const alta = await request(app)
+      .post(base)
+      .set("Authorization", coord())
+      .send({ ...data, ...extras });
+    expect(alta.status).toBe(201);
+    expect(alta.body).toMatchObject({
+      descripcion: extras.descripcion.trim(),
+      fotoUrl: extras.fotoUrl.trim(),
+    });
+    cumple("Iglesia", alta.body);
+    for (const bearer of [admin(other), `Bearer ${token("TESORERO", own)}`]) {
+      expect((await patch(own, { version: 1, ...extras }, bearer)).status).toBe(
+        403,
+      );
+    }
+    // El emisor externo histórico no admite VISITANTE; requiere sesión real.
+    expect(
+      (
+        await patch(
+          own,
+          { version: 1, ...extras },
+          `Bearer ${token("VISITANTE")}`,
+        )
+      ).status,
+    ).toBe(401);
+    expect(
+      (
+        await request(app)
+          .patch(`${base}/${own}`)
+          .send({ version: 1, ...extras })
+      ).status,
+    ).toBe(401);
+    expect((await patch(own, { version: 1, ...extras }, coord())).status).toBe(
+      200,
+    );
+    expect(
+      (await db.iglesia.findUniqueOrThrow({ where: { id: other } })).version,
+    ).toBe(1);
   });
   it("Coordinación edita conforme P092", async () => {
     expect(

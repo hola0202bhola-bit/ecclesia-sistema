@@ -809,7 +809,9 @@ describe("RF25–31 solicitudes PostgreSQL real", () => {
       .get("/iglesias/" + own + "/espacios")
       .set("Cookie", cookie);
     expect(pagina.status).toBe(200);
-    expect(pagina.text).toContain("Solicitar sin cuenta");
+    expect(pagina.text).toContain("Solicitar un espacio");
+    expect(pagina.text).toContain("Con su sesión iniciada");
+    expect(pagina.text).toContain("el folio y la clave");
     const recibo = await request(app)
       .post("/iglesias/" + own + "/espacios")
       .set("Cookie", cookie)
@@ -936,8 +938,18 @@ describe("RF25–31 solicitudes PostgreSQL real", () => {
       await pg.query(
         'INSERT INTO "Localidad" SELECT * FROM public."Localidad"',
       );
+      // Copiar exactamente las columnas del esquema histórico, que no contiene
+      // los opcionales añadidos por migraciones posteriores.
+      const columnas = (
+        await pg.query<{ column_name: string }>(
+          "SELECT column_name FROM information_schema.columns WHERE table_schema=$1 AND table_name='Iglesia' ORDER BY ordinal_position",
+          [schema],
+        )
+      ).rows
+        .map(({ column_name }) => '"' + column_name.replaceAll('"', '""') + '"')
+        .join(",");
       await pg.query(
-        'INSERT INTO "Iglesia" SELECT * FROM public."Iglesia" WHERE id=$1',
+        `INSERT INTO "Iglesia" (${columnas}) SELECT ${columnas} FROM public."Iglesia" WHERE id=$1`,
         [own],
       );
       await pg.query(
@@ -1034,6 +1046,386 @@ describe("RF25–31 solicitudes PostgreSQL real", () => {
     } finally {
       await pg.query("SET search_path TO public");
       await pg.query('DROP SCHEMA "' + schema + '" CASCADE');
+      await pg.end();
+    }
+  });
+});
+
+describe("indicaciones del profesor: referencia funeraria pública", () => {
+  async function informacion(d: object, u = "admin", iglesia = own) {
+    return request(app)
+      .put(base(iglesia) + "/ofertas-espacio/NICHO")
+      .auth(await token(u), { type: "bearer" })
+      .send({ activo: true, version: 1, ...d });
+  }
+  it("persiste responsable y referencia exacta, distingue cero/ausencia y conserva omisión/borrado", async () => {
+    const r = await informacion({
+      responsablePublico: " Oficina institucional ",
+      costoReferencia: "999999999.99",
+    });
+    expect(r.status).toBe(200);
+    expect(r.body).toMatchObject({
+      responsablePublico: "Oficina institucional",
+      costoReferencia: "999999999.99",
+      version: 2,
+    });
+    expect(
+      await db.ofertaFuneraria.findUniqueOrThrow({
+        where: { iglesiaId_tipo: { iglesiaId: own, tipo: "NICHO" } },
+      }),
+    ).toMatchObject({ costoReferenciaCentavos: 99999999999n });
+    expect(
+      (await informacion({ version: 2, costoReferencia: "0.00" })).body
+        .costoReferencia,
+    ).toBe("0.00");
+    const omitido = await espacio("NICHO", true, 3);
+    expect(omitido.body).toMatchObject({
+      responsablePublico: "Oficina institucional",
+      costoReferencia: "0.00",
+    });
+    const publico = await request(app).get(base() + "/ofertas-espacio");
+    expect(publico.body.data).toEqual([
+      {
+        tipo: "NICHO",
+        responsablePublico: "Oficina institucional",
+        costoReferencia: "0.00",
+      },
+    ]);
+    expect(
+      (await request(app).get(`/iglesias/${own}/espacios`)).text,
+    ).toContain("0.00 MXN");
+    expect(
+      (
+        await informacion({
+          version: 4,
+          responsablePublico: null,
+          costoReferencia: null,
+        })
+      ).status,
+    ).toBe(200);
+    expect(
+      (await request(app).get(base() + "/ofertas-espacio")).body.data,
+    ).toEqual([{ tipo: "NICHO" }]);
+    const pagina = await request(app).get(`/iglesias/${own}/espacios`);
+    expect(pagina.text).toContain(
+      "No definido; solicitar cotización individual",
+    );
+    expect(pagina.text).toContain("Administración de esta iglesia");
+    expect(await db.cambioEspacio.count()).toBe(5);
+  });
+  it("referencia pública no cambia cotizaciones, vigencia o decisiones ni revela campos privados", async () => {
+    const a = await alta({
+      ...datos(),
+      nombre: "Persona privada ficticia",
+      contacto: "privado@example.invalid",
+    });
+    expect((await revisar(a)).status).toBe(200);
+    const antes = await fila(a);
+    const cambios = await db.cambioSolicitud.findMany();
+    expect(
+      (
+        await informacion({
+          costoReferencia: "20.00",
+          responsablePublico: "Ventanilla institucional",
+        })
+      ).status,
+    ).toBe(200);
+    expect(await fila(a)).toEqual(antes);
+    expect(await db.cambioSolicitud.findMany()).toEqual(cambios);
+    expect((await seguir(a)).body.cotizacion.precio).toBe("1234.56");
+    const publico = await request(app).get(base() + "/ofertas-espacio");
+    for (const dato of [
+      a.clave,
+      a.folio,
+      antes.claveHash,
+      antes.contacto,
+      antes.nombre,
+      "1234.56",
+    ])
+      expect(JSON.stringify(publico.body)).not.toContain(dato);
+    const pagina = await request(app).get(`/iglesias/${own}/espacios`);
+    expect(pagina.text).toContain("20.00 MXN");
+    expect(pagina.text).toContain("no es una cotización");
+    expect(pagina.text).not.toContain(antes.contacto);
+    expect((await espacio("NICHO", false, 2)).status).toBe(200);
+    expect(
+      (await request(app).get(base() + "/ofertas-espacio")).body.data,
+    ).toEqual([]);
+    expect((await decidir(a)).status).toBe(200);
+  });
+  it("API y contratos rechazan formatos, blancos y suplantación; mantiene rol y ámbito", async () => {
+    const api = JSON.parse(readFileSync("openapi.yaml", "utf8"));
+    const ajv = new Ajv2020({ strict: false, validateFormats: false });
+    const schema = api.components.schemas.EspacioGuardarInput;
+    for (const d of [
+      { costoReferencia: -1 },
+      { costoReferencia: "-1.00" },
+      { costoReferencia: "01.00" },
+      { costoReferencia: "1.0" },
+      { costoReferencia: "1.000" },
+      { costoReferencia: "1000000000.00" },
+      { costoReferencia: "1.00\n" },
+      { costoReferencia: "" },
+      { responsablePublico: " \t " },
+      { responsablePublico: "x".repeat(201) },
+      { actorId: own },
+      { precio: "1.00" },
+    ]) {
+      expect(
+        ajv.validate(schema, { activo: true, version: 1, ...d }),
+        JSON.stringify(d),
+      ).toBe(false);
+      expect((await informacion(d)).status, JSON.stringify(d)).toBe(422);
+    }
+    expect(
+      ajv.validate(schema, {
+        activo: true,
+        version: 1,
+        responsablePublico: null,
+        costoReferencia: null,
+      }),
+    ).toBe(true);
+    for (const u of ["ajeno", "tesorero", "coord"])
+      expect((await informacion({ costoReferencia: "1.00" }, u)).status).toBe(
+        403,
+      );
+    await db.usuario.create({
+      data: {
+        identificador: "visitante",
+        rol: "VISITANTE",
+        passwordHash: hash,
+      },
+    });
+    expect(
+      (await informacion({ costoReferencia: "1.00" }, "visitante")).status,
+    ).toBe(403);
+    expect(
+      (
+        await request(app)
+          .put(base() + "/ofertas-espacio/NICHO")
+          .send({ activo: true, version: 1, costoReferencia: "1.00" })
+      ).status,
+    ).toBe(401);
+    expect(
+      (await informacion({ costoReferencia: "1.00" }, "admin", other)).status,
+    ).toBe(403);
+    expect(await db.cambioEspacio.count()).toBe(1);
+  });
+  it("formulario guarda y borra; CSRF/Origin, escape y versión obsoleta conservados", async () => {
+    const login = await request(app)
+      .post("/personal/login")
+      .set("Origin", config.origin)
+      .type("form")
+      .send({ identificador: "admin", password });
+    const ck = (login.headers["set-cookie"] as unknown as string[])
+      .map((v) => v.split(";")[0])
+      .join("; ");
+    const page = await request(app).get(web()).set("Cookie", ck);
+    const csrfGestion = page.text.match(/name="_csrf" value="([^"]+)"/)![1];
+    const url = web() + "/espacios/NICHO";
+    const d = {
+      activo: "true",
+      version: "1",
+      responsablePublico: '<b onmouseover="x">Oficina</b>',
+      costoReferencia: "50.00",
+      _csrf: csrfGestion,
+    };
+    expect(
+      (
+        await request(app)
+          .post(url)
+          .set("Cookie", ck)
+          .set("Origin", "https://ajeno.invalid")
+          .type("form")
+          .send(d)
+      ).status,
+    ).toBe(403);
+    expect(
+      (
+        await request(app)
+          .post(url)
+          .set("Cookie", ck)
+          .set("Origin", config.origin)
+          .type("form")
+          .send({ ...d, _csrf: "no" })
+      ).status,
+    ).toBe(403);
+    expect(
+      (
+        await request(app)
+          .post(url)
+          .set("Cookie", ck)
+          .set("Origin", config.origin)
+          .type("form")
+          .send(d)
+      ).status,
+    ).toBe(303);
+    const publica = await request(app).get(`/iglesias/${own}/espacios`);
+    expect(publica.text).toContain("&lt;b");
+    expect(publica.text).not.toContain('<b onmouseover="x">');
+    const obsoleto = await request(app)
+      .post(url)
+      .set("Cookie", ck)
+      .set("Origin", config.origin)
+      .type("form")
+      .send(d);
+    expect(obsoleto.status).toBe(409);
+    expect(obsoleto.text).toContain('name="version" value="1"');
+    expect(obsoleto.text).toContain("50.00");
+    expect(obsoleto.text).toContain("&lt;b");
+    const invalid = await request(app)
+      .post(url)
+      .set("Cookie", ck)
+      .set("Origin", config.origin)
+      .type("form")
+      .send({ ...d, version: "2", costoReferencia: "-1.00" });
+    expect(invalid.status).toBe(422);
+    expect(invalid.text).toContain("-1.00");
+    expect(
+      (
+        await request(app)
+          .post(url)
+          .set("Cookie", ck)
+          .set("Origin", config.origin)
+          .type("form")
+          .send({
+            ...d,
+            version: "2",
+            responsablePublico: " ",
+            costoReferencia: " ",
+          })
+      ).status,
+    ).toBe(303);
+    expect(
+      (await request(app).get(base() + "/ofertas-espacio")).body.data,
+    ).toEqual([{ tipo: "NICHO" }]);
+  });
+  it("ediciones simultáneas de referencia tienen un solo ganador y auditoría exacta", async () => {
+    await token();
+    const resultados = await Promise.all([
+      informacion({ costoReferencia: "1.00" }),
+      informacion({ costoReferencia: "2.00" }),
+    ]);
+    expect(resultados.map((r) => r.status).sort()).toEqual([200, 409]);
+    const ganador = resultados.find((r) => r.status === 200)!;
+    expect(
+      (await request(app).get(base() + "/ofertas-espacio")).body.data[0]
+        .costoReferencia,
+    ).toBe(ganador.body.costoReferencia);
+    expect(await db.cambioEspacio.count()).toBe(2);
+    expect(
+      await db.cambioEspacio.findFirst({ where: { version: 2 } }),
+    ).toMatchObject({
+      despues: { costoReferencia: ganador.body.costoReferencia },
+    });
+  });
+  it("CHECK SQL impide costos fuera del rango y responsable vacío", async () => {
+    for (const costoReferenciaCentavos of [-1n, 100000000000n])
+      await expect(
+        db.ofertaFuneraria.update({
+          where: { iglesiaId_tipo: { iglesiaId: own, tipo: "NICHO" } },
+          data: { costoReferenciaCentavos },
+        }),
+      ).rejects.toThrow();
+    await expect(
+      db.ofertaFuneraria.update({
+        where: { iglesiaId_tipo: { iglesiaId: own, tipo: "NICHO" } },
+        data: { responsablePublico: "   " },
+      }),
+    ).rejects.toThrow();
+  });
+  it("migración 14 aditiva conserva vínculo, identidad, historia y cotización de las trece anteriores", async () => {
+    const a = await alta();
+    await revisar(a);
+    await db.sacerdote.create({
+      data: {
+        id: own,
+        nombre: "Padre previo",
+        asignaciones: { create: { iglesiaId: own } },
+      },
+    });
+    await db.cambioAgenda.create({
+      data: {
+        iglesiaId: own,
+        actorId: adminId,
+        recursoId: own,
+        antes: {},
+        despues: { nombre: "Padre previo" },
+      },
+    });
+    const pg = new Client({ connectionString: process.env.DATABASE_URL! });
+    await pg.connect();
+    try {
+      await pg.query(
+        "BEGIN; CREATE SCHEMA profesor_upgrade; SET LOCAL search_path TO profesor_upgrade",
+      );
+      const migrations = readdirSync("prisma/migrations")
+        .filter((v) => /^\d/.test(v))
+        .sort();
+      expect(migrations).toHaveLength(14);
+      expect(migrations[13]).toBe("202611220001_indicaciones_profesor");
+      for (const m of migrations.slice(0, 13))
+        await pg.query(
+          readFileSync(`prisma/migrations/${m}/migration.sql`, "utf8"),
+        );
+      for (const tabla of [
+        "Estado",
+        "Municipio",
+        "Localidad",
+        "TipoIglesia",
+        "Iglesia",
+        "Usuario",
+        "Sacerdote",
+      ])
+        await pg.query(
+          `INSERT INTO "${tabla}" SELECT (json_populate_record(NULL::"${tabla}", row_to_json(p))).* FROM public."${tabla}" p`,
+        );
+      await pg.query(
+        'INSERT INTO "AsignacionSacerdote" ("iglesiaId","sacerdoteId") SELECT "iglesiaId","sacerdoteId" FROM public."AsignacionSacerdote"',
+      );
+      await pg.query(
+        'INSERT INTO "OfertaFuneraria" ("iglesiaId",tipo,activo,version) SELECT "iglesiaId",tipo::text::"TipoEspacio",activo,version FROM public."OfertaFuneraria"',
+      );
+      for (const tabla of [
+        "SolicitudEspacio",
+        "CambioSolicitud",
+        "CambioEspacio",
+        "CambioAgenda",
+      ])
+        await pg.query(
+          `INSERT INTO "${tabla}" SELECT (json_populate_record(NULL::"${tabla}", row_to_json(p))).* FROM public."${tabla}" p`,
+        );
+      const hechos = (await pg.query('SELECT * FROM "SolicitudEspacio"')).rows;
+      const historia = (await pg.query('SELECT * FROM "CambioAgenda"')).rows;
+      await pg.query(
+        readFileSync(
+          `prisma/migrations/${migrations[13]}/migration.sql`,
+          "utf8",
+        ),
+      );
+      expect((await pg.query('SELECT * FROM "SolicitudEspacio"')).rows).toEqual(
+        hechos,
+      );
+      expect((await pg.query('SELECT * FROM "CambioAgenda"')).rows).toEqual(
+        historia,
+      );
+      expect(
+        (await pg.query('SELECT * FROM "AsignacionSacerdote"')).rows,
+      ).toEqual([
+        { iglesiaId: own, sacerdoteId: own, activo: true, version: 1 },
+      ]);
+      expect(
+        (await pg.query('SELECT nombre FROM "Sacerdote"')).rows[0].nombre,
+      ).toBe("Padre previo");
+      expect(
+        (
+          await pg.query(
+            'SELECT "responsablePublico", "costoReferenciaCentavos" FROM "OfertaFuneraria"',
+          )
+        ).rows,
+      ).toEqual([{ responsablePublico: null, costoReferenciaCentavos: null }]);
+    } finally {
+      await pg.query("ROLLBACK");
       await pg.end();
     }
   });

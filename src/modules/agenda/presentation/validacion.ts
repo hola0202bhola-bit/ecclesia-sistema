@@ -5,6 +5,10 @@ export const fechaInput = z.iso.date();
 const hora = z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/);
 export const nombreInput = z.strictObject({ nombre: texto(200) });
 export const vinculoInput = z.strictObject({ sacerdoteId: idInput });
+export const desvincularInput = z.strictObject({
+  version: z.number().int().min(1).max(2147483646),
+  motivo: texto(500),
+});
 export const renombrarInput = nombreInput.extend({
   version: z.number().int().positive(),
 });

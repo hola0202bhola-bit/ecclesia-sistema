@@ -680,7 +680,7 @@ describe("perfil propio, concurrencia y privacidad", () => {
       const migrations = readdirSync("prisma/migrations")
         .filter((v) => /^\d/.test(v))
         .sort();
-      expect(migrations).toHaveLength(12);
+      expect(migrations).toHaveLength(14);
       for (const folder of migrations.slice(0, 11))
         await client.query(
           readFileSync(`prisma/migrations/${folder}/migration.sql`, "utf8"),

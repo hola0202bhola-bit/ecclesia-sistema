@@ -1,0 +1,99 @@
+{
+  "fechaLocal": "2026-11-21",
+  "zona": "America/Mexico_City",
+  "ramaAmbosRepositorios": "feat/ajustes-escolares-20261121",
+  "basesMainSinModificar": {
+    "producto": "06e479c773d460e9533469eddb780a4f1e371fa5",
+    "arnes": "f7e2df00d730577c4a7fa379f8338a234af664f7"
+  },
+  "zipFuenteSha256": "087ace1973264b47b06f7173347b9f06ffeb2d6be771a2270b712f7995adf3d7",
+  "gate": {
+    "comando": "npm run check -- ../ecclesia-sistema",
+    "directorio": "ecclesia-arnes-codex",
+    "salida": 0,
+    "inicio": "2026-11-21T21:00:58.8676063-06:00",
+    "fin": "2026-11-21T21:41:10.2532633-06:00",
+    "duracionMinutos": 40.18976613833333,
+    "treeProductoEntrada": "939a709e18dd411fe3ec18b8963846fcede3cc04",
+    "treeArnesEntrada": "adde0cb87516c16e13cd54d98d815c2f7d715491",
+    "archivosCongeladosCotejados": 214,
+    "codigoSinCambiosDuranteGate": true,
+    "cambiosPosterioresSoloDocumentacion": true,
+    "producto": {
+      "suites": 13,
+      "aprobadas": 500,
+      "fallidas": 0,
+      "omitidas": 0
+    },
+    "arnes": {
+      "aprobadas": 106,
+      "fallidas": 0,
+      "canceladas": 0,
+      "omitidas": 0
+    },
+    "indice": {
+      "escenarios": 65,
+      "positivo": 1,
+      "rechazosEsperados": 64,
+      "indiceYWorkingTreePreservadosEnTodos": true
+    },
+    "arquitectura": { "esperadas": 60, "analizadas": 60, "infracciones": 0 },
+    "coberturaPct": {
+      "lineas": 97.59,
+      "sentencias": 97.11,
+      "funciones": 98.9,
+      "ramas": 90.8
+    },
+    "fuentesMedidas": 59,
+    "arranqueVerificadoPorSmokeSeparado": true,
+    "node": "24.22.2",
+    "postgresql": "18.6",
+    "basesPropiasEfimeras": 2,
+    "migraciones": 13,
+    "migracionesPreviasIntactas": 12,
+    "seedMinimoRepeticiones": 2,
+    "ct20Separado": true,
+    "smokesCompilados": [
+      "solicitudes",
+      "finanzas",
+      "http",
+      "inegi",
+      "ui-cierre-criterios",
+      "ct20",
+      "api-front-admin-cuentas"
+    ],
+    "postgresqlTemporalDetenidoYEliminado": true
+  },
+  "pasadaProductoPrevia": {
+    "comando": "npm test",
+    "salida": 0,
+    "aprobadas": 500,
+    "fallidas": 0,
+    "omitidas": 0,
+    "intentosParcialesFallidosAnteriores": 3
+  },
+  "interfazDemoLocal": {
+    "loginObligatorio": true,
+    "administradorPropioGuardaCampos": true,
+    "fotoHttpsCargada": true,
+    "fotoDimensionesNaturales": [960, 720],
+    "descripcionYFotoEnFichaYDirectorio": true,
+    "camposVaciosEliminan": true,
+    "svgSinFoto": true,
+    "ejemploRestaurado": true,
+    "criptasYCotizacionAclaradas": true,
+    "demoDetenidaConDatosConservados": true,
+    "capturasSoloLocalesExcluidasDeGit": true
+  },
+  "limites": {
+    "sinCommitPushPr": true,
+    "despliegueRemoto": false,
+    "baseRemotaUsada": false,
+    "renderSupabaseModificados": false,
+    "aceptacionDocenteAcreditada": false,
+    "movilFisicoAcreditado": false,
+    "fotografiaDependeDeProveedor": true,
+    "advertenciaPgNoBloqueante": true,
+    "dependenciasModificadas": false
+  }
+}

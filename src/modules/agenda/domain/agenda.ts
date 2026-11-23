@@ -13,6 +13,7 @@ export interface Sacerdote {
   id: string;
   nombre: string;
   version: number;
+  asignacionVersion: number;
 }
 export interface DatosHorario {
   sacerdoteId: string;
@@ -92,6 +93,12 @@ export interface RepositorioAgenda {
     edicion: Edicion,
     nombre: string,
   ): Promise<Sacerdote>;
+  desvincular(
+    iglesiaId: string,
+    actorId: string,
+    edicion: Edicion,
+    motivo: string,
+  ): Promise<{ sacerdoteId: string; activo: false; version: number }>;
   horarios(iglesiaId: string): Promise<Horario[]>;
   guardar(
     iglesiaId: string,

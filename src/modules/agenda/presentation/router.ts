@@ -7,6 +7,7 @@ import {
   nombreInput,
   vinculoInput,
   renombrarInput,
+  desvincularInput,
   horarioInput,
   horarioEdicion,
   celebracionInput,
@@ -65,6 +66,17 @@ export function agendaRouter(s: ServicioAgenda, personal: RequestHandler) {
         idInput.parse(req.params.iglesiaId),
         { id: idInput.parse(req.params.id), version: d.version },
         d.nombre,
+        req.principal,
+      ),
+    );
+  });
+  r.delete(base + "/agenda/asignaciones/:id", async (req: Personal, res) => {
+    const d = desvincularInput.parse(req.body);
+    res.json(
+      await s.desvincular(
+        idInput.parse(req.params.iglesiaId),
+        { id: idInput.parse(req.params.id), version: d.version },
+        d.motivo,
         req.principal,
       ),
     );
@@ -204,6 +216,18 @@ export function agendaWeb(s: ServicioAgenda, personal: RequestHandler) {
           id,
           { id: idInput.parse(sacerdoteId), version: d.version },
           d.nombre,
+          req.principal,
+        );
+      } else if (accion === "desvincular") {
+        const { sacerdoteId, ...resto } = campos;
+        const d = desvincularInput.parse({
+          ...resto,
+          version: Number(resto.version),
+        });
+        await s.desvincular(
+          id,
+          { id: idInput.parse(sacerdoteId), version: d.version },
+          d.motivo,
           req.principal,
         );
       } else if (accion === "horarios") {

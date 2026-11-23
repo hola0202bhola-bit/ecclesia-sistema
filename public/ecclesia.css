@@ -1107,3 +1107,38 @@ td select {
   display: block;
   margin-top: 1rem;
 }
+
+/* Ficha académica: fotografía externa opcional, con imagen SVG local como alternativa. */
+.church-card .card-art .church-real-photo {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 1;
+  object-fit: cover;
+}
+.card-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.church-photo {
+  grid-column: 1 / -1;
+  margin: 0 0 1rem;
+}
+.church-photo img {
+  display: block;
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: #e7ece4;
+}
+.church-photo figcaption {
+  font-size: 0.75rem;
+  padding: 0.4rem 0;
+}
+.church-description {
+  grid-column: 1 / -1;
+  max-width: 75ch;
+}

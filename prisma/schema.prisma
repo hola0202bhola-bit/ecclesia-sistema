@@ -102,6 +102,8 @@ model Iglesia {
   localidadClave   String                @db.VarChar(4)
   localidad        Localidad             @relation(fields: [estadoClave, municipioClave, localidadClave], references: [estadoClave, municipioClave, localidadClave], onDelete: Restrict)
   direccion        String                @db.VarChar(500)
+  descripcion      String?               @db.VarChar(500)
+  fotoUrl          String?               @db.VarChar(700)
   capacidad        Int?
   anioConstruccion Int?
   contacto         String?               @db.VarChar(300)
@@ -345,6 +347,8 @@ model Sacerdote {
 model AsignacionSacerdote {
   iglesiaId   String    @db.Uuid
   sacerdoteId String    @db.Uuid
+  activo      Boolean   @default(true)
+  version     Int       @default(1)
   iglesia     Iglesia   @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
   sacerdote   Sacerdote @relation(fields: [sacerdoteId], references: [id], onDelete: Restrict)
 
@@ -498,6 +502,8 @@ model OfertaFuneraria {
   iglesia     Iglesia            @relation(fields: [iglesiaId], references: [id], onDelete: Restrict)
   activo      Boolean            @default(true)
   version     Int                @default(1)
+  responsablePublico String?     @db.VarChar(200)
+  costoReferenciaCentavos BigInt?
   solicitudes SolicitudEspacio[]
   cambios     CambioEspacio[]
 
