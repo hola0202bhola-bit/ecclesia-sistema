@@ -6,7 +6,7 @@
 <p><strong>Responsable:</strong> la administración de esta iglesia revisa la solicitud y determina si hay espacio disponible.</p>
 <p><strong>Costo:</strong> el costo de referencia se muestra por tipo cuando la administración lo define; no es una cotización ni garantiza disponibilidad. La administración prepara una <strong>cotización individual en MXN</strong> para cada solicitud. Puede consultarla con su folio y clave; tiene una vigencia de 15 días y la aceptación no registra automáticamente un pago ni reserva física.</p>
 <p><a href="/iglesias/<%= iglesiaId %>">Consultar el contacto de la iglesia</a></p></section>
-<ul><% for (const e of espacios) { %><li><h3><%= e.tipo %></h3><p><strong>Responsable del trámite:</strong> <%= e.responsablePublico ?? 'Administración de esta iglesia' %></p><p><strong>Costo público de referencia:</strong> <%= e.costoReferencia !== undefined ? e.costoReferencia + ' MXN' : 'No definido; solicitar cotización individual' %></p><p>Referencia informativa; el importe y condiciones definitivos se comunican solo en la cotización privada.</p></li><% } %></ul>
+<%- include("partials/espacios-publicos", { espacios }) %>
 <p><a href="/solicitudes">Seguir mi solicitud con folio y clave</a></p>
 <% for (const error of errores) { %><p role="alert"><%= error %></p><% } %>
 <% if (espacios.length) { %><section><h2>Solicitar un espacio</h2><p>Con su sesión iniciada, ingrese solo nombre y un teléfono o correo de contacto. El seguimiento requiere además el folio y la clave; la solicitud no se vincula automáticamente a su cuenta. Evite documentos o datos sensibles. El administrador de esta iglesia revisará el caso. Consulte aquí el resultado; no se envían correos automáticos.</p>

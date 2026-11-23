@@ -1141,4 +1141,44 @@ td select {
 .church-description {
   grid-column: 1 / -1;
   max-width: 75ch;
+  white-space: pre-wrap;
+}
+.church-profile-fields label {
+  display: block;
+  width: 100%;
+  margin-right: 0;
+}
+.funeral-offers {
+  list-style: none;
+  padding: 0 !important;
+  display: grid;
+  gap: 1rem;
+}
+.funeral-offers > li {
+  min-width: 0;
+  padding: 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+.funeral-offers h3 {
+  margin-top: 0;
+  color: var(--green);
+}
+.funeral-offers dl {
+  grid-template-columns: 1fr;
+  gap: 0.25rem;
+  margin: 0;
+}
+.funeral-offers dd {
+  margin-bottom: 0.8rem;
+}
+.funeral-offers p {
+  font-size: 0.85rem;
+  margin: 0;
+}
+@media (min-width: 900px) {
+  .page-espacios > .funeral-offers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

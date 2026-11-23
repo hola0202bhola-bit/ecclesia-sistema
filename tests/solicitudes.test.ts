@@ -1058,6 +1058,46 @@ describe("indicaciones del profesor: referencia funeraria pública", () => {
       .auth(await token(u), { type: "bearer" })
       .send({ activo: true, version: 1, ...d });
   }
+  it.each([undefined, "0.00", "999999999.99"])(
+    "ficha y espacios muestran la misma información institucional escapada, referencia %s",
+    async (costoReferencia) => {
+      const responsablePublico = '<img src=x onerror="alert(1)">Oficina';
+      expect(
+        (await informacion({ responsablePublico, costoReferencia })).status,
+      ).toBe(200);
+      for (const ruta of [`/iglesias/${own}`, `/iglesias/${own}/espacios`]) {
+        const pagina = await request(app).get(ruta);
+        expect(pagina.status).toBe(200);
+        expect(pagina.text).toContain("Responsable del trámite");
+        expect(pagina.text).toContain("&lt;img src=x");
+        expect(pagina.text).not.toContain(responsablePublico);
+        expect(pagina.text).toContain(
+          costoReferencia === undefined
+            ? "No definido; solicitar cotización individual"
+            : costoReferencia + " MXN",
+        );
+        expect(pagina.text).toContain("cotización individual en MXN");
+        expect(pagina.text).toContain("pago ni reserva física");
+      }
+    },
+  );
+  it("ficha sin oferta activa no muestra datos institucionales retirados ni una referencia inventada", async () => {
+    expect(
+      (
+        await informacion({
+          responsablePublico: "Oficina retirada ficticia",
+          costoReferencia: "876.54",
+        })
+      ).status,
+    ).toBe(200);
+    expect((await espacio("NICHO", false, 2)).status).toBe(200);
+    const pagina = await request(app).get(`/iglesias/${own}`);
+    expect(pagina.status).toBe(200);
+    expect(pagina.text).toContain("No hay tipos de espacio ofertados.");
+    expect(pagina.text).not.toContain("Oficina retirada ficticia");
+    expect(pagina.text).not.toContain("876.54");
+    expect(pagina.text).not.toContain('class="funeral-offers"');
+  });
   it("persiste responsable y referencia exacta, distingue cero/ausencia y conserva omisión/borrado", async () => {
     const r = await informacion({
       responsablePublico: " Oficina institucional ",
@@ -1143,10 +1183,24 @@ describe("indicaciones del profesor: referencia funeraria pública", () => {
       "1234.56",
     ])
       expect(JSON.stringify(publico.body)).not.toContain(dato);
-    const pagina = await request(app).get(`/iglesias/${own}/espacios`);
-    expect(pagina.text).toContain("20.00 MXN");
-    expect(pagina.text).toContain("no es una cotización");
-    expect(pagina.text).not.toContain(antes.contacto);
+    for (const ruta of [`/iglesias/${own}`, `/iglesias/${own}/espacios`]) {
+      const pagina = await request(app).get(ruta);
+      expect(pagina.status).toBe(200);
+      expect(pagina.text).toContain("20.00 MXN");
+      expect(pagina.text).toContain("Ventanilla institucional");
+      for (const dato of [
+        a.clave,
+        a.folio,
+        antes.claveHash,
+        antes.contacto,
+        antes.nombre,
+        "1234.56",
+      ])
+        expect(pagina.text).not.toContain(dato);
+    }
+    expect(
+      (await request(app).get(`/iglesias/${own}/espacios`)).text,
+    ).toContain("no es una cotización");
     expect((await espacio("NICHO", false, 2)).status).toBe(200);
     expect(
       (await request(app).get(base() + "/ofertas-espacio")).body.data,
