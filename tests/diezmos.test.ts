@@ -635,16 +635,47 @@ describe("RF22–24 diezmos PostgreSQL real", () => {
     ).toBe("20");
   });
   it("límite de 10000 misas rechaza totales parciales y permite reducir con filtros", async () => {
-    await db.$executeRaw`
-      WITH h AS (
-        INSERT INTO "HorarioMisa" (id,"iglesiaId","sacerdoteId","diaSemana","horaLocal",tipo,idioma,desde,hasta,"zonaIana")
-        SELECT gen_random_uuid(),${own}::uuid,${padre}::uuid,1,'10:00','DIARIA','Prueba','2026-10-05','2026-10-05','America/Mexico_City' FROM generate_series(1,10000) RETURNING id
-      ), o AS (
-        INSERT INTO "OcurrenciaMisa" (id,"horarioId","iglesiaId","sacerdoteId","fechaLocal","horaLocal","zonaIana",inicio,fin)
-        SELECT gen_random_uuid(),id,${own}::uuid,${padre}::uuid,'2026-10-05','10:00','America/Mexico_City','2026-10-05T16:00:00Z','2026-10-05T17:00:00Z' FROM h RETURNING id
-      ) INSERT INTO "CelebracionMisa" (id,"ocurrenciaId","iglesiaId","previstoId","oficianteId","fechaLocal","horaLocal","zonaIana",inicio,fin,"actorId")
-        SELECT gen_random_uuid(),id,${own}::uuid,${padre}::uuid,${padre}::uuid,'2026-10-05','10:00','America/Mexico_City','2026-10-05T16:00:00Z','2026-10-05T17:00:00Z',${adminId}::uuid FROM o
-    `;
+    const referencias = JSON.stringify(
+      Array.from({ length: 10000 }, () => ({
+        horario: randomUUID(),
+        ocurrencia: randomUUID(),
+      })),
+    );
+    // La carga artificial cambia de una fila a 10001 de golpe. Refrescar las
+    // estadísticas entre relaciones evita depender del ciclo de autovacuum.
+    // Todas las FK siguen activas y las tres inserciones son atómicas.
+    await db.$transaction(
+      async (tx) => {
+        await tx.$executeRaw`
+          INSERT INTO "HorarioMisa" (id,"iglesiaId","sacerdoteId","diaSemana","horaLocal",tipo,idioma,desde,hasta,"zonaIana")
+          SELECT r.horario,${own}::uuid,${padre}::uuid,1,'10:00','DIARIA','Prueba','2026-10-05','2026-10-05','America/Mexico_City'
+          FROM jsonb_to_recordset(${referencias}::jsonb) AS r(horario uuid, ocurrencia uuid)
+        `;
+        await tx.$executeRaw`ANALYZE "HorarioMisa"`;
+        await tx.$executeRaw`
+          INSERT INTO "OcurrenciaMisa" (id,"horarioId","iglesiaId","sacerdoteId","fechaLocal","horaLocal","zonaIana",inicio,fin)
+          SELECT r.ocurrencia,r.horario,${own}::uuid,${padre}::uuid,'2026-10-05','10:00','America/Mexico_City','2026-10-05T16:00:00Z','2026-10-05T17:00:00Z'
+          FROM jsonb_to_recordset(${referencias}::jsonb) AS r(horario uuid, ocurrencia uuid)
+        `;
+        await tx.$executeRaw`ANALYZE "OcurrenciaMisa"`;
+        await tx.$executeRaw`
+          INSERT INTO "CelebracionMisa" (id,"ocurrenciaId","iglesiaId","previstoId","oficianteId","fechaLocal","horaLocal","zonaIana",inicio,fin,"actorId")
+          SELECT gen_random_uuid(),r.ocurrencia,${own}::uuid,${padre}::uuid,${padre}::uuid,'2026-10-05','10:00','America/Mexico_City','2026-10-05T16:00:00Z','2026-10-05T17:00:00Z',${adminId}::uuid
+          FROM jsonb_to_recordset(${referencias}::jsonb) AS r(horario uuid, ocurrencia uuid)
+        `;
+        await tx.$executeRaw`ANALYZE "CelebracionMisa"`;
+      },
+      { timeout: 10000 },
+    );
+    expect(await db.horarioMisa.count({ where: { iglesiaId: own } })).toBe(
+      10001,
+    );
+    expect(await db.ocurrenciaMisa.count({ where: { iglesiaId: own } })).toBe(
+      10001,
+    );
+    expect(await db.celebracionMisa.count({ where: { iglesiaId: own } })).toBe(
+      10001,
+    );
     const r = await informe();
     expect(r.status).toBe(422);
     expect(r.body.code).toBe("PERIODO_EXTENSO");

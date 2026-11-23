@@ -2,7 +2,7 @@
 
 Los PR #1 y #2 de aplicación y arnés ya están integrados. Bases verificadas: producto `84e3a1b8d514d8a52162d6244d9149905872058d`, arnés `54a50eb55295f724675363812e0ad5a1f594f5eb`. La demo aplica **catorce migraciones**. Los PR [#3](https://github.com/hola0202bhola-bit/ecclesia-sistema/pull/3) y [#4](https://github.com/hola0202bhola-bit/ecclesia-sistema/pull/4) siguen abiertos en borrador, independientes y compatibles; orden preparado: #3 → #4 → correcciones adicionales. No se fusionan ni despliegan en esta revisión.
 
-Esta corrección separa importe y detalle en la ficha y actualiza el estado documental. [Alcance y validación](docs/revision-escolar-final-20261123.md). Las cifras y estados de las secciones fechadas siguientes son registros históricos de cada ejecución, no una afirmación sobre el estado remoto actual. Aceptación docente y PC previas siguen pendientes.
+Esta corrección separa importe y detalle en la ficha, actualiza el estado documental y estabiliza la preparación de un fixture de prueba sin cambiar reglas financieras. [Alcance y validación](docs/revision-escolar-final-20261123.md). Las cifras y estados de las secciones fechadas siguientes son registros históricos de cada ejecución, no una afirmación sobre el estado remoto actual. Aceptación docente y PC previas siguen pendientes.
 
 ## 22/11/2026 — revisión PC-10 de los PR #2 (registro histórico)
 
