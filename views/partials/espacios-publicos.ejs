@@ -1,0 +1,6 @@
+<% if (espacios.length) { %><ul class="funeral-offers"><% for (const e of espacios) { %>
+<li><h3><%= e.tipo %></h3>
+<dl><dt>Responsable del trámite</dt><dd><%= e.responsablePublico ?? 'Administración de esta iglesia' %></dd>
+<dt>Costo público de referencia</dt><dd><%= e.costoReferencia !== undefined ? e.costoReferencia + ' MXN' : 'No definido; solicitar cotización individual' %></dd></dl>
+<p class="muted">Referencia informativa; el importe y condiciones definitivos se comunican solo en la cotización privada.</p></li>
+<% } %></ul><% } %>

@@ -6,6 +6,10 @@ Panel y perfil muestran etiqueta, nombre y enlace en una columna compacta y adap
 
 Se conserva el bloqueo contando vínculos activos e históricos; una iglesia única activa no adquiere autoridad para renombrar referencias históricas ajenas. PC-10 sigue abierta. Se añade una regresión sin modificar la consulta. Ambos PR #2 existen, abiertos y en borrador; las notas anteriores sin commits/publicación son históricas. Gate conjunto aprobado: 521/521 producto, 110/110 arnés y 67 escenarios del índice, sin omisiones (12:43:57–13:33:36 -06:00; 49.65 minutos). Los 332 archivos congelados permanecieron idénticos; después solo se actualizó documentación/evidencia. [Contraste y decisión](docs/revision-pc10-pr2-20261122.md).
 
+## 23/11/2026 — ficha e información funeraria para revisión escolar
+
+Ficha y página de espacios comparten responsable institucional y referencia opcional por tipo, conservando la cotización privada. Descripción/foto ya existentes se agrupan con ayuda accesible; diseño responsive y saltos de línea de la descripción. Se retira del formulario el aviso obsoleto de cierre/reapertura no implementados, sin cambiar esa función ni cerrar PC04. Cuatro regresiones nuevas y privacidad de ficha reforzada. Sin migraciones ni cambios del arnés. Gate íntegro aprobado: 525/525 producto y 110/110 arnés, índice y arquitectura correctos, 25 combinaciones responsive; [alcance y resultados](docs/ficha-tramites-escolares-20261123.md).
+
 ## 22/11/2026 — Indicaciones recientes del profesor
 
 **Gate final del 22/11 aprobado: 520/520 producto y 110/110 arnés**, sin omisiones; cobertura de líneas 97.57%, catorce migraciones, 67 escenarios del índice y demo/reinicio verificados. [Informe](docs/informe-cumplimiento-profesor-20261122.md).
