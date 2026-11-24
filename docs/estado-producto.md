@@ -1,3 +1,7 @@
+## 23/11/2026 — cierre desde el perfil de administración
+
+Corrección local mínima del destino posterior al cierre; conserva revocación, cookies y permisos. Se añadió una regresión por superficie (`admin`, `front`, `all`) y se reprodujo el fallo previo: 84/85 casos focalizados correctos, con el único fallo en el destino de administración. Después: 85/85 correctos y clúster detenido/eliminado. Gate completo aprobado con salida 0 en 46,90 minutos: **528/528 producto, 117/117 arnés y 67 escenarios del índice**, sin omisiones; 341 archivos congelados intactos, arquitectura 60/60 y cobertura de líneas 97,57 %. [Alcance y resultados](cierre-sesion-admin-20261123.md). Sin nuevo despliegue ni cambios en bases reales.
+
 ## 23/11/2026 — tarjeta de iglesia asignada
 
 Panel y perfil muestran etiqueta, nombre y enlace en una columna compacta y adaptable. Solo vistas/CSS; condición, escape, permisos y destino conservados. Verificación visual local en cinco anchos aprobada; gate integral aprobado: 521/521 producto, 110/110 arnés y 67 escenarios del índice, sin omisiones. Ejecución final con salida 0 (60.97 minutos); intento anterior de permisos Git separado. [Causa, alcance y evidencia](correccion-tarjeta-asignada-20261122.md). Sin despliegue ni cambios en bases existentes.

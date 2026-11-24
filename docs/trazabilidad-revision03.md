@@ -1,3 +1,7 @@
+## 23/11/2026 — cierre de sesión según superficie
+
+RF06/RNF01 y separación Render de ADR011: el cierre desde el perfil conserva revocación/CSRF/cookie y vuelve al acceso interno correspondiente, sin recibir destinos del cliente. `identidad/presentation/cuenta.ts` reutiliza `loginLink` de composición; tres casos nuevos de `tests/deployment.test.ts` verifican administración, front y modo local, rechazo de cierre inválido, destino 200 y sesión revocada. Gate aprobado: 528/528 producto, 117/117 arnés y 67 escenarios del índice. [Causa, ejecución y límite de publicación](cierre-sesion-admin-20261123.md).
+
 > Actualización autorizada 22/11/2026: retirada lógica/versionada de asignación sin hechos/programación y responsable institucional/costo público de referencia opcionales; cotización individual privada intacta. Esta ampliación supera solo las exclusiones históricas correspondientes del texto siguiente. [Reglas y pruebas actuales](indicaciones-profesor-20261122.md).
 
 ## 21/11/2026 — ajustes escolares de Ecclesia 1.1

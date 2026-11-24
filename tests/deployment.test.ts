@@ -222,6 +222,80 @@ describe("separación Render y sesiones PostgreSQL", () => {
     expect(trust("1.2.3.4", 1)).toBe(false);
     expect(make("admin").get("trust proxy")).toBe(0);
   });
+  it.each([
+    ["admin", "/personal/login"],
+    ["front", "/cuenta/login"],
+    ["all", "/cuenta/login"],
+  ] as const)(
+    "salir del perfil en %s revoca la sesión y vuelve a un login disponible",
+    async (surface, loginPath) => {
+      const api = make("api"),
+        app = make(surface);
+      const login = await request(api)
+        .post("/api/v1/auth/login")
+        .send({ identificador: "render.coordinacion", password });
+      expect(login.status).toBe(200);
+      const token = login.body.accessToken;
+      const cookie = "ecclesia_session=" + token;
+      const me = await request(api)
+        .get("/api/v1/auth/me")
+        .auth(token, { type: "bearer" });
+      const profile = await request(app)
+        .get("/cuenta/perfil")
+        .set("Cookie", cookie);
+      expect(profile.status).toBe(200);
+      expect(profile.text).toContain('action="/cuenta/logout"');
+      for (const [source, csrf] of [
+        [origin, undefined],
+        ["https://otro.example.test", me.body.csrfToken],
+      ]) {
+        const rejected = await request(app)
+          .post("/cuenta/logout")
+          .set("Origin", source!)
+          .set("Cookie", cookie)
+          .type("form")
+          .send({ _csrf: csrf });
+        expect(rejected.status).toBe(403);
+      }
+      expect(
+        (
+          await request(api)
+            .get("/api/v1/auth/me")
+            .auth(token, { type: "bearer" })
+        ).status,
+      ).toBe(200);
+      const logout = await request(app)
+        .post("/cuenta/logout?returnTo=https://otro.example.test")
+        .set("Origin", origin)
+        .set("Cookie", cookie)
+        .type("form")
+        .send({
+          _csrf: me.body.csrfToken,
+          returnTo: "https://otro.example.test",
+        });
+      expect(logout.status).toBe(303);
+      expect(logout.headers.location).toBe(loginPath);
+      const cleared = logout.headers["set-cookie"][0];
+      expect(cleared).toContain("ecclesia_session=;");
+      expect(cleared).toContain("HttpOnly");
+      expect(cleared).toContain("Secure");
+      expect(cleared).toContain("SameSite=Strict");
+      expect(cleared).not.toMatch(/Domain=/i);
+      const destination = await request(app).get(logout.headers.location);
+      expect(destination.status).toBe(200);
+      expect(destination.text).toContain('action="' + loginPath + '"');
+      expect(
+        (
+          await request(api)
+            .get("/api/v1/auth/me")
+            .auth(token, { type: "bearer" })
+        ).status,
+      ).toBe(401);
+      expect(
+        (await request(app).get("/cuenta/perfil").set("Cookie", cookie)).status,
+      ).toBe(401);
+    },
+  );
 });
 
 describe("configuración de arranque antes de conectar", () => {

@@ -188,7 +188,7 @@ export function cuentaRouter(
       await servicio.salir(req.sesion!.id);
       res
         .clearCookie("ecclesia_session", cookie)
-        .redirect(303, "/cuenta/login");
+        .redirect(303, res.locals.loginLink);
     },
   );
   return router;

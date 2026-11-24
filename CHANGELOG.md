@@ -1,3 +1,7 @@
+## 23/11/2026 — destino del cierre de sesión administrativo
+
+El cierre desde el perfil usa el acceso que corresponde a su superficie: administración vuelve a `/personal/login`; front/local conserva `/cuenta/login`. Se mantienen revocación, cookie y CSRF. Tres regresiones nuevas verifican el recorrido completo y el rechazo de sesión revocada. Preparación local autorizada, sin publicación ni despliegue; [alcance y evidencia](docs/cierre-sesion-admin-20261123.md).
+
 ## 23/11/2026 — tarjeta de iglesia asignada
 
 Panel y perfil muestran etiqueta, nombre y enlace en una columna compacta y adaptable. Solo vistas/CSS; condición, escape, permisos y destino conservados. Verificación visual local en cinco anchos aprobada; gate integral aprobado: 521/521 producto, 110/110 arnés y 67 escenarios del índice, sin omisiones. Ejecución final con salida 0 (60.97 minutos); intento anterior de permisos Git separado. [Causa, alcance y evidencia](docs/correccion-tarjeta-asignada-20261122.md). Sin despliegue ni cambios en bases existentes.
