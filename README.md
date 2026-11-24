@@ -1,4 +1,10 @@
-## 22/11/2026 — revisión PC-10 de los PR #2
+## Estado de revisión escolar — 23/11/2026
+
+Los PR #1 y #2 de aplicación y arnés ya están integrados. Bases verificadas: producto `84e3a1b8d514d8a52162d6244d9149905872058d`, arnés `54a50eb55295f724675363812e0ad5a1f594f5eb`. La demo aplica **catorce migraciones**. Los PR [#3](https://github.com/hola0202bhola-bit/ecclesia-sistema/pull/3) y [#4](https://github.com/hola0202bhola-bit/ecclesia-sistema/pull/4) siguen abiertos en borrador, independientes y compatibles; orden preparado: #3 → #4 → correcciones adicionales. No se fusionan ni despliegan en esta revisión.
+
+Esta corrección separa importe y detalle en la ficha, actualiza el estado documental y estabiliza la preparación de un fixture de prueba sin cambiar reglas financieras. [Alcance y validación](docs/revision-escolar-final-20261123.md). Las cifras y estados de las secciones fechadas siguientes son registros históricos de cada ejecución, no una afirmación sobre el estado remoto actual. Aceptación docente y PC previas siguen pendientes.
+
+## 22/11/2026 — revisión PC-10 de los PR #2 (registro histórico)
 
 Se conserva el bloqueo contando vínculos activos e históricos; una iglesia única activa no adquiere autoridad para renombrar referencias históricas ajenas. PC-10 sigue abierta. Se añade una regresión sin modificar la consulta. Ambos PR #2 existen, abiertos y en borrador; las notas anteriores sin commits/publicación son históricas. Gate conjunto aprobado: 521/521 producto, 110/110 arnés y 67 escenarios del índice, sin omisiones (12:43:57–13:33:36 -06:00; 49.65 minutos). Los 332 archivos congelados permanecieron idénticos; después solo se actualizó documentación/evidencia. [Contraste y decisión](docs/revision-pc10-pr2-20261122.md).
 
@@ -18,7 +24,7 @@ Descripción opcional y fotografía remota HTTPS de iglesia, con vista en direct
 
 Validación del 21/11/2026: **500/500 pruebas del producto y 106/106 del arnés**, sin omitidas; cobertura de líneas **97.59%**. Gate integral con salida 0, PostgreSQL efímero y revisión de interfaz CT20 completados. [Resultados y límites](docs/estado-producto.md), [resumen verificable](docs/evidencias-escolares-20261121.json).
 
-Con las carpetas actuales `ecclesia-sistema` y `ecclesia-arnes-codex`, instalar con `npm ci` en cada una. Desde el producto: `npm run generate`, `npm run build`, `npm test` (pipeline completo del producto) y `npm run db:demo`. Desde el arnés: `npm run check -- ../ecclesia-sistema` (gate de ambos). `npm run check` en el producto también localiza el arnés hermano; conserva compatibilidad con el nombre anterior `arnes-codex`. La demo aplica ahora trece migraciones, con credenciales solo en `.demo`, excluida de Git. Este incremento supera la exclusión histórica de foto/descripción que aparece más abajo; las demás restricciones de Ecclesia 1.1 siguen vigentes.
+Con las carpetas actuales `ecclesia-sistema` y `ecclesia-arnes-codex`, instalar con `npm ci` en cada una. Desde el producto: `npm run generate`, `npm run build`, `npm test` (pipeline completo del producto) y `npm run db:demo`. Desde el arnés: `npm run check -- ../ecclesia-sistema` (gate de ambos). `npm run check` en el producto también localiza el arnés hermano; conserva compatibilidad con el nombre anterior `arnes-codex`. La demo aplica ahora catorce migraciones, con credenciales solo en `.demo`, excluida de Git. Este incremento supera la exclusión histórica de foto/descripción que aparece más abajo; las demás restricciones de Ecclesia 1.1 siguen vigentes.
 
 ## Ecclesia 1.1 — visitantes y perfiles de cuentas (rama de trabajo)
 

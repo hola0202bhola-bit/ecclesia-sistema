@@ -1,10 +1,12 @@
 # Ecclesia 1.1 — probar cuentas y permisos
 
-Esta etapa se prepara en `feat/ecclesia-1-1-cuentas` de aplicación y arnés. No está integrada en main ni desplegada. El usuario confirma una instalación Render previa; este trabajo solo utiliza bases efímeras locales.
+Estado de código verificado el 23/11/2026: Ecclesia 1.1 ya está integrada en main de aplicación y arnés mediante los PR #1. Las bases actuales de esta revisión son producto `84e3a1b` y arnés `54a50eb`, que además incorporan los ajustes escolares de los PR #2 y catorce migraciones. Los PR visuales #3/#4 siguen en borrador. Esta revisión usa exclusivamente bases locales propias; no verifica ni modifica el estado del despliegue.
+
+Antecedente del 19/11/2026: esta etapa se preparó en `feat/ecclesia-1-1-cuentas` antes de integrarse. Los resultados fechados de esa etapa se conservan como evidencia histórica.
 
 ## Recorrido
 
-1. Con ambos repositorios en la misma rama y dependencias instaladas, ejecutar `npm run db:demo` en la aplicación. Usa su propia base `.demo`, aplica migraciones aditivas y conserva las ediciones anteriores. No utiliza DATABASE_URL ajena. El directorio lleva ahora al login.
+1. Con ambos repositorios en revisiones compatibles y dependencias instaladas, ejecutar `npm run db:demo` en la aplicación. Usa su propia base `.demo`, aplica migraciones aditivas y conserva las ediciones anteriores. No utiliza DATABASE_URL ajena. El directorio lleva ahora al login.
 2. Elegir **Crear una cuenta**, indicar un identificador de 3–80 caracteres ASCII y contraseña de al menos 15 caracteres (máximo 72 bytes UTF-8). Se crea exclusivamente VISITANTE, sin asignar una iglesia ni privilegios. Entrar con esa cuenta.
 3. Consultar directorio, filtros y ficha. **Mi cuenta** permite cambiar nombre visible, presentación y elegir un símbolo local. Guardar y recargar comprueba persistencia. Abrir dos pestañas y editar la misma versión: una debe pedir recargar, conservando el cambio ya guardado.
 4. El enlace **Área del personal** del front siempre abre `ADMIN_ORIGIN/personal/login`, con o sin cookie local. Las cookies son host-only: la sesión del front no acredita una sesión en el admin. Se muestra el formulario incluso si ya hay sesión administrativa; el enlace interno del admin conserva su acceso al panel. Como visitante, intentar el login administrativo: se rechaza sin crear sesión. API exige sesión y conserva los permisos del servidor.
