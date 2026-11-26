@@ -109,19 +109,15 @@ export function createApp(
     res.locals.loginLink = res.locals.areaPersonal
       ? "/personal/login"
       : "/cuenta/login";
-    res.locals.cuentaLink = req.headers.cookie?.includes("ecclesia_session=")
-      ? "/cuenta/perfil"
-      : "/cuenta/login";
-    res.locals.cuentaDisponible = deployment.surface !== "api";
+    res.locals.cuentaLink = "/cuenta/perfil";
+    res.locals.cuentaDisponible = false;
+    res.locals.personalDisponible = false;
     res.locals.frontOrigin =
       deployment.surface === "admin" ? (deployment.frontOrigin ?? "") : "";
     // La cookie host-only del front no acredita una sesión en el host admin.
     res.locals.personalLink =
       (deployment.surface === "front" ? (deployment.adminOrigin ?? "") : "") +
-      (deployment.surface !== "front" &&
-      req.headers.cookie?.includes("ecclesia_session=")
-        ? "/personal"
-        : "/personal/login");
+      (deployment.surface === "front" ? "/personal/login" : "/personal");
     next();
   });
   app.get("/health/live", (_req, res) => res.json({ status: "ok" }));
@@ -168,6 +164,35 @@ export function createApp(
     personalJwt(config),
     false,
   );
+  // La navegación consulta una sesión real sin convertir el login en ruta privada.
+  // Los filtros de autorización y CSRF de cada ruta siguen siendo obligatorios.
+  const sesionNavegacion = personalSesion(
+    repoIdentidad,
+    { ...acceso, allowExternal: false },
+    personalJwt(config),
+    false,
+  );
+  app.use((req, res, next) => {
+    if (
+      deployment.surface === "api" ||
+      req.path.startsWith("/api/") ||
+      (!req.headers.cookie && !req.headers.authorization)
+    )
+      return next();
+    void Promise.resolve(
+      sesionNavegacion(req, res, (error) => {
+        if (error) {
+          if (error instanceof ErrorIdentidad && error.status === 401)
+            return next();
+          return next(error);
+        }
+        res.locals.cuentaDisponible = true;
+        res.locals.personalDisponible =
+          (req as RequestSesion).principal.rol !== "VISITANTE";
+        next();
+      }),
+    ).catch(next);
+  });
   const personal: RequestHandler = (req, res, next) => {
     void Promise.resolve(
       autenticarSesion(req, res, (error) => {

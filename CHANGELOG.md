@@ -1,3 +1,7 @@
+## 25/11/2026 — navegación según sesión y rol
+
+Se ocultan Mi cuenta y Área del personal sin sesión válida; VISITANTE conserva solo Mi cuenta. Personal válido conserva sus accesos por superficie y el login administrativo directo. Se corrigen también los enlaces de error; permisos, cookies host-only, CSRF y Origin permanecen. Cuatro ilustraciones SVG originales para una propuesta ficticia, aún sin carga ni publicación. Gate completo aprobado con salida 0: 531/531 producto, 117/117 arnés y 67 escenarios del índice (uno aceptado y 66 rechazos esperados), sin omisiones; arquitectura 60/60 sin infracciones, cobertura de líneas 97.54%. Los 197 archivos congelados permanecieron idénticos. Después solo se actualiza documentación. Ejecución 2026-11-25T16:15:36.9075222-06:00–2026-11-25T18:01:57.8227249-06:00, Node 24.22.3 y PostgreSQL 18.6 propios. [Alcance y límites](docs/regresiones-navegacion-20261125.md).
+
 ## 23/11/2026 — destino del cierre de sesión administrativo
 
 El cierre desde el perfil usa el acceso que corresponde a su superficie: administración vuelve a `/personal/login`; front/local conserva `/cuenta/login`. Se mantienen revocación, cookie y CSRF. Tres regresiones nuevas verifican el recorrido completo y el rechazo de sesión revocada. Preparación local autorizada, sin publicación ni despliegue; [alcance y evidencia](docs/cierre-sesion-admin-20261123.md).

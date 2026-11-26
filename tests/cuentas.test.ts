@@ -286,6 +286,49 @@ describe("Ecclesia 1.1: registro y separación de permisos", () => {
         .status,
     ).toBe(200);
   });
+  it.each(["all", "front", "admin"] as const)(
+    "navegación %s exige sesión vigente y distingue visitante de personal",
+    async (surface) => {
+      const target = make(surface);
+      const path = surface === "admin" ? "/personal/login" : "/cuenta/login";
+      for (const cookie of [
+        undefined,
+        "ecclesia_session=falsa",
+        "otra_ecclesia_session=falsa",
+      ]) {
+        const req = request(target).get(path);
+        if (cookie) req.set("Cookie", cookie);
+        const page = await req;
+        expect(page.status).toBe(200);
+        expect(page.text).not.toContain(">Mi cuenta</a>");
+        expect(page.text).not.toContain('class="nav-personal"');
+      }
+      for (const rol of [
+        "visitante",
+        "coordinacion",
+        "administrador",
+        "tesorero",
+      ]) {
+        const token = (await login(rol)).body.accessToken;
+        const cookie = "ecclesia_session=" + token;
+        const page = await request(target).get(path).set("Cookie", cookie);
+        expect(page.text).toContain('href="/cuenta/perfil">Mi cuenta</a>');
+        expect(page.text.includes('class="nav-personal"')).toBe(
+          rol !== "visitante",
+        );
+        if (rol !== "visitante")
+          expect(page.text).toContain(
+            surface === "front"
+              ? 'href="https://admin.example.invalid/personal/login"'
+              : 'href="/personal"',
+          );
+        await db.sesion.deleteMany();
+        const revoked = await request(target).get(path).set("Cookie", cookie);
+        expect(revoked.text).not.toContain(">Mi cuenta</a>");
+        expect(revoked.text).not.toContain('class="nav-personal"');
+      }
+    },
+  );
   it("admin no expone autorregistro o login de visitantes", async () => {
     for (const path of ["/cuenta/registro", "/cuenta/login"])
       expect((await request(make("admin")).get(path)).status).toBe(404);
@@ -301,10 +344,10 @@ describe("Ecclesia 1.1: registro y separación de permisos", () => {
       .set("Cookie", cookie);
     expect(page.status).toBe(200);
     const link = page.text.match(/class="nav-personal" href="([^"]+)"/);
-    expect(link?.[1]).toBe("https://admin.example.invalid/personal/login");
+    expect(link).toBeNull();
     const admin = make("admin");
     // Simula el salto de host: la cookie del front no acompaña a la petición.
-    const destination = await request(admin).get(new URL(link![1]).pathname);
+    const destination = await request(admin).get("/personal/login");
     expect(destination.status).toBe(200);
     expect(destination.text).toContain('action="/personal/login"');
     expect((await request(admin).get("/personal")).status).toBe(401);

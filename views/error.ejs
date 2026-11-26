@@ -2,5 +2,5 @@
 <link rel="stylesheet" href="/assets/ecclesia.css">
 </head><body>
 <%- include("partials/header") %>
-<main id="contenido" class="page page-error"><h1>No se pudo completar la solicitud</h1><p role="alert"><%= message %></p><p>Estado <%= status %></p><p><a href="<%= loginLink %>">Iniciar sesión</a> · <% if(areaPersonal){ %><a href="/personal">Panel del personal</a><% } else { %><a href="/cuenta/perfil">Mi cuenta</a><% } %> · <a href="/iglesias">Consulta pública</a></p></main>
+<main id="contenido" class="page page-error"><h1>No se pudo completar la solicitud</h1><p role="alert"><%= message %></p><p>Estado <%= status %></p><p><a href="<%= loginLink %>">Iniciar sesión</a><% if(personalDisponible){ %> · <a href="<%= personalLink %>">Panel del personal</a><% } %><% if(cuentaDisponible){ %> · <a href="<%= cuentaLink %>">Mi cuenta</a><% } %> · <a href="<%= frontOrigin %>/iglesias">Consulta pública</a></p></main>
 <%- include("partials/footer") %>

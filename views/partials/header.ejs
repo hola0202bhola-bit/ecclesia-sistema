@@ -6,5 +6,5 @@
 <a href="<%= frontOrigin %>/iglesias" <%- activePath.startsWith('/iglesias') ? 'aria-current="page"' : '' %>>Explorar iglesias</a>
 <a href="<%= frontOrigin %>/ranking-patrimonial" <%- activePath==='/ranking-patrimonial' ? 'aria-current="page"' : '' %>>Patrimonio</a>
 <a href="<%= frontOrigin %>/solicitudes" <%- activePath.startsWith('/solicitudes') ? 'aria-current="page"' : '' %>>Seguimiento</a>
-<a class="nav-personal" href="<%= personalLink %>" <%- activePath.startsWith('/personal') ? 'aria-current="page"' : '' %>>Área del personal <span aria-hidden="true">↗</span></a>
+<% if(personalDisponible){ %><a class="nav-personal" href="<%= personalLink %>" <%- activePath.startsWith('/personal') ? 'aria-current="page"' : '' %>>Área del personal <span aria-hidden="true">↗</span></a><% } %>
 </nav></div></header>
